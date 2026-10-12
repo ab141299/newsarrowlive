@@ -354,25 +354,50 @@ setTimeout(() => {
         }
 
         function handlePublish(e) {
-            e.preventDefault();
-            const newItem = {
-                id: Date.now().toString(),
-                title: document.getElementById('news-title').value,
-                category: document.getElementById('news-category').value,
-                image: document.getElementById('news-image').value,
-                content: document.getElementById('news-content').value,
-                isBreaking: document.getElementById('news-breaking').checked,
-                date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-            };
+    if (e && e.preventDefault) e.preventDefault()
+    const titleVal = document.getElementById('news-title').value.trim();
+    const catVal = document.getElementById('news-category').value;
+    const contentVal = document.getElementById('news-content').value.trim();
+    let imgVal = document.getElementById('news-image').value;
+    const isBreakingVal = document.getElementById('news-breaking').checked;
+    if (!imgVal) {
+        imgVal = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
+    }
+    const newItem = {
+        id: Date.now().toString(),
+        title: titleVal,
+        category: catVal,
+        image: imgVal,
+        content: contentVal,
+        isBreaking: isBreakingVal,
+        date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+    };
+    if (!Array.isArray(newsData)) {
+        newsData = [];
+    }
 
-            newsData.unshift(newItem);
-            localStorage.setItem('newsData', JSON.stringify(newsData));
-            
-            e.target.reset();
-            renderAdminNewsList();
-            renderNews();
-            alert('समाचार सफलतापूर्वक पब्लिश हो गया!');
-        }
+    newsData.unshift(newItem);
+
+    try {
+        localStorage.setItem('newsData', JSON.stringify(newsData));
+        alert('समाचार सफलतापूर्वक पब्लिश हो गया!');
+        
+        // फॉर्म रीसेट
+        document.getElementById('news-title').value = '';
+        document.getElementById('news-content').value = '';
+        document.getElementById('news-image').value = '';
+        const fileBox = document.getElementById('news-image-file');
+        if (fileBox) fileBox.value = '';
+        document.getElementById('news-breaking').checked = false;
+
+        closeAdminPanel();
+        renderAdminNewsList();
+        renderNews();
+    } catch (err) {
+        alert('फ़ोटो का साइज़ बहुत बड़ा है, कृपया थोड़ी हल्की फ़ोटो अपलोड करें!');
+    }
+}
+
 
         function deleteNews(id) {
             if (confirm('क्या आप वाकई इस समाचार को हटाना चाहते हैं?')) {
