@@ -173,18 +173,22 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-medium mb-1 dark:text-gray-200">श्रेणी (Category)</label>
-                        <select id="news-category" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <select id="news-category" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">                                     <option value="वाराणसी">वाराणसी</option>
+                            <option value="वाराणसी">वाराणसी</option>
+                            <option value="अपराध">अपराध</option>
                             <option value="देश">देश</option>
                             <option value="विदेश">विदेश</option>
                             <option value="व्यापार">व्यापार</option>
                             <option value="खेल">खेल</option>
                             <option value="मनोरंजन">मनोरंजन</option>
                             <option value="तकनीक">तकनीक</option>
+
                         </select>
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 dark:text-gray-200">फोटो का वेब लिंक (Image URL)</label>
-                        <input type="url" id="news-image" required placeholder="https://..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+    <label class="block font-medium mb-1 dark:text-gray-200">फ़ोटो अपलोड करें (गैलरी से)</label>
+    <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+    <input type="hidden" id="news-image"> 
                     </div>
                 </div>
                 <div>
@@ -210,6 +214,22 @@
     <script>
         let newsData = JSON.parse(localStorage.getItem('newsData')) || [];
         let currentFilter = 'सभी';
+        // फ़ोटो अपलोड होते ही उसे पढ़ने के लिए
+setTimeout(() => {
+    const fileInput = document.getElementById('news-image-file');
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('news-image').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+}, 500);
 
         function updateDate() {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
