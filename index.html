@@ -214,22 +214,35 @@
     <script>
         let newsData = JSON.parse(localStorage.getItem('newsData')) || [];
         let currentFilter = 'सभी';
-        // फ़ोटो अपलोड होते ही उसे पढ़ने के लिए
+        // 10 MB+ की फ़ोटो को ऑटोमेटिक 40-60 KB में बदलने का कंप्रेसर कोड
 setTimeout(() => {
     const fileInput = document.getElementById('news-image-file');
     if (fileInput) {
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('news-image').value = event.target.result;
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const targetWidth = 500;
+                    const scaleFactor = targetWidth / img.width;
+                    const targetHeight = Math.round(img.height * scaleFactor);
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+                    const compressedData = canvas.toDataURL('image/jpeg', 0.5);
+                    document.getElementById('news-image').value = compressedData;
                 };
-                reader.readAsDataURL(file);
-            }
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
         });
     }
 }, 500);
+
 
         function updateDate() {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
