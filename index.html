@@ -33,6 +33,17 @@
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
+                @keyframes shootArrow {
+            0% { transform: translateX(-6px); opacity: 0; }
+            40% { opacity: 1; }
+            80% { transform: translateX(8px); opacity: 1; }
+            100% { transform: translateX(14px); opacity: 0; }
+        }
+        .animate-arrow-shoot {
+            display: inline-block;
+            animation: shootArrow 1.6s ease-in-out infinite;
+        }
+
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col font-sans">
@@ -56,7 +67,14 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('सभी')">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain">
-              <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-800 dark:text-gray-200 transition-transform duration-300 hover:scale-105 inline-flex items-center">NEWS&nbsp;<span class="text-[#f59e0b] inline-block animate-pulse">ARROW</span></h1>
+              <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-800 dark:text-gray-200 inline-flex items-center">
+    <span>NEWS</span>
+    <span class="text-[#f59e0b] ml-1.5 flex items-center">
+        ARROW
+        <i class="fa-solid fa-arrow-right-long text-xs sm:text-sm ml-1 text-[#f59e0b] animate-arrow-shoot"></i>
+    </span>
+</h1>
+
             </div>
             
             <!-- Quick Search Bar -->
