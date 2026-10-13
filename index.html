@@ -410,32 +410,24 @@ setTimeout(() => {
 
         function shareArticle(title) {
     const item = newsData.find(n => n.title === title);
-    if (!item) return;
+    const plainDesc = item && item.content ? item.content.replace(/\*/g, '').substring(0, 90) : '';
+    const shareUrl = window.location.href.split('?')[0];
 
-    // सबहेडिंग या स्टार हटाकर साफ़ टेक्स्ट बनाना
-    const plainDesc = (item.content || '').replace(/\*/g, '').substring(0, 100);
-    
-    // शेयर पेज का डायनामिक लिंक जिसमें फोटो और टाइटल जुड़े हैं
-    const baseUrl = window.location.origin + window.location.pathname.replace('index.html', '');
-    const shareUrl = `${baseUrl}share.html?t=${encodeURIComponent(item.title)}&i=${encodeURIComponent(item.image)}&d=${encodeURIComponent(plainDesc)}`;
-
-    // व्हाट्सएप के लिए मैसेज फॉर्मेट
-    const textToSend = `🔴 *${item.title}*\n\n${plainDesc}...\n\n👉 *पूरी खबर यहाँ पढ़ें:*\n${shareUrl}`;
+    // साफ़ और सुंदर WhatsApp टेक्स्ट मैसेज
+    const textToSend = `🔴 *${title}*\n\n${plainDesc}...\n\n👉 *पूरी खबर यहाँ पढ़ें:*\n${shareUrl}`;
 
     if (navigator.share) {
         navigator.share({
-            title: item.title,
+            title: title,
             text: textToSend,
             url: shareUrl
-        }).catch(() => {});
+        }).catch(() => {
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(textToSend)}`, '_blank');
+        });
     } else {
-        const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(textToSend)}`;
-        window.open(waUrl, '_blank');
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(textToSend)}`, '_blank');
     }
-}
-
-
-
+        }
         function openAdminModal() { document.getElementById('login-modal').classList.remove('hidden'); }
         function closeAdminModal() { document.getElementById('login-modal').classList.add('hidden'); }
         function openAdminPanel() { 
