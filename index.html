@@ -414,30 +414,43 @@ setTimeout(() => {
         }
         async function shareArticle(title) {
     const item = newsData.find(n => n.title === title);
-    const finalTitle = item ? item.title : title;
-        const shareUrl = window.location.origin + window.location.pathname + '?v=' + Date.now();
+    if (!item) return;
 
+    const shareUrl = window.location.origin + window.location.pathname;
+    const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
 
-    const shareData = {
-        title: finalTitle,
-        text: `🔴 *${finalTitle}*`,
-        url: shareUrl
-    };
+    try {
+        if (item.image && navigator.canShare) {
+            const blob = await (await fetch(item.image)).blob();
+            const file = new File([blob], 'news.jpg', { type: blob.type || 'image/jpeg' });
+            
+            const shareDataWithFile = {
+                files: [file],
+                title: item.title,
+                text: shareText
+            };
 
-    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-        try {
-            await navigator.share(shareData);
-            return;
-        } catch (err) {
-            // User cancelled share
-            if (err.name === 'AbortError') return;
+            if (navigator.canShare(shareDataWithFile)) {
+                await navigator.share(shareDataWithFile);
+                return;
+            }
         }
+
+        if (navigator.share) {
+            await navigator.share({
+                title: item.title,
+                text: shareText,
+                url: shareUrl
+            });
+            return;
+        }
+    } catch (err) {
+        if (err.name === 'AbortError') return;
     }
 
-    // Fallback menu agar browser native share support na kare
-    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`🔴 *${finalTitle}*\n\n${shareUrl}`)}`;
-    window.open(waUrl, '_blank');
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
 }
+
 
 
 
