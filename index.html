@@ -225,32 +225,60 @@
             </div>
         </div>
     </div>
+     <!-- Full News Reading Modal -->
+<div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+        <div class="flex justify-between items-start border-b dark:border-gray-700 pb-3 mb-4">
+            <span id="read-category" class="px-2.5 py-1 text-xs font-semibold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"></span>
+            <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
+        </div>
+        <h2 id="read-title" class="text-xl sm:text-2xl font-bold mb-3 dark:text-white leading-snug"></h2>
+        <div id="read-date" class="text-xs text-gray-500 mb-4"></div>
+        <img id="read-image" src="" alt="News Image" class="w-full max-h-80 object-cover rounded-lg mb-4">
+        <p id="read-content" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base"></p>
+        <div class="mt-6 pt-3 border-t dark:border-gray-700 flex justify-end">
+            <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">बंद करें</button>
+        </div>
+    </div>
+</div>
 
     <!-- Scripts -->
     <script>
         let newsData = JSON.parse(localStorage.getItem('newsData')) || [];
         let currentFilter = 'सभी';
-        // 10 MB+ की फ़ोटो को ऑटोमेटिक 40-60 KB में बदलने का कंप्रेसर कोड
+        // HD क्वालिटी कंप्रेसर (DSLR शार्पनेस)
 setTimeout(() => {
     const fileInput = document.getElementById('news-image-file');
     if (fileInput) {
         fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
+
             const reader = new FileReader();
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-                    const targetWidth = 500;
-                    const scaleFactor = targetWidth / img.width;
-                    const targetHeight = Math.round(img.height * scaleFactor);
+
+                    let targetWidth = 1000;
+                    let targetHeight = Math.round((img.height * targetWidth) / img.width);
+
+                    if (img.width < targetWidth) {
+                        targetWidth = img.width;
+                        targetHeight = img.height;
+                    }
+
                     canvas.width = targetWidth;
                     canvas.height = targetHeight;
+
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+
                     ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-                    const compressedData = canvas.toDataURL('image/jpeg', 0.5);
-                    document.getElementById('news-image').value = compressedData;
+
+                    const hdData = canvas.toDataURL('image/jpeg', 0.78);
+                    document.getElementById('news-image').value = hdData;
                 };
                 img.src = event.target.result;
             };
@@ -258,6 +286,7 @@ setTimeout(() => {
         });
     }
 }, 500);
+
 
 
         function updateDate() {
@@ -310,7 +339,7 @@ setTimeout(() => {
                             <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-3">${item.content}</p>
                         </div>
                         <div class="pt-3 mt-2 border-t dark:border-gray-700 flex justify-between items-center text-xs">
-                            <span class="text-red-600 font-semibold cursor-pointer">पूरा पढ़ें ➔</span>
+                            <button type="button" onclick="readFullArticle('${item.id}')" class="text-red-600 font-bold hover:underline text-sm">पूरा पढ़ें &rarr;</button>
                             <button onclick="shareArticle('${item.title}')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                                 <i class="fa-solid fa-share-nodes"></i>
                             </button>
@@ -371,6 +400,23 @@ setTimeout(() => {
             renderAdminNewsList();
         }
         function closeAdminPanel() { document.getElementById('admin-panel').classList.add('hidden'); }
+       // पूरा समाचार खोलने और बंद करने का जावास्क्रिप्ट कोड
+function readFullArticle(id) {
+    const item = newsData.find(n => n.id == id);
+    if (!item) return;
+
+    document.getElementById('read-title').innerText = item.title;
+    document.getElementById('read-category').innerText = item.category;
+    document.getElementById('read-date').innerText = item.date;
+    document.getElementById('read-image').src = item.image;
+    document.getElementById('read-content').innerText = item.content;
+
+    document.getElementById('full-news-modal').classList.remove('hidden');
+}
+
+function closeFullNews() {
+    document.getElementById('full-news-modal').classList.add('hidden');
+}
 
         function verifyAdmin() {
             const pass = document.getElementById('admin-pass').value;
