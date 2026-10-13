@@ -152,6 +152,22 @@
             </div>
         </div>
     </div>
+     <!-- Full News Reading Modal -->
+<div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+        <div class="flex justify-between items-start border-b dark:border-gray-700 pb-3 mb-4">
+            <span id="read-category" class="px-2.5 py-1 text-xs font-semibold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"></span>
+            <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
+        </div>
+        <h2 id="read-title" class="text-xl sm:text-2xl font-bold mb-3 dark:text-white leading-snug"></h2>
+        <div id="read-date" class="text-xs text-gray-500 mb-4"></div>
+        <img id="read-image" src="" alt="News Image" class="w-full max-h-80 object-cover rounded-lg mb-4">
+        <p id="read-content" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base"></p>
+        <div class="mt-6 pt-3 border-t dark:border-gray-700 flex justify-end">
+            <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">बंद करें</button>
+        </div>
+    </div>
+</div>
 
     <!-- Admin Panel Modal -->
     <div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 px-4">
