@@ -419,6 +419,7 @@ setTimeout(() => {
     const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(item.title)}`;
 
 
+
     const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
 
     try {
@@ -571,19 +572,21 @@ function closeFullNews() {
 
         updateDate();
         renderNews();
-        // लिंक से सीधे वही खबर खोलना
-function checkDirectNewsLink() {
+        updateDate();
+renderNews();
+
+// Link se direct wahi khabar kholna
+setTimeout(() => {
     const params = new URLSearchParams(window.location.search);
-    const newsTitle = params.get('id');
-    if (newsTitle) {
-        const decodedTitle = decodeURIComponent(newsTitle);
-        if (typeof readFullArticle === 'function') {
-            readFullArticle(decodedTitle);
+    const targetTitle = params.get('id');
+    if (targetTitle) {
+        const decoded = decodeURIComponent(targetTitle);
+        const item = newsData.find(n => n.title === decoded || (n.id && n.id.toString() === decoded));
+        if (item && typeof readFullArticle === 'function') {
+            readFullArticle(item.id || item.title);
         }
     }
-}
-
-window.addEventListener('DOMContentLoaded', checkDirectNewsLink);
+}, 300);
 
 
     </script>
