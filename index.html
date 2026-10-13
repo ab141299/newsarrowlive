@@ -246,7 +246,7 @@
     <script>
         let newsData = JSON.parse(localStorage.getItem('newsData')) || [];
         let currentFilter = 'सभी';
-        // HD क्वालिटी कंप्रेसर (DSLR शार्पनेस)
+        // अल्ट्रा-शार्प DSLR कंप्रेसर (पिक्सल्स कभी नहीं फटेंगे)
 setTimeout(() => {
     const fileInput = document.getElementById('news-image-file');
     if (fileInput) {
@@ -258,27 +258,42 @@ setTimeout(() => {
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
+                    let curW = img.width;
+                    let curH = img.height;
+                    const targetWidth = 1200;
 
-                    let targetWidth = 1000;
-                    let targetHeight = Math.round((img.height * targetWidth) / img.width);
+                    // अगर फ़ोटो 1200px से बड़ी है तो स्टेप-बाय-स्टेप छोटा करना ताकि शार्पनेस न खोए
+                    let oc = document.createElement('canvas');
+                    let octx = oc.getContext('2d');
+                    oc.width = curW;
+                    oc.height = curH;
+                    octx.drawImage(img, 0, 0);
 
-                    if (img.width < targetWidth) {
-                        targetWidth = img.width;
-                        targetHeight = img.height;
+                    while (curW * 0.5 > targetWidth) {
+                        curW = Math.round(curW * 0.5);
+                        curH = Math.round(curH * 0.5);
+                        const canvasStep = document.createElement('canvas');
+                        canvasStep.width = curW;
+                        canvasStep.height = curH;
+                        const stepCtx = canvasStep.getContext('2d');
+                        stepCtx.imageSmoothingEnabled = true;
+                        stepCtx.imageSmoothingQuality = 'high';
+                        stepCtx.drawImage(oc, 0, 0, curW, curH);
+                        oc = canvasStep;
                     }
 
-                    canvas.width = targetWidth;
-                    canvas.height = targetHeight;
+                    const finalCanvas = document.createElement('canvas');
+                    const targetHeight = Math.round((img.height * targetWidth) / img.width);
+                    finalCanvas.width = targetWidth;
+                    finalCanvas.height = targetHeight;
+                    const finalCtx = finalCanvas.getContext('2d');
+                    finalCtx.imageSmoothingEnabled = true;
+                    finalCtx.imageSmoothingQuality = 'high';
+                    finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
 
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'high';
-
-                    ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-
-                    const hdData = canvas.toDataURL('image/jpeg', 0.78);
-                    document.getElementById('news-image').value = hdData;
+                    // 82% क्वालिटी - बिल्कुल असली DSLR जैसी क्रिस्प फ़ोटो
+                    const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
+                    document.getElementById('news-image').value = ultraHdData;
                 };
                 img.src = event.target.result;
             };
