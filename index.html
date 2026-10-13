@@ -410,24 +410,15 @@ setTimeout(() => {
 
         function shareArticle(title) {
     const item = newsData.find(n => n.title === title);
-    const plainDesc = item && item.content ? item.content.replace(/\*/g, '').substring(0, 90) : '';
-    const shareUrl = window.location.href.split('?')[0];
+    const desc = item && item.content ? item.content.replace(/[\*\_]/g, '').substring(0, 90) : '';
+    const link = window.location.origin + window.location.pathname;
 
-    // साफ़ और सुंदर WhatsApp टेक्स्ट मैसेज
-    const textToSend = `🔴 *${title}*\n\n${plainDesc}...\n\n👉 *पूरी खबर यहाँ पढ़ें:*\n${shareUrl}`;
+    const msg = `🔴 *${title}*\n\n${desc}...\n\n👉 *पूरी खबर यहाँ पढ़ें:*\n${link}`;
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
 
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: textToSend,
-            url: shareUrl
-        }).catch(() => {
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(textToSend)}`, '_blank');
-        });
-    } else {
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(textToSend)}`, '_blank');
-    }
-        }
+    window.open(waUrl, '_blank');
+}
+
         function openAdminModal() { document.getElementById('login-modal').classList.remove('hidden'); }
         function closeAdminModal() { document.getElementById('login-modal').classList.add('hidden'); }
         function openAdminPanel() { 
