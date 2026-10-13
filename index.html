@@ -284,7 +284,7 @@ setTimeout(() => {
                 card.className = "bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-lg transition duration-200 flex flex-col border border-gray-100 dark:border-gray-700";
                 card.innerHTML = `
                     <div class="relative overflow-hidden h-44 bg-gray-200 dark:bg-gray-700">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=600'">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-48 sm:h-56 object-cover rounded-t-lg">
                         <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">${item.category}</span>
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between">
