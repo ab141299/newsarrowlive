@@ -413,7 +413,8 @@ setTimeout(() => {
         async function shareArticle(title) {
     const item = newsData.find(n => n.title === title);
     const finalTitle = item ? item.title : title;
-    const shareUrl = window.location.href.split('?')[0];
+        const shareUrl = window.location.origin + window.location.pathname + '?v=' + Date.now();
+
 
     const shareData = {
         title: finalTitle,
