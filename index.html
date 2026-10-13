@@ -410,10 +410,10 @@ setTimeout(() => {
             const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || item.content.toLowerCase().includes(q));
             renderNews(matched);
         }
-        function shareArticle(title) {
+        async function shareArticle(title) {
     const item = newsData.find(n => n.title === title);
     const finalTitle = item ? item.title : title;
-    const shareUrl = window.location.origin + window.location.pathname;
+    const shareUrl = window.location.href.split('?')[0];
 
     const shareData = {
         title: finalTitle,
@@ -421,13 +421,21 @@ setTimeout(() => {
         url: shareUrl
     };
 
-    if (navigator.share) {
-        navigator.share(shareData).catch(() => {});
-    } else {
-        const fullMsg = `🔴 *${finalTitle}*\n\n${shareUrl}`;
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(fullMsg)}`, '_blank');
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        try {
+            await navigator.share(shareData);
+            return;
+        } catch (err) {
+            // User cancelled share
+            if (err.name === 'AbortError') return;
+        }
     }
+
+    // Fallback menu agar browser native share support na kare
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`🔴 *${finalTitle}*\n\n${shareUrl}`)}`;
+    window.open(waUrl, '_blank');
 }
+
 
 
         function openAdminModal() { document.getElementById('login-modal').classList.remove('hidden'); }
