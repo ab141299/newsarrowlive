@@ -416,7 +416,9 @@ setTimeout(() => {
     const item = newsData.find(n => n.title === title);
     if (!item) return;
 
-    const shareUrl = window.location.origin + window.location.pathname;
+    const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(item.title)}`;
+
+
     const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
 
     try {
@@ -569,6 +571,21 @@ function closeFullNews() {
 
         updateDate();
         renderNews();
+        // लिंक से सीधे वही खबर खोलना
+function checkDirectNewsLink() {
+    const params = new URLSearchParams(window.location.search);
+    const newsTitle = params.get('id');
+    if (newsTitle) {
+        const decodedTitle = decodeURIComponent(newsTitle);
+        if (typeof readFullArticle === 'function') {
+            readFullArticle(decodedTitle);
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', checkDirectNewsLink);
+
+
     </script>
 </body>
 </html>
