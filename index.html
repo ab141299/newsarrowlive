@@ -351,7 +351,7 @@ setTimeout(() => {
                         <div>
                             <span class="text-[11px] text-gray-400 block mb-1">${item.date}</span>
                             <h3 class="font-bold text-sm sm:text-base mb-2 line-clamp-2 leading-snug hover:text-red-600 cursor-pointer">${item.title}</h3>
-                            <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-3">${item.content}</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-3">${item.content.replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>').replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')}</p>
                         </div>
                         <div class="pt-3 mt-2 border-t dark:border-gray-700 flex justify-between items-center text-xs">
                             <button type="button" onclick="readFullArticle('${item.id}')" class="text-red-600 font-bold hover:underline text-sm">पूरा पढ़ें &rarr;</button>
@@ -424,7 +424,11 @@ function readFullArticle(id) {
     document.getElementById('read-category').innerText = item.category;
     document.getElementById('read-date').innerText = item.date;
     document.getElementById('read-image').src = item.image;
-    document.getElementById('read-content').innerText = item.content;
+    document.getElementById('read-content').innerHTML = item.content
+    .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
+    .replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
+    .replace(/\n/g, '<br>');
+
 
     document.getElementById('full-news-modal').classList.remove('hidden');
 }
