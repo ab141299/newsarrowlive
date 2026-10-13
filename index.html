@@ -4,20 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Arrow - ताज़ा और निष्पक्ष समाचार</title>
-            <!-- WhatsApp & Social Media Preview Tags -->
+    <!-- WhatsApp & Social Media Preview Tags -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="News Arrow">
     <meta property="og:title" content="News Arrow - ताज़ा और निष्पक्ष समाचार">
     <meta property="og:description" content="देश, दुनिया और प्रदेश की ताज़ा ख़बरें पढ़ें">
-        <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
     <meta property="og:image:secure_url" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="675">
     <meta name="twitter:card" content="summary_large_image">
-
-
-
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -48,7 +45,7 @@
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
-                @keyframes shootArrow {
+        @keyframes shootArrow {
             0% { transform: translateX(-6px); opacity: 0; }
             40% { opacity: 1; }
             80% { transform: translateX(8px); opacity: 1; }
@@ -58,7 +55,6 @@
             display: inline-block;
             animation: shootArrow 1.6s ease-in-out infinite;
         }
-
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col font-sans">
@@ -82,14 +78,13 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('सभी')">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:-translate-y-1 drop-shadow-sm">
-              <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-800 dark:text-gray-200 inline-flex items-center">
-    <span>NEWS</span>
-    <span class="text-[#f59e0b] ml-1.5 flex items-center">
-        ARROW
-        <i class="fa-solid fa-arrow-right-long text-xs sm:text-sm ml-1 text-[#f59e0b] animate-arrow-shoot"></i>
-    </span>
-</h1>
-
+                <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-800 dark:text-gray-200 inline-flex items-center">
+                    <span>NEWS</span>
+                    <span class="text-[#f59e0b] ml-1.5 flex items-center">
+                        ARROW
+                        <i class="fa-solid fa-arrow-right-long text-xs sm:text-sm ml-1 text-[#f59e0b] animate-arrow-shoot"></i>
+                    </span>
+                </h1>
             </div>
             
             <!-- Quick Search Bar -->
@@ -114,8 +109,10 @@
         <nav class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-none">
             <div class="container mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
                 <button onclick="filterCategory('सभी')" class="category-btn active-category px-3 py-1 rounded bg-red-600 text-white">सभी</button>
+                <button onclick="filterCategory('वाराणसी')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">वाराणसी</button>
                 <button onclick="filterCategory('देश')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">देश</button>
                 <button onclick="filterCategory('विदेश')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">विदेश</button>
+                <button onclick="filterCategory('अपराध')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">अपराध</button>
                 <button onclick="filterCategory('व्यापार')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">व्यापार</button>
                 <button onclick="filterCategory('खेल')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">खेल</button>
                 <button onclick="filterCategory('मनोरंजन')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">मनोरंजन</button>
@@ -167,22 +164,23 @@
             </div>
         </div>
     </div>
-     <!-- Full News Reading Modal -->
-<div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
-        <div class="flex justify-between items-start border-b dark:border-gray-700 pb-3 mb-4">
-            <span id="read-category" class="px-2.5 py-1 text-xs font-semibold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"></span>
-            <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
-        </div>
-        <h2 id="read-title" class="text-xl sm:text-2xl font-bold mb-3 dark:text-white leading-snug"></h2>
-        <div id="read-date" class="text-xs text-gray-500 mb-4"></div>
-        <img id="read-image" src="" alt="News Image" class="w-full max-h-80 object-cover rounded-lg mb-4">
-        <p id="read-content" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base"></p>
-        <div class="mt-6 pt-3 border-t dark:border-gray-700 flex justify-end">
-            <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">बंद करें</button>
+
+    <!-- Full News Reading Modal -->
+    <div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+            <div class="flex justify-between items-start border-b dark:border-gray-700 pb-3 mb-4">
+                <span id="read-category" class="px-2.5 py-1 text-xs font-semibold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"></span>
+                <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
+            </div>
+            <h2 id="read-title" class="text-xl sm:text-2xl font-bold mb-3 dark:text-white leading-snug"></h2>
+            <div id="read-date" class="text-xs text-gray-500 mb-4"></div>
+            <img id="read-image" src="" alt="News Image" class="w-full max-h-80 object-cover rounded-lg mb-4">
+            <p id="read-content" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base"></p>
+            <div class="mt-6 pt-3 border-t dark:border-gray-700 flex justify-end">
+                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">बंद करें</button>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Admin Panel Modal -->
     <div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 px-4">
@@ -204,22 +202,21 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-medium mb-1 dark:text-gray-200">श्रेणी (Category)</label>
-                        <select id="news-category" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">                                     <option value="वाराणसी">वाराणसी</option>
+                        <select id="news-category" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
                             <option value="वाराणसी">वाराणसी</option>
-                            <option value="अपराध">अपराध</option>
                             <option value="देश">देश</option>
                             <option value="विदेश">विदेश</option>
+                            <option value="अपराध">अपराध</option>
                             <option value="व्यापार">व्यापार</option>
                             <option value="खेल">खेल</option>
                             <option value="मनोरंजन">मनोरंजन</option>
                             <option value="तकनीक">तकनीक</option>
-
                         </select>
                     </div>
                     <div>
-    <label class="block font-medium mb-1 dark:text-gray-200">फ़ोटो अपलोड करें (गैलरी से)</label>
-    <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
-    <input type="hidden" id="news-image"> 
+                        <label class="block font-medium mb-1 dark:text-gray-200">फ़ोटो अपलोड करें (गैलरी से)</label>
+                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                        <input type="hidden" id="news-image"> 
                     </div>
                 </div>
                 <div>
@@ -230,7 +227,7 @@
                     <input type="checkbox" id="news-breaking" class="rounded text-red-600 focus:ring-red-600 h-4 w-4">
                     <label for="news-breaking" class="text-sm font-medium dark:text-gray-200 cursor-pointer">इसे ब्रेकिंग न्यूज़ पट्टी (Marquee) में भी दिखाएं</label>
                 </div>
-                <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded shadow transition">समाचार पब्लिश करें</button>
+                <button type="submit" id="publish-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded shadow transition">समाचार पब्लिश करें</button>
             </form>
 
             <!-- Manage Existing News -->
@@ -240,104 +237,120 @@
             </div>
         </div>
     </div>
-     <!-- Full News Reading Modal -->
-<div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
-        <div class="flex justify-between items-start border-b dark:border-gray-700 pb-3 mb-4">
-            <span id="read-category" class="px-2.5 py-1 text-xs font-semibold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"></span>
-            <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
-        </div>
-        <h2 id="read-title" class="text-xl sm:text-2xl font-bold mb-3 dark:text-white leading-snug"></h2>
-        <div id="read-date" class="text-xs text-gray-500 mb-4"></div>
-        <img id="read-image" src="" alt="News Image" class="w-full max-h-80 object-cover rounded-lg mb-4">
-        <p id="read-content" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base"></p>
-        <div class="mt-6 pt-3 border-t dark:border-gray-700 flex justify-end">
-            <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">बंद करें</button>
-        </div>
-    </div>
-</div>
 
-    <!-- Scripts -->
-    <script>
-        let newsData = JSON.parse(localStorage.getItem('newsData')) || [];
+    <!-- Firebase & Frontend Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            deleteDoc, 
+            doc, 
+            query, 
+            orderBy, 
+            onSnapshot, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKL_XkMlp74NcMKHJmzL-9xTqQjF3k6A",
+            authDomain: "newsarrow-199cf.firebaseapp.com",
+            projectId: "newsarrow-199cf",
+            storageBucket: "newsarrow-199cf.firebasestorage.app",
+            messagingSenderId: "545957236502",
+            appId: "1:545957236502:web:5df6cc317042a6c8916327",
+            measurementId: "G-9RKDM3CW2V"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let newsData = [];
         let currentFilter = 'सभी';
-        // अल्ट्रा-शार्प DSLR कंप्रेसर (पिक्सल्स कभी नहीं फटेंगे)
-setTimeout(() => {
-    const fileInput = document.getElementById('news-image-file');
-    if (fileInput) {
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    let curW = img.width;
-                    let curH = img.height;
-                    const targetWidth = 1200;
+        // Listen for Realtime News from Firebase
+        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+        onSnapshot(q, (snapshot) => {
+            newsData = [];
+            snapshot.forEach((d) => {
+                newsData.push({ id: d.id, ...d.data() });
+            });
+            renderNews();
+            renderAdminNewsList();
 
-                    // अगर फ़ोटो 1200px से बड़ी है तो स्टेप-बाय-स्टेप छोटा करना ताकि शार्पनेस न खोए
-                    let oc = document.createElement('canvas');
-                    let octx = oc.getContext('2d');
-                    oc.width = curW;
-                    oc.height = curH;
-                    octx.drawImage(img, 0, 0);
-
-                    while (curW * 0.5 > targetWidth) {
-                        curW = Math.round(curW * 0.5);
-                        curH = Math.round(curH * 0.5);
-                        const canvasStep = document.createElement('canvas');
-                        canvasStep.width = curW;
-                        canvasStep.height = curH;
-                        const stepCtx = canvasStep.getContext('2d');
-                        stepCtx.imageSmoothingEnabled = true;
-                        stepCtx.imageSmoothingQuality = 'high';
-                        stepCtx.drawImage(oc, 0, 0, curW, curH);
-                        oc = canvasStep;
-                    }
-
-                    const finalCanvas = document.createElement('canvas');
-                    const targetHeight = Math.round((img.height * targetWidth) / img.width);
-                    finalCanvas.width = targetWidth;
-                    finalCanvas.height = targetHeight;
-                    const finalCtx = finalCanvas.getContext('2d');
-                    finalCtx.imageSmoothingEnabled = true;
-                    finalCtx.imageSmoothingQuality = 'high';
-                    finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
-
-                    // 82% क्वालिटी - बिल्कुल असली DSLR जैसी क्रिस्प फ़ोटो
-                    const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
-                    document.getElementById('news-image').value = ultraHdData;
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-}, 500);
-
-
-
-        function updateDate() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date().toLocaleDateString('hi-IN', options);
-            document.getElementById('current-date').innerText = today;
-        }
-
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            const icon = document.getElementById('theme-icon');
-            if (document.documentElement.classList.contains('dark')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+            // Link se direct khabar kholna
+            const params = new URLSearchParams(window.location.search);
+            const newsId = params.get('id');
+            if (newsId) {
+                const decoded = decodeURIComponent(newsId).trim();
+                const item = newsData.find(n => (n.id && n.id.toString() === decoded) || (n.title && n.title.trim() === decoded));
+                if (item) readFullArticle(item.id);
             }
-        }
+        }, (err) => {
+            console.error("Firebase read error: ", err);
+        });
 
-        function renderNews(filteredData = null) {
+        // Publish Function
+        window.handlePublish = async function(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const pubBtn = document.getElementById('publish-btn');
+            pubBtn.disabled = true;
+            pubBtn.innerText = 'पब्लिश हो रहा है...';
+
+            const titleVal = document.getElementById('news-title').value.trim();
+            const catVal = document.getElementById('news-category').value;
+            const contentVal = document.getElementById('news-content').value.trim();
+            let imgVal = document.getElementById('news-image').value;
+            const isBreakingVal = document.getElementById('news-breaking').checked;
+            
+            if (!imgVal) {
+                imgVal = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
+            }
+
+            const newItem = {
+                title: titleVal,
+                category: catVal,
+                image: imgVal,
+                content: contentVal,
+                isBreaking: isBreakingVal,
+                date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "news"), newItem);
+                alert('समाचार सफलतापूर्वक पब्लिश हो गया!');
+                
+                document.getElementById('news-title').value = '';
+                document.getElementById('news-content').value = '';
+                document.getElementById('news-image').value = '';
+                const fileBox = document.getElementById('news-image-file');
+                if (fileBox) fileBox.value = '';
+                document.getElementById('news-breaking').checked = false;
+
+                closeAdminPanel();
+            } catch (err) {
+                alert('एरर: ' + err.message);
+            } finally {
+                pubBtn.disabled = false;
+                pubBtn.innerText = 'समाचार पब्लिश करें';
+            }
+        };
+
+        // Delete Function
+        window.deleteNews = async function(id) {
+            if (confirm('क्या आप वाकई इस समाचार को हटाना चाहते हैं?')) {
+                try {
+                    await deleteDoc(doc(db, "news", id));
+                } catch (err) {
+                    alert('हटाने में त्रुटि: ' + err.message);
+                }
+            }
+        };
+
+        // Render Functions
+        window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
             const countLabel = document.getElementById('news-count');
@@ -380,176 +393,9 @@ setTimeout(() => {
             });
 
             updateMarquee();
-        }
+        };
 
-        function updateMarquee() {
-            const breaking = newsData.filter(item => item.isBreaking);
-            const marquee = document.getElementById('marquee-text');
-            if (breaking.length > 0) {
-                marquee.innerText = breaking.map(item => item.title).join('  ★  ');
-            } else if (newsData.length > 0) {
-                marquee.innerText = newsData.slice(0, 3).map(item => item.title).join('  ★  ');
-            } else {
-                marquee.innerText = "News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।";
-            }
-        }
-
-        function filterCategory(cat) {
-            currentFilter = cat;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                if (btn.innerText === cat) {
-                    btn.className = "category-btn active-category px-3 py-1 rounded bg-red-600 text-white";
-                } else {
-                    btn.className = "category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300";
-                }
-            });
-            document.getElementById('current-category-title').children[1].innerText = cat === 'सभी' ? 'ताज़ा समाचार' : `${cat} समाचार`;
-            renderNews();
-        }
-
-        function handleSearch() {
-            const q = document.getElementById('search-input').value.toLowerCase();
-            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || item.content.toLowerCase().includes(q));
-            renderNews(matched);
-        }
-        async function shareArticle(title) {
-    const item = newsData.find(n => n.title === title);
-    if (!item) return;
-        const newsIdentifier = item.id !== undefined ? item.id : item.title;
-    const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(newsIdentifier)}`;
-    const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
-
-    try {
-        if (item.image && navigator.canShare) {
-            const blob = await (await fetch(item.image)).blob();
-            const file = new File([blob], 'news.jpg', { type: blob.type || 'image/jpeg' });
-            
-            const shareDataWithFile = {
-                files: [file],
-                title: item.title,
-                text: shareText
-            };
-
-            if (navigator.canShare(shareDataWithFile)) {
-                await navigator.share(shareDataWithFile);
-                return;
-            }
-        }
-
-        if (navigator.share) {
-            await navigator.share({
-                title: item.title,
-                text: shareText,
-                url: shareUrl
-            });
-            return;
-        }
-    } catch (err) {
-        if (err.name === 'AbortError') return;
-    }
-
-    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
-}
-
-
-
-
-        function openAdminModal() { document.getElementById('login-modal').classList.remove('hidden'); }
-        function closeAdminModal() { document.getElementById('login-modal').classList.add('hidden'); }
-        function openAdminPanel() { 
-            closeAdminModal(); 
-            document.getElementById('admin-panel').classList.remove('hidden'); 
-            renderAdminNewsList();
-        }
-        function closeAdminPanel() { document.getElementById('admin-panel').classList.add('hidden'); }
-       // पूरा समाचार खोलने और बंद करने का जावास्क्रिप्ट कोड
-function readFullArticle(id) {
-    const item = newsData.find(n => n.id == id);
-    if (!item) return;
-
-    document.getElementById('read-title').innerText = item.title;
-    document.getElementById('read-category').innerText = item.category;
-    document.getElementById('read-date').innerText = item.date;
-    document.getElementById('read-image').src = item.image;
-    document.getElementById('read-content').innerHTML = item.content
-    .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
-    .replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
-    .replace(/\n/g, '<br>');
-
-
-    document.getElementById('full-news-modal').classList.remove('hidden');
-}
-
-function closeFullNews() {
-    document.getElementById('full-news-modal').classList.add('hidden');
-}
-
-        function verifyAdmin() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === 'admin123') {
-                document.getElementById('admin-pass').value = '';
-                openAdminPanel();
-            } else {
-                alert('गलत पासवर्ड!');
-            }
-        }
-
-        function handlePublish(e) {
-    if (e && e.preventDefault) e.preventDefault()
-    const titleVal = document.getElementById('news-title').value.trim();
-    const catVal = document.getElementById('news-category').value;
-    const contentVal = document.getElementById('news-content').value.trim();
-    let imgVal = document.getElementById('news-image').value;
-    const isBreakingVal = document.getElementById('news-breaking').checked;
-    if (!imgVal) {
-        imgVal = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
-    }
-    const newItem = {
-        id: Date.now().toString(),
-        title: titleVal,
-        category: catVal,
-        image: imgVal,
-        content: contentVal,
-        isBreaking: isBreakingVal,
-        date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-    };
-    if (!Array.isArray(newsData)) {
-        newsData = [];
-    }
-
-    newsData.unshift(newItem);
-
-    try {
-        localStorage.setItem('newsData', JSON.stringify(newsData));
-        alert('समाचार सफलतापूर्वक पब्लिश हो गया!');
-        
-        // फॉर्म रीसेट
-        document.getElementById('news-title').value = '';
-        document.getElementById('news-content').value = '';
-        document.getElementById('news-image').value = '';
-        const fileBox = document.getElementById('news-image-file');
-        if (fileBox) fileBox.value = '';
-        document.getElementById('news-breaking').checked = false;
-
-        closeAdminPanel();
-        renderAdminNewsList();
-        renderNews();
-    } catch (err) {
-        alert('फ़ोटो का साइज़ बहुत बड़ा है, कृपया थोड़ी हल्की फ़ोटो अपलोड करें!');
-    }
-}
-
-
-        function deleteNews(id) {
-            if (confirm('क्या आप वाकई इस समाचार को हटाना चाहते हैं?')) {
-                newsData = newsData.filter(item => item.id !== id);
-                localStorage.setItem('newsData', JSON.stringify(newsData));
-                renderAdminNewsList();
-                renderNews();
-            }
-        }
-
-        function renderAdminNewsList() {
+        window.renderAdminNewsList = function() {
             const list = document.getElementById('admin-news-list');
             list.innerHTML = '';
             if (newsData.length === 0) {
@@ -565,26 +411,186 @@ function closeFullNews() {
                 `;
                 list.appendChild(row);
             });
-        }
+        };
 
-        updateDate();
-renderNews();
+        window.updateMarquee = function() {
+            const breaking = newsData.filter(item => item.isBreaking);
+            const marquee = document.getElementById('marquee-text');
+            if (breaking.length > 0) {
+                marquee.innerText = breaking.map(item => item.title).join('  ★  ');
+            } else if (newsData.length > 0) {
+                marquee.innerText = newsData.slice(0, 3).map(item => item.title).join('  ★  ');
+            } else {
+                marquee.innerText = "News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।";
+            }
+        };
 
-// Link se direct khabar kholna
-setTimeout(() => {
-    const params = new URLSearchParams(window.location.search);
-    const newsId = params.get('id');
-    if (newsId) {
-        const decoded = decodeURIComponent(newsId).trim();
-        // ID ya Title ya Index se match karna
-        const item = newsData.find(n => (n.id && n.id.toString() === decoded) || (n.title && n.title.trim() === decoded));
-        if (item && typeof readFullArticle === 'function') {
-            readFullArticle(item.id !== undefined ? item.id : item.title);
-        } else if (newsData[Number(newsId)] && typeof readFullArticle === 'function') {
-            readFullArticle(newsData[Number(newsId)].id || Number(newsId));
-        }
-    }
-}, 400);
+        window.filterCategory = function(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.innerText === cat) {
+                    btn.className = "category-btn active-category px-3 py-1 rounded bg-red-600 text-white";
+                } else {
+                    btn.className = "category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300";
+                }
+            });
+            document.getElementById('current-category-title').children[1].innerText = cat === 'सभी' ? 'ताज़ा समाचार' : `${cat} समाचार`;
+            renderNews();
+        };
+
+        window.handleSearch = function() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || item.content.toLowerCase().includes(q));
+            renderNews(matched);
+        };
+
+        window.readFullArticle = function(id) {
+            const item = newsData.find(n => n.id == id);
+            if (!item) return;
+
+            document.getElementById('read-title').innerText = item.title;
+            document.getElementById('read-category').innerText = item.category;
+            document.getElementById('read-date').innerText = item.date;
+            document.getElementById('read-image').src = item.image;
+            document.getElementById('read-content').innerHTML = item.content
+            .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
+            .replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
+            .replace(/\n/g, '<br>');
+
+            document.getElementById('full-news-modal').classList.remove('hidden');
+        };
+
+        window.closeFullNews = function() {
+            document.getElementById('full-news-modal').classList.add('hidden');
+        };
+
+        window.shareArticle = async function(title) {
+            const item = newsData.find(n => n.title === title);
+            if (!item) return;
+            const newsIdentifier = item.id !== undefined ? item.id : item.title;
+            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(newsIdentifier)}`;
+            const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
+
+            try {
+                if (item.image && navigator.canShare) {
+                    const blob = await (await fetch(item.image)).blob();
+                    const file = new File([blob], 'news.jpg', { type: blob.type || 'image/jpeg' });
+                    
+                    const shareDataWithFile = {
+                        files: [file],
+                        title: item.title,
+                        text: shareText
+                    };
+
+                    if (navigator.canShare(shareDataWithFile)) {
+                        await navigator.share(shareDataWithFile);
+                        return;
+                    }
+                }
+
+                if (navigator.share) {
+                    await navigator.share({
+                        title: item.title,
+                        text: shareText,
+                        url: shareUrl
+                    });
+                    return;
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+            }
+
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+        };
+
+        window.openAdminModal = function() { document.getElementById('login-modal').classList.remove('hidden'); };
+        window.closeAdminModal = function() { document.getElementById('login-modal').classList.add('hidden'); };
+        window.openAdminPanel = function() { 
+            closeAdminModal(); 
+            document.getElementById('admin-panel').classList.remove('hidden'); 
+            renderAdminNewsList();
+        };
+        window.closeAdminPanel = function() { document.getElementById('admin-panel').classList.add('hidden'); };
+
+        window.verifyAdmin = function() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'admin123') {
+                document.getElementById('admin-pass').value = '';
+                openAdminPanel();
+            } else {
+                alert('गलत पासवर्ड!');
+            }
+        };
+
+        window.toggleDarkMode = function() {
+            document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('theme-icon');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        };
+
+        // Date Display
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
+
+        // Ultra-sharp Compressor setup
+        setTimeout(() => {
+            const fileInput = document.getElementById('news-image-file');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            let curW = img.width;
+                            let curH = img.height;
+                            const targetWidth = 1200;
+
+                            let oc = document.createElement('canvas');
+                            let octx = oc.getContext('2d');
+                            oc.width = curW;
+                            oc.height = curH;
+                            octx.drawImage(img, 0, 0);
+
+                            while (curW * 0.5 > targetWidth) {
+                                curW = Math.round(curW * 0.5);
+                                curH = Math.round(curH * 0.5);
+                                const canvasStep = document.createElement('canvas');
+                                canvasStep.width = curW;
+                                canvasStep.height = curH;
+                                const stepCtx = canvasStep.getContext('2d');
+                                stepCtx.imageSmoothingEnabled = true;
+                                stepCtx.imageSmoothingQuality = 'high';
+                                stepCtx.drawImage(oc, 0, 0, curW, curH);
+                                oc = canvasStep;
+                            }
+
+                            const finalCanvas = document.createElement('canvas');
+                            const targetHeight = Math.round((img.height * targetWidth) / img.width);
+                            finalCanvas.width = targetWidth;
+                            finalCanvas.height = targetHeight;
+                            const finalCtx = finalCanvas.getContext('2d');
+                            finalCtx.imageSmoothingEnabled = true;
+                            finalCtx.imageSmoothingQuality = 'high';
+                            finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
+
+                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
+                            document.getElementById('news-image').value = ultraHdData;
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }, 500);
     </script>
 </body>
 </html>
