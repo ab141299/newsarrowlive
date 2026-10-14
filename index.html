@@ -370,44 +370,70 @@
 
             data.forEach(item => {
                 const card = document.createElement('article');
-                card.className = "bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-200 flex flex-col border border-gray-200 dark:border-gray-700 cursor-pointer";
+        window.renderNews = function(filteredData = null) {
+            const container = document.getElementById('news-container');
+            const noNews = document.getElementById('no-news-message');
+            const countLabel = document.getElementById('news-count');
+            
+            let data = filteredData || (currentFilter === 'सभी' ? newsData : newsData.filter(item => item.category === currentFilter));
+            
+            container.innerHTML = '';
+            countLabel.innerText = `${data.length} खबरें उपलब्ध`;
+
+            if (data.length === 0) {
+                noNews.classList.remove('hidden');
+                return;
+            }
+
+            noNews.classList.add('hidden');
+
+            data.forEach(item => {
+                const card = document.createElement('article');
+                // उत्तम सवेरा जैसा डार्क/प्रीमियम कार्ड
+                card.className = "bg-[#181a1b] text-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-200 flex flex-col border border-gray-800 cursor-pointer mb-4";
                 
-                // पूरे कार्ड पर कहीं भी क्लिक करने से पूरी खबर खुलेगी
                 card.onclick = (e) => {
                     if (e.target.closest('.share-btn-action')) return;
                     readFullArticle(item.id);
                 };
 
                 card.innerHTML = `
-                    <div class="relative overflow-hidden w-full aspect-video bg-gray-200 dark:bg-gray-700">
+                    <!-- 1. बड़ी 16:9 फ़ोटो -->
+                    <div class="relative w-full aspect-video bg-black overflow-hidden">
                         <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
-                        <span class="absolute bottom-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2.5 py-1 rounded shadow uppercase tracking-wide">
-                            ${item.category}
-                        </span>
                     </div>
+
+                    <!-- 2. नीचे का पूरा कंटेंट सेक्शन -->
                     <div class="p-4 flex flex-col justify-between flex-grow">
                         <div>
-                            <h3 class="font-extrabold text-base sm:text-lg mb-2 line-clamp-2 leading-snug text-gray-900 dark:text-gray-100 hover:text-red-600 transition">
+                            <!-- उत्तम सवेरा स्टाइल लाल कैटेगरी टैग (फ़ोटो के नीचे) -->
+                            <div class="mb-2.5">
+                                <span class="bg-[#e00613] text-white text-[11px] font-extrabold px-3 py-1 rounded-[3px] uppercase tracking-wider inline-block">
+                                    ${item.category} NEWS
+                                </span>
+                            </div>
+
+                            <!-- बड़ी बोल्ड हेडलाइन -->
+                            <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-100 hover:text-red-500 transition line-clamp-3">
                                 ${item.title}
                             </h3>
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">
-                                ${item.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>')}
-                            </p>
                         </div>
-                        <div class="pt-2 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+
+                        <!-- रिपोर्टर, तारीख और बुकमार्क/शेयर -->
+                        <div class="pt-3 border-t border-gray-800 flex justify-between items-center text-xs text-gray-400">
                             <div class="flex items-center space-x-2">
-                                <span class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-[10px] font-bold text-gray-700 dark:text-gray-200">
-                                    <i class="fa-solid fa-user"></i>
+                                <span class="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-gray-300">
+                                    <i class="fa-solid fa-user text-xs"></i>
                                 </span>
-                                <span class="font-medium text-gray-700 dark:text-gray-300">News Arrow</span>
-                                <span>•</span>
-                                <span>${item.date}</span>
+                                <span class="font-semibold text-gray-200 text-sm">News Arrow</span>
+                                <span class="text-gray-500">•</span>
+                                <span class="text-gray-400">${item.date}</span>
                             </div>
-                            <div class="flex items-center space-x-3">
-                                <button type="button" onclick="shareArticle('${item.title}')" class="share-btn-action text-gray-400 hover:text-red-600 text-sm p-1 transition" title="शेयर करें">
+                            <div class="flex items-center space-x-3 text-base">
+                                <button type="button" onclick="shareArticle('${item.title}')" class="share-btn-action text-gray-400 hover:text-red-500 transition p-1" title="शेयर करें">
                                     <i class="fa-solid fa-share-nodes"></i>
                                 </button>
-                                <span class="text-gray-400 hover:text-gray-600 text-sm">
+                                <span class="text-gray-400 hover:text-white cursor-pointer">
                                     <i class="fa-regular fa-bookmark"></i>
                                 </span>
                             </div>
@@ -420,6 +446,7 @@
             updateMarquee();
         };
 
+                            
         
 
         window.renderAdminNewsList = function() {
