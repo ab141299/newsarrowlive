@@ -351,7 +351,7 @@
         };
 
         // Render Functions
-        window.renderNews = function(filteredData = null) {
+                window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
             const countLabel = document.getElementById('news-count');
@@ -370,23 +370,47 @@
 
             data.forEach(item => {
                 const card = document.createElement('article');
-                card.className = "bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow hover:shadow-lg transition duration-200 flex flex-col border border-gray-100 dark:border-gray-700";
+                card.className = "bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-200 flex flex-col border border-gray-200 dark:border-gray-700 cursor-pointer";
+                
+                // पूरे कार्ड पर कहीं भी क्लिक करने से पूरी खबर खुलेगी
+                card.onclick = (e) => {
+                    if (e.target.closest('.share-btn-action')) return;
+                    readFullArticle(item.id);
+                };
+
                 card.innerHTML = `
-                    <div class="relative overflow-hidden h-44 bg-gray-200 dark:bg-gray-700">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-48 sm:h-56 object-cover rounded-t-lg">
-                        <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">${item.category}</span>
+                    <div class="relative overflow-hidden w-full aspect-video bg-gray-200 dark:bg-gray-700">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                        <span class="absolute bottom-2 left-2 bg-red-600 text-white text-[11px] font-bold px-2.5 py-1 rounded shadow uppercase tracking-wide">
+                            ${item.category}
+                        </span>
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
+                    <div class="p-4 flex flex-col justify-between flex-grow">
                         <div>
-                            <span class="text-[11px] text-gray-400 block mb-1">${item.date}</span>
-                            <h3 class="font-bold text-sm sm:text-base mb-2 line-clamp-2 leading-snug hover:text-red-600 cursor-pointer">${item.title}</h3>
-                            <p class="text-xs text-gray-600 dark:text-gray-300 line-clamp-3">${item.content.replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>').replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')}</p>
+                            <h3 class="font-extrabold text-base sm:text-lg mb-2 line-clamp-2 leading-snug text-gray-900 dark:text-gray-100 hover:text-red-600 transition">
+                                ${item.title}
+                            </h3>
+                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">
+                                ${item.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>')}
+                            </p>
                         </div>
-                        <div class="pt-3 mt-2 border-t dark:border-gray-700 flex justify-between items-center text-xs">
-                            <button type="button" onclick="readFullArticle('${item.id}')" class="text-red-600 font-bold hover:underline text-sm">पूरा पढ़ें &rarr;</button>
-                            <button onclick="shareArticle('${item.title}')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-                                <i class="fa-solid fa-share-nodes"></i>
-                            </button>
+                        <div class="pt-2 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-[10px] font-bold text-gray-700 dark:text-gray-200">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <span class="font-medium text-gray-700 dark:text-gray-300">News Arrow</span>
+                                <span>•</span>
+                                <span>${item.date}</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button type="button" onclick="shareArticle('${item.title}')" class="share-btn-action text-gray-400 hover:text-red-600 text-sm p-1 transition" title="शेयर करें">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                                <span class="text-gray-400 hover:text-gray-600 text-sm">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -395,6 +419,8 @@
 
             updateMarquee();
         };
+
+        
 
         window.renderAdminNewsList = function() {
             const list = document.getElementById('admin-news-list');
