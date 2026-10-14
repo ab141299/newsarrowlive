@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,11 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#dc2626',
+                        arrowGold: '#f59e0b',
+                        arrowGoldDark: '#d97706',
+                        arrowDark: '#121316',
+                        arrowCard: '#1a1d21',
+                        arrowBorder: '#2d3239'
                     }
                 }
             }
@@ -57,17 +61,14 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
+<body class="bg-[#121316] text-gray-200 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
 
     <!-- Top Header -->
-    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 transition-colors duration-300">
-        <div class="container mx-auto px-4 py-2.5 flex justify-between items-center text-xs sm:text-sm border-b dark:border-gray-700">
-            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
+    <header class="bg-[#181a1f] border-b border-[#2d3239] sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-[#252830]">
+            <div id="current-date" class="font-medium text-gray-400"></div>
             <div class="flex items-center space-x-3">
-                <button onclick="toggleDarkMode()" class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition" title="थीम बदलें">
-                    <i id="theme-icon" class="fa-solid fa-moon"></i>
-                </button>
-                <button onclick="openAdminModal()" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded text-xs font-semibold flex items-center space-x-1 shadow transition">
+                <button onclick="openAdminModal()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black px-3 py-1 rounded text-xs font-bold flex items-center space-x-1 shadow transition">
                     <i class="fa-solid fa-lock"></i>
                     <span>एडमिन लॉगिन</span>
                 </button>
@@ -77,58 +78,58 @@
         <!-- Main Branding Bar with Custom Logo -->
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('सभी')">
-                <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:-translate-y-1 drop-shadow-sm">
-                <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-800 dark:text-gray-200 inline-flex items-center">
+                <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
+                <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white inline-flex items-center">
                     <span>NEWS</span>
-                    <span class="text-[#f59e0b] ml-1.5 flex items-center">
+                    <span class="text-amber-500 ml-1.5 flex items-center">
                         ARROW
-                        <i class="fa-solid fa-arrow-right-long text-xs sm:text-sm ml-1 text-[#f59e0b] animate-arrow-shoot"></i>
+                        <i class="fa-solid fa-arrow-right-long text-xs sm:text-sm ml-1 text-amber-500 animate-arrow-shoot"></i>
                     </span>
                 </h1>
             </div>
             
             <!-- Quick Search Bar -->
             <div class="relative w-36 sm:w-64">
-                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="खबरें खोजें..." class="w-full bg-gray-100 dark:bg-gray-700 text-xs sm:text-sm rounded-full pl-8 pr-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-red-600 dark:text-white transition">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="खबरें खोजें..." class="w-full bg-[#23272e] border border-[#343a46] text-xs sm:text-sm rounded-full pl-8 pr-3 py-1.5 focus:outline-none focus:border-amber-500 text-white placeholder-gray-400 transition">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-amber-500 text-xs"></i>
             </div>
         </div>
 
-        <!-- Breaking News Marquee -->
-        <div class="bg-red-600 text-white text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden">
-            <span class="font-bold flex items-center space-x-1 pr-3 bg-red-600 z-10 whitespace-nowrap shadow-md">
-                <i class="fa-solid fa-bolt-lightning text-yellow-300"></i>
+        <!-- Breaking News Marquee (Golden Theme) -->
+        <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-black text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden font-bold">
+            <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap">
+                <i class="fa-solid fa-bolt-lightning text-black"></i>
                 <span>ब्रेकिंग न्यूज़:</span>
             </span>
             <div class="overflow-hidden w-full relative">
-                <div id="marquee-text" class="marquee-content font-medium">News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।</div>
+                <div id="marquee-text" class="marquee-content font-bold">News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।</div>
             </div>
         </div>
 
         <!-- Category Navigation -->
-        <nav class="bg-gray-50 dark:bg-gray-800 border-b dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-none">
+        <nav class="bg-[#14161a] border-b border-[#252830] overflow-x-auto whitespace-nowrap scrollbar-none">
             <div class="container mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
-                <button onclick="filterCategory('सभी')" class="category-btn active-category px-3 py-1 rounded bg-red-600 text-white">सभी</button>
-                <button onclick="filterCategory('वाराणसी')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">वाराणसी</button>
-                <button onclick="filterCategory('देश')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">देश</button>
-                <button onclick="filterCategory('विदेश')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">विदेश</button>
-                <button onclick="filterCategory('अपराध')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">अपराध</button>
-                <button onclick="filterCategory('व्यापार')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">व्यापार</button>
-                <button onclick="filterCategory('खेल')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">खेल</button>
-                <button onclick="filterCategory('मनोरंजन')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">मनोरंजन</button>
-                <button onclick="filterCategory('तकनीक')" class="category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">तकनीक</button>
+                <button onclick="filterCategory('सभी')" class="category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow">सभी</button>
+                <button onclick="filterCategory('वाराणसी')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">वाराणसी</button>
+                <button onclick="filterCategory('देश')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">देश</button>
+                <button onclick="filterCategory('विदेश')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">विदेश</button>
+                <button onclick="filterCategory('अपराध')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">अपराध</button>
+                <button onclick="filterCategory('व्यापार')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">व्यापार</button>
+                <button onclick="filterCategory('खेल')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">खेल</button>
+                <button onclick="filterCategory('मनोरंजन')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">मनोरंजन</button>
+                <button onclick="filterCategory('तकनीक')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">तकनीक</button>
             </div>
         </nav>
     </header>
 
-    <!-- WhatsApp Channel Banner -->
-    <div class="bg-gradient-to-r from-emerald-600 to-green-700 text-white text-xs sm:text-sm py-2 px-4 shadow">
+    <!-- WhatsApp Channel Banner (Golden/Slate Premium) -->
+    <div class="bg-[#1c2026] border-b border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow">
         <div class="container mx-auto flex justify-between items-center">
-            <span class="flex items-center space-x-2 font-medium truncate">
-                <i class="fa-brands fa-whatsapp text-lg text-green-200"></i>
-                <span class="truncate">ताज़ा खबरों और वीडियो के लिए हमारे आधिकारिक <b>WhatsApp चैनल</b> से जुड़ें</span>
+            <span class="flex items-center space-x-2 font-medium truncate text-gray-300">
+                <i class="fa-brands fa-whatsapp text-lg text-emerald-400"></i>
+                <span class="truncate">ताज़ा अपडेट्स और ग्राउंड रिपोर्ट के लिए हमारे आधिकारिक <b>WhatsApp चैनल</b> से जुड़ें</span>
             </span>
-            <a href="https://whatsapp.com/channel/" target="_blank" class="bg-white text-green-700 font-bold px-3 py-1 rounded-full text-xs shadow hover:bg-green-50 transition shrink-0 ml-2">
+            <a href="https://whatsapp.com/channel/" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-black font-extrabold px-3 py-1 rounded-full text-xs shadow transition shrink-0 ml-2">
                 जुड़ें &rarr;
             </a>
         </div>
@@ -136,12 +137,12 @@
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-4 py-6 flex-grow">
-        <div class="flex justify-between items-center mb-4 border-b pb-2 dark:border-gray-700">
-            <h2 id="current-category-title" class="text-lg sm:text-xl font-bold flex items-center space-x-2">
-                <span class="w-2 h-6 bg-red-600 rounded inline-block"></span>
+        <div class="flex justify-between items-center mb-5 border-b border-[#252830] pb-2.5">
+            <h2 id="current-category-title" class="text-lg sm:text-xl font-bold flex items-center space-x-2 text-white">
+                <span class="w-2 h-6 bg-amber-500 rounded inline-block shadow-[0_0_10px_#f59e0b]"></span>
                 <span>ताज़ा समाचार</span>
             </h2>
-            <span id="news-count" class="text-xs text-gray-500">0 खबरें उपलब्ध</span>
+            <span id="news-count" class="text-xs text-gray-400 font-medium">0 खबरें उपलब्ध</span>
         </div>
 
         <!-- News Cards Grid -->
@@ -149,17 +150,17 @@
 
         <!-- No News Placeholder -->
         <div id="no-news-message" class="hidden text-center py-16">
-            <i class="fa-regular fa-newspaper text-5xl text-gray-400 mb-3"></i>
-            <p class="text-gray-500 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
+            <i class="fa-regular fa-newspaper text-5xl text-gray-500 mb-3"></i>
+            <p class="text-gray-400 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
         </div>
 
         <!-- Weather & Follow Us Widgets Section -->
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t dark:border-gray-800">
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[#252830]">
             
             <!-- Weather Card -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div class="bg-[#181a1f] rounded-xl p-5 shadow-lg border border-[#2d3239]">
                 <div class="mb-4">
-                    <span class="bg-[#e00613] text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">
+                    <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-black text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider shadow">
                         Weather
                     </span>
                 </div>
@@ -168,81 +169,81 @@
                         <div class="flex items-center space-x-3">
                             <i id="weather-icon" class="fa-solid fa-sun text-4xl text-amber-500"></i>
                             <div>
-                                <h4 class="text-xl font-extrabold text-gray-900 dark:text-gray-100">Varanasi, UP</h4>
-                                <p id="weather-desc" class="text-xs text-gray-500 dark:text-gray-400 capitalize">Clear Sky</p>
+                                <h4 class="text-xl font-extrabold text-white">Varanasi, UP</h4>
+                                <p id="weather-desc" class="text-xs text-gray-400 capitalize">Clear Sky</p>
                             </div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <span id="weather-temp" class="text-4xl font-black text-gray-900 dark:text-gray-100">23°C</span>
+                        <span id="weather-temp" class="text-4xl font-black text-amber-400">23°C</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700 text-center text-xs text-gray-600 dark:text-gray-300">
+                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-[#282d36] text-center text-xs text-gray-300">
                     <div>
-                        <span class="block text-gray-400 text-[10px]">अधिकतम/न्यूनतम</span>
-                        <span id="weather-range" class="font-bold">28° / 20°</span>
+                        <span class="block text-gray-500 text-[10px]">अधिकतम/न्यूनतम</span>
+                        <span id="weather-range" class="font-bold text-gray-200">28° / 20°</span>
                     </div>
                     <div>
-                        <span class="block text-gray-400 text-[10px]">नमी (Humidity)</span>
-                        <span id="weather-humidity" class="font-bold">65%</span>
+                        <span class="block text-gray-500 text-[10px]">नमी (Humidity)</span>
+                        <span id="weather-humidity" class="font-bold text-gray-200">65%</span>
                     </div>
                     <div>
-                        <span class="block text-gray-400 text-[10px]">हवा की गति</span>
-                        <span id="weather-wind" class="font-bold">4 km/h</span>
+                        <span class="block text-gray-500 text-[10px]">हवा की गति</span>
+                        <span id="weather-wind" class="font-bold text-gray-200">4 km/h</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Follow Us Section -->
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
-                <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
-                    <span class="text-red-600 font-extrabold text-lg">/</span>
-                    <span>Follow US</span>
-                    <span class="text-red-600 font-extrabold text-lg">/</span>
+            <!-- Follow Us Section with Followers Count -->
+            <div class="bg-[#181a1f] rounded-xl p-5 shadow-lg border border-[#2d3239]">
+                <h3 class="text-base font-bold text-white mb-4 flex items-center space-x-1.5">
+                    <span class="text-amber-500 font-black text-lg">/</span>
+                    <span class="font-extrabold tracking-wide">Follow US</span>
+                    <span class="text-amber-500 font-black text-lg">/</span>
                 </h3>
                 
                 <div class="grid grid-cols-2 gap-3 text-xs">
                     <!-- Facebook -->
-                    <a href="https://facebook.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                        <div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
-                            <i class="fa-brands fa-facebook-f text-base"></i>
+                    <a href="https://facebook.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
+                        <div class="w-9 h-9 rounded-full bg-blue-900/40 flex items-center justify-center text-blue-400 text-lg">
+                            <i class="fa-brands fa-facebook-f"></i>
                         </div>
                         <div>
-                            <span class="block font-bold text-gray-800 dark:text-gray-200">Facebook</span>
-                            <span class="text-[11px] text-gray-400">News Arrow</span>
+                            <span class="block font-black text-sm text-gray-100 leading-tight">12.5k Followers</span>
+                            <span class="text-[11px] text-gray-400 font-medium">Like</span>
                         </div>
                     </a>
 
                     <!-- Twitter / X -->
-                    <a href="https://twitter.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                        <div class="w-8 h-8 rounded-full bg-sky-50 dark:bg-sky-900/30 flex items-center justify-center text-sky-500">
-                            <i class="fa-brands fa-x-twitter text-base"></i>
+                    <a href="https://twitter.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
+                        <div class="w-9 h-9 rounded-full bg-sky-900/40 flex items-center justify-center text-sky-400 text-lg">
+                            <i class="fa-brands fa-x-twitter"></i>
                         </div>
                         <div>
-                            <span class="block font-bold text-gray-800 dark:text-gray-200">X (Twitter)</span>
-                            <span class="text-[11px] text-gray-400">Follow us</span>
+                            <span class="block font-black text-sm text-gray-100 leading-tight">1.2k Followers</span>
+                            <span class="text-[11px] text-gray-400 font-medium">Follow</span>
                         </div>
                     </a>
 
                     <!-- Instagram -->
-                    <a href="https://instagram.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                        <div class="w-8 h-8 rounded-full bg-pink-50 dark:bg-pink-900/30 flex items-center justify-center text-pink-600">
-                            <i class="fa-brands fa-instagram text-base"></i>
+                    <a href="https://instagram.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
+                        <div class="w-9 h-9 rounded-full bg-pink-900/40 flex items-center justify-center text-pink-400 text-lg">
+                            <i class="fa-brands fa-instagram"></i>
                         </div>
                         <div>
-                            <span class="block font-bold text-gray-800 dark:text-gray-200">Instagram</span>
-                            <span class="text-[11px] text-gray-400">Follow us</span>
+                            <span class="block font-black text-sm text-gray-100 leading-tight">3.8k Followers</span>
+                            <span class="text-[11px] text-gray-400 font-medium">Follow</span>
                         </div>
                     </a>
 
                     <!-- YouTube -->
-                    <a href="https://youtube.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                        <div class="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/30 flex items-center justify-center text-red-600">
-                            <i class="fa-brands fa-youtube text-base"></i>
+                    <a href="https://youtube.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
+                        <div class="w-9 h-9 rounded-full bg-red-900/40 flex items-center justify-center text-red-400 text-lg">
+                            <i class="fa-brands fa-youtube"></i>
                         </div>
                         <div>
-                            <span class="block font-bold text-gray-800 dark:text-gray-200">YouTube</span>
-                            <span class="text-[11px] text-gray-400">Subscribe</span>
+                            <span class="block font-black text-sm text-gray-100 leading-tight">5.4k Subscribers</span>
+                            <span class="text-[11px] text-gray-400 font-medium">Subscribe</span>
                         </div>
                     </a>
                 </div>
@@ -252,97 +253,101 @@
     </main>
 
     <!-- Floating WhatsApp Tip-line Button -->
-    <a href="https://api.whatsapp.com/send?phone=919999999999&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
+    <a href="https://api.whatsapp.com/send?phone=919999999999&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-[#121316] transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
         <i class="fa-brands fa-whatsapp text-xl"></i>
         <span class="text-xs font-bold hidden sm:inline">खबर भेजें</span>
     </a>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-gray-800">
+    <footer class="bg-[#0e0f12] text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-[#22252c]">
         <div class="container mx-auto px-4 text-center space-y-2">
-            <p class="font-bold text-gray-200 text-base">NEWS ARROW</p>
-            <p>सत्य, निष्पक्षता और सटीकता ही हमारी पहचान है।</p>
+            <p class="font-extrabold text-amber-500 text-base tracking-wider">NEWS ARROW</p>
+            <p class="text-gray-400">सत्य, निष्पक्षता और सटीकता ही हमारी पहचान है।</p>
             <p class="text-gray-600 pt-2">© 2026 News Arrow. सर्वाधिकार सुरक्षित।</p>
         </div>
     </footer>
 
     <!-- Admin Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
-            <h3 class="text-lg font-bold mb-4 dark:text-white flex items-center space-x-2">
-                <i class="fa-solid fa-shield-halved text-red-600"></i>
+    <div id="login-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-[#181a1f] border border-[#2d3239] rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
+            <h3 class="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved text-amber-500"></i>
                 <span>एडमिन प्रमाणीकरण</span>
             </h3>
-            <input type="password" id="admin-pass" placeholder="पासवर्ड दर्ज करें" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded mb-4 text-sm focus:outline-none focus:ring-2 focus:ring-red-600">
+            <input type="password" id="admin-pass" placeholder="पासवर्ड दर्ज करें" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded mb-4 text-sm focus:outline-none focus:border-amber-500">
             <div class="flex justify-end space-x-2">
-                <button onclick="closeAdminModal()" class="px-3 py-1.5 rounded text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">रद्द करें</button>
-                <button onclick="verifyAdmin()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm font-semibold shadow">लॉगिन</button>
+                <button onclick="closeAdminModal()" class="px-3 py-1.5 rounded text-gray-400 hover:bg-[#252830] text-sm">रद्द करें</button>
+                <button onclick="verifyAdmin()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded text-sm font-bold shadow">लॉगिन</button>
             </div>
         </div>
     </div>
 
-    <!-- Full News Reading Modal with Audio TTS & Video -->
-    <div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-0 hidden">
-        <div class="bg-white dark:bg-gray-800 w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
+    <!-- Full News Reading Modal -->
+    <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-0 hidden">
+        <div class="bg-[#181a1f] border border-[#2d3239] w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
             <div>
-                <div class="flex justify-between items-center border-b dark:border-gray-700 pb-3 mb-4">
-                    <span id="read-category" class="px-2.5 py-1 text-xs font-bold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300 uppercase tracking-wide"></span>
-                    <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
+                <div class="flex justify-between items-center border-b border-[#282d36] pb-3 mb-4">
+                    <span id="read-category" class="px-2.5 py-1 text-xs font-black rounded bg-amber-500 text-black uppercase tracking-wider shadow"></span>
+                    <button onclick="closeFullNews()" class="text-gray-400 hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
                 </div>
                 
-                <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 dark:text-white leading-snug"></h2>
+                <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 text-white leading-snug"></h2>
                 
-                <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y dark:border-gray-700 mb-4 text-xs text-gray-500 dark:text-gray-400">
+                <!-- Reporter, Date & Audio Listen Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y border-[#282d36] mb-4 text-xs text-gray-400">
                     <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
                     <div class="flex items-center space-x-2">
-                        <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1 shadow transition">
+                        <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-amber-500 hover:bg-amber-600 text-black px-3.5 py-1 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
                             <i id="tts-icon" class="fa-solid fa-volume-high"></i>
                             <span id="tts-text">खबर सुनें</span>
                         </button>
                     </div>
                 </div>
 
-                <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4">
+                <!-- Main Featured Photo -->
+                <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4 border border-[#2b3038]">
 
-                <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow">
-                    <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+                <!-- Video Embed Container -->
+                <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow border border-[#2b3038]">
+                    <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
-                <p id="read-content" class="text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line text-sm sm:text-base font-normal"></p>
+                <!-- Full News Text Content -->
+                <p id="read-content" class="text-gray-200 leading-relaxed whitespace-pre-line text-sm sm:text-base font-normal"></p>
             </div>
 
-            <div class="mt-6 pt-4 border-t dark:border-gray-700 flex justify-end">
-                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-md text-sm font-semibold">बंद करें</button>
+            <div class="mt-6 pt-4 border-t border-[#282d36] flex justify-end">
+                <button onclick="closeFullNews()" class="px-5 py-2 bg-[#252830] hover:bg-[#323642] text-amber-400 rounded-md text-sm font-bold border border-[#3a404e]">बंद करें</button>
             </div>
         </div>
     </div>
 
     <!-- Admin Panel Modal -->
-    <div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b dark:border-gray-700 pb-3 mb-4">
-                <h3 class="text-xl font-bold dark:text-white flex items-center space-x-2">
-                    <i class="fa-solid fa-gauge-high text-red-600"></i>
+    <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-[#181a1f] border border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-[#282d36] pb-3 mb-4">
+                <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-gauge-high text-amber-500"></i>
                     <span>कंटेंट मैनेजमेंट डैशबोर्ड</span>
                 </h3>
-                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <!-- News Creation Form -->
             <form onsubmit="handlePublish(event)" class="space-y-4 text-sm">
                 <div>
-                    <label class="block font-medium mb-1 dark:text-gray-200">खबर का शीर्षक (Headline)</label>
-                    <input type="text" id="news-title" required placeholder="मुख्य समाचार का शीर्षक..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                    <label class="block font-medium mb-1 text-gray-300">खबर का शीर्षक (Headline)</label>
+                    <input type="text" id="news-title" required placeholder="मुख्य समाचार का शीर्षक..." class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-medium mb-1 dark:text-gray-200">रिपोर्टर का नाम (Reporter Name)</label>
-                        <input type="text" id="news-reporter" placeholder="उदा. अभय श्रीवास्तव / वाराणसी ब्यूरो" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <label class="block font-medium mb-1 text-gray-300">रिपोर्टर का नाम (Reporter Name)</label>
+                        <input type="text" id="news-reporter" placeholder="उदा. अभय श्रीवास्तव / वाराणसी ब्यूरो" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 dark:text-gray-200">श्रेणी (Category)</label>
-                        <select id="news-category" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <label class="block font-medium mb-1 text-gray-300">श्रेणी (Category)</label>
+                        <select id="news-category" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                             <option value="वाराणसी">वाराणसी</option>
                             <option value="देश">देश</option>
                             <option value="विदेश">विदेश</option>
@@ -357,30 +362,30 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-medium mb-1 dark:text-gray-200">फ़ोटो अपलोड करें (गैलरी से)</label>
-                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                        <label class="block font-medium mb-1 text-gray-300">फ़ोटो अपलोड करें (गैलरी से)</label>
+                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-black hover:file:bg-amber-600">
                         <input type="hidden" id="news-image"> 
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 dark:text-gray-200">यूट्यूब वीडियो लिंक (वैकल्पिक)</label>
-                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <label class="block font-medium mb-1 text-gray-300">यूट्यूब वीडियो/शॉर्ट्स लिंक (वैकल्पिक)</label>
+                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... या Shorts" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-medium mb-1 dark:text-gray-200">खबर का पूरा विवरण (Details)</label>
-                    <textarea id="news-content" rows="4" required placeholder="समाचार का पूरा विवरण यहाँ लिखें..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600"></textarea>
+                    <label class="block font-medium mb-1 text-gray-300">खबर का पूरा विवरण (Details)</label>
+                    <textarea id="news-content" rows="4" required placeholder="समाचार का पूरा विवरण यहाँ लिखें..." class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500"></textarea>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="news-breaking" class="rounded text-red-600 focus:ring-red-600 h-4 w-4">
-                    <label for="news-breaking" class="text-sm font-medium dark:text-gray-200 cursor-pointer">इसे ब्रेकिंग न्यूज़ पट्टी (Marquee) में भी दिखाएं</label>
+                    <input type="checkbox" id="news-breaking" class="rounded text-amber-500 focus:ring-amber-500 h-4 w-4 bg-[#23272e] border-[#343a46]">
+                    <label for="news-breaking" class="text-sm font-medium text-gray-300 cursor-pointer">इसे ब्रेकिंग न्यूज़ पट्टी (Marquee) में भी दिखाएं</label>
                 </div>
-                <button type="submit" id="publish-btn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded shadow transition">समाचार पब्लिश करें</button>
+                <button type="submit" id="publish-btn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-2.5 rounded shadow transition">समाचार पब्लिश करें</button>
             </form>
 
             <!-- Manage Existing News -->
-            <div class="mt-8 border-t dark:border-gray-700 pt-4">
-                <h4 class="font-bold text-sm mb-3 dark:text-gray-200">मौजूदा समाचार प्रबंधित करें</h4>
+            <div class="mt-8 border-t border-[#282d36] pt-4">
+                <h4 class="font-bold text-sm mb-3 text-gray-300">मौजूदा समाचार प्रबंधित करें</h4>
                 <div id="admin-news-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
             </div>
         </div>
@@ -437,6 +442,14 @@
         }, (err) => {
             console.error("Firebase read error: ", err);
         });
+
+        // Universal YouTube URL Parser
+        function getYouTubeEmbedUrl(url) {
+            if (!url) return null;
+            const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const match = url.match(regExp);
+            return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+        }
 
         // Publish Function
         window.handlePublish = async function(e) {
@@ -502,7 +515,7 @@
             }
         };
 
-        // Render Functions (Uttam Savera Style Dark Cards)
+        // Render Functions (News Arrow Charcoal Gray & Gold Card)
         window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
@@ -520,39 +533,41 @@
                 return;
             }
 
-            if (noNews) noNews.classList.add('hidden');
+            noNews.classList.add('hidden');
 
             data.forEach(item => {
                 const card = document.createElement('article');
-                card.className = "bg-[#181a1b] text-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-200 flex flex-col border border-gray-800 cursor-pointer mb-4";
+                card.className = "bg-[#181a1f] text-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-amber-500/50 transition duration-200 flex flex-col border border-[#2d3239] cursor-pointer mb-4";
                 
                 card.onclick = (e) => {
                     if (e.target.closest('.share-btn-action')) return;
                     readFullArticle(item.id);
                 };
 
+                const hasVideo = getYouTubeEmbedUrl(item.video);
+
                 card.innerHTML = `
                     <div class="relative w-full aspect-video bg-black overflow-hidden">
                         <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
-                        ${item.video ? '<span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
+                        ${hasVideo ? '<span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
                     </div>
 
                     <div class="p-4 flex flex-col justify-between flex-grow">
                         <div>
                             <div class="mb-2.5">
-                                <span class="bg-[#e00613] text-white text-[11px] font-extrabold px-3 py-1 rounded-[3px] uppercase tracking-wider inline-block">
+                                <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-black text-[11px] font-black px-3 py-1 rounded-[4px] uppercase tracking-wider inline-block shadow">
                                     ${item.category || 'ख़बर'} NEWS
                                 </span>
                             </div>
 
-                            <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-100 hover:text-red-500 transition line-clamp-3">
+                            <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-100 hover:text-amber-400 transition line-clamp-3">
                                 ${item.title || ''}
                             </h3>
                         </div>
 
-                        <div class="pt-3 border-t border-gray-800 flex justify-between items-center text-xs text-gray-400">
+                        <div class="pt-3 border-t border-[#282d36] flex justify-between items-center text-xs text-gray-400">
                             <div class="flex items-center space-x-2">
-                                <span class="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-gray-300">
+                                <span class="w-7 h-7 rounded-full bg-[#252830] border border-amber-500/40 flex items-center justify-center text-amber-400">
                                     <i class="fa-solid fa-user text-xs"></i>
                                 </span>
                                 <span class="font-semibold text-gray-200 text-sm truncate max-w-[130px] sm:max-w-[180px]">${item.reporter || 'News Arrow'}</span>
@@ -560,10 +575,10 @@
                                 <span class="text-gray-400">${item.date || ''}</span>
                             </div>
                             <div class="flex items-center space-x-3 text-base">
-                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-red-500 transition p-1" title="शेयर करें">
+                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-amber-400 transition p-1" title="शेयर करें">
                                     <i class="fa-solid fa-share-nodes"></i>
                                 </button>
-                                <span class="text-gray-400 hover:text-white cursor-pointer">
+                                <span class="text-gray-400 hover:text-amber-400 cursor-pointer">
                                     <i class="fa-regular fa-bookmark"></i>
                                 </span>
                             </div>
@@ -583,15 +598,15 @@
             if (!list) return;
             list.innerHTML = '';
             if (newsData.length === 0) {
-                list.innerHTML = '<p class="text-xs text-gray-400">कोई खबर मौजूद नहीं है।</p>';
+                list.innerHTML = '<p class="text-xs text-gray-500">कोई खबर मौजूद नहीं है।</p>';
                 return;
             }
             newsData.forEach(item => {
                 const row = document.createElement('div');
-                row.className = "flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs";
+                row.className = "flex justify-between items-center bg-[#23272e] border border-[#343a46] p-2 rounded text-xs";
                 row.innerHTML = `
-                    <span class="truncate max-w-[80%] dark:text-gray-200 font-medium">${item.title}</span>
-                    <button onclick="deleteNews('${item.id}')" class="text-red-500 hover:text-red-700 font-bold ml-2">हटाएं</button>
+                    <span class="truncate max-w-[80%] text-gray-200 font-medium">${item.title}</span>
+                    <button onclick="deleteNews('${item.id}')" class="text-red-400 hover:text-red-500 font-bold ml-2">हटाएं</button>
                 `;
                 list.appendChild(row);
             });
@@ -614,9 +629,9 @@
             currentFilter = cat;
             document.querySelectorAll('.category-btn').forEach(btn => {
                 if (btn.innerText === cat) {
-                    btn.className = "category-btn active-category px-3 py-1 rounded bg-red-600 text-white";
+                    btn.className = "category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow";
                 } else {
-                    btn.className = "category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300";
+                    btn.className = "category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300";
                 }
             });
             const catHeader = document.getElementById('current-category-title');
@@ -667,13 +682,6 @@
             text.innerText = 'बंद करें';
         };
 
-        function getYouTubeEmbedUrl(url) {
-            if (!url) return null;
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
-        }
-
         window.readFullArticle = function(id) {
             const item = newsData.find(n => n.id == id);
             if (!item) return;
@@ -684,7 +692,7 @@
 
             document.getElementById('read-title').innerText = item.title || '';
             document.getElementById('read-category').innerText = `${item.category || 'ख़बर'} NEWS`;
-            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-800 dark:text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-red-600"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
+            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
             document.getElementById('read-image').src = item.image || '';
             
             const videoContainer = document.getElementById('read-video-container');
@@ -700,8 +708,8 @@
             }
 
             document.getElementById('read-content').innerHTML = (item.content || '')
-            .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
-            .replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
+            .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-amber-400">$1</b>')
+            .replace(/\*(.*?)\*/g, '<b class="font-bold text-amber-400">$1</b>')
             .replace(/\n/g, '<br>');
 
             document.getElementById('full-news-modal').classList.remove('hidden');
@@ -772,22 +780,9 @@
             }
         };
 
-        window.toggleDarkMode = function() {
-            document.documentElement.classList.toggle('dark');
-            const icon = document.getElementById('theme-icon');
-            if (document.documentElement.classList.contains('dark')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        };
-
         // Live Open-Meteo Weather Fetcher
         async function fetchLiveWeather() {
             try {
-                // Varanasi Coordinates
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
                 const data = await res.json();
                 
@@ -803,7 +798,6 @@
                     document.getElementById('weather-wind').innerText = `${wind} km/h`;
                     document.getElementById('weather-range').innerText = `${maxT}° / ${minT}°`;
                     
-                    // Simple description
                     const code = data.current.weather_code;
                     let desc = "Clear Sky";
                     let iconClass = "fa-solid fa-sun text-amber-500";
