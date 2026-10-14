@@ -59,15 +59,34 @@
             display: inline-block;
             animation: shootArrow 1.6s ease-in-out infinite;
         }
+        /* Uttam Savera Style Toggle Switch */
+        .toggle-switch-checkbox:checked ~ .toggle-switch-dot {
+            transform: translateX(100%);
+            background-color: #f59e0b;
+        }
+        .toggle-switch-checkbox:checked ~ .toggle-switch-bg {
+            background-color: #374151;
+        }
     </style>
 </head>
-<body class="bg-[#121316] text-gray-200 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
+<body class="bg-gray-100 text-gray-900 dark:bg-[#121316] dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
 
     <!-- Top Header -->
-    <header class="bg-[#181a1f] border-b border-[#2d3239] sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-[#252830]">
-            <div id="current-date" class="font-medium text-gray-400"></div>
+    <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-50 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
+            
             <div class="flex items-center space-x-3">
+                <!-- Uttam Savera Style Toggle Switch -->
+                <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
+                    <i id="theme-sun-icon" class="fa-regular fa-sun text-gray-500 dark:text-amber-400 text-sm"></i>
+                    <div class="relative inline-block w-8 h-4 align-middle select-none">
+                        <input type="checkbox" id="theme-toggle" class="toggle-switch-checkbox sr-only">
+                        <div class="toggle-switch-bg block w-8 h-4 bg-gray-300 rounded-full transition-colors duration-200"></div>
+                        <div class="toggle-switch-dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-200"></div>
+                    </div>
+                </div>
+
                 <button onclick="openAdminModal()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black px-3 py-1 rounded text-xs font-bold flex items-center space-x-1 shadow transition">
                     <i class="fa-solid fa-lock"></i>
                     <span>एडमिन लॉगिन</span>
@@ -79,7 +98,7 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('सभी')">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
-                <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white inline-flex items-center">
+                <h1 class="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-white inline-flex items-center">
                     <span>NEWS</span>
                     <span class="text-amber-500 ml-1.5 flex items-center">
                         ARROW
@@ -90,7 +109,7 @@
             
             <!-- Quick Search Bar -->
             <div class="relative w-36 sm:w-64">
-                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="खबरें खोजें..." class="w-full bg-[#23272e] border border-[#343a46] text-xs sm:text-sm rounded-full pl-8 pr-3 py-1.5 focus:outline-none focus:border-amber-500 text-white placeholder-gray-400 transition">
+                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="खबरें खोजें..." class="w-full bg-gray-100 dark:bg-[#23272e] border border-gray-300 dark:border-[#343a46] text-xs sm:text-sm rounded-full pl-8 pr-3 py-1.5 focus:outline-none focus:border-amber-500 text-gray-800 dark:text-white placeholder-gray-400 transition">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-amber-500 text-xs"></i>
             </div>
         </div>
@@ -107,26 +126,26 @@
         </div>
 
         <!-- Category Navigation -->
-        <nav class="bg-[#14161a] border-b border-[#252830] overflow-x-auto whitespace-nowrap scrollbar-none">
+        <nav class="bg-gray-50 dark:bg-[#14161a] border-b border-gray-200 dark:border-[#252830] overflow-x-auto whitespace-nowrap scrollbar-none">
             <div class="container mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
                 <button onclick="filterCategory('सभी')" class="category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow">सभी</button>
-                <button onclick="filterCategory('वाराणसी')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">वाराणसी</button>
-                <button onclick="filterCategory('देश')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">देश</button>
-                <button onclick="filterCategory('विदेश')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">विदेश</button>
-                <button onclick="filterCategory('अपराध')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">अपराध</button>
-                <button onclick="filterCategory('व्यापार')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">व्यापार</button>
-                <button onclick="filterCategory('खेल')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">खेल</button>
-                <button onclick="filterCategory('मनोरंजन')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">मनोरंजन</button>
-                <button onclick="filterCategory('तकनीक')" class="category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300">तकनीक</button>
+                <button onclick="filterCategory('वाराणसी')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">वाराणसी</button>
+                <button onclick="filterCategory('देश')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">देश</button>
+                <button onclick="filterCategory('विदेश')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">विदेश</button>
+                <button onclick="filterCategory('अपराध')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">अपराध</button>
+                <button onclick="filterCategory('व्यापार')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">व्यापार</button>
+                <button onclick="filterCategory('खेल')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">खेल</button>
+                <button onclick="filterCategory('मनोरंजन')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">मनोरंजन</button>
+                <button onclick="filterCategory('तकनीक')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">तकनीक</button>
             </div>
         </nav>
     </header>
 
-    <!-- WhatsApp Channel Banner (Golden/Slate Premium) -->
-    <div class="bg-[#1c2026] border-b border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow">
+    <!-- WhatsApp Channel Banner -->
+    <div class="bg-white dark:bg-[#1c2026] border-b border-gray-200 dark:border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow-sm">
         <div class="container mx-auto flex justify-between items-center">
-            <span class="flex items-center space-x-2 font-medium truncate text-gray-300">
-                <i class="fa-brands fa-whatsapp text-lg text-emerald-400"></i>
+            <span class="flex items-center space-x-2 font-medium truncate text-gray-700 dark:text-gray-300">
+                <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
                 <span class="truncate">ताज़ा अपडेट्स और ग्राउंड रिपोर्ट के लिए हमारे आधिकारिक <b>WhatsApp चैनल</b> से जुड़ें</span>
             </span>
             <a href="https://whatsapp.com/channel/" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-black font-extrabold px-3 py-1 rounded-full text-xs shadow transition shrink-0 ml-2">
@@ -137,12 +156,12 @@
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-4 py-6 flex-grow">
-        <div class="flex justify-between items-center mb-5 border-b border-[#252830] pb-2.5">
-            <h2 id="current-category-title" class="text-lg sm:text-xl font-bold flex items-center space-x-2 text-white">
+        <div class="flex justify-between items-center mb-5 border-b border-gray-200 dark:border-[#252830] pb-2.5">
+            <h2 id="current-category-title" class="text-lg sm:text-xl font-bold flex items-center space-x-2 text-gray-900 dark:text-white">
                 <span class="w-2 h-6 bg-amber-500 rounded inline-block shadow-[0_0_10px_#f59e0b]"></span>
                 <span>ताज़ा समाचार</span>
             </h2>
-            <span id="news-count" class="text-xs text-gray-400 font-medium">0 खबरें उपलब्ध</span>
+            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 खबरें उपलब्ध</span>
         </div>
 
         <!-- News Cards Grid -->
@@ -150,15 +169,15 @@
 
         <!-- No News Placeholder -->
         <div id="no-news-message" class="hidden text-center py-16">
-            <i class="fa-regular fa-newspaper text-5xl text-gray-500 mb-3"></i>
-            <p class="text-gray-400 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
+            <i class="fa-regular fa-newspaper text-5xl text-gray-400 dark:text-gray-500 mb-3"></i>
+            <p class="text-gray-500 dark:text-gray-400 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
         </div>
 
         <!-- Weather & Follow Us Widgets Section -->
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-[#252830]">
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-200 dark:border-[#252830]">
             
             <!-- Weather Card -->
-            <div class="bg-[#181a1f] rounded-xl p-5 shadow-lg border border-[#2d3239]">
+            <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239]">
                 <div class="mb-4">
                     <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-black text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider shadow">
                         Weather
@@ -169,81 +188,59 @@
                         <div class="flex items-center space-x-3">
                             <i id="weather-icon" class="fa-solid fa-sun text-4xl text-amber-500"></i>
                             <div>
-                                <h4 class="text-xl font-extrabold text-white">Varanasi, UP</h4>
-                                <p id="weather-desc" class="text-xs text-gray-400 capitalize">Clear Sky</p>
+                                <h4 class="text-xl font-extrabold text-gray-900 dark:text-white">Varanasi, UP</h4>
+                                <p id="weather-desc" class="text-xs text-gray-500 dark:text-gray-400 capitalize">Clear Sky</p>
                             </div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <span id="weather-temp" class="text-4xl font-black text-amber-400">23°C</span>
+                        <span id="weather-temp" class="text-4xl font-black text-amber-500 dark:text-amber-400">23°C</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-[#282d36] text-center text-xs text-gray-300">
+                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-[#282d36] text-center text-xs text-gray-600 dark:text-gray-300">
                     <div>
-                        <span class="block text-gray-500 text-[10px]">अधिकतम/न्यूनतम</span>
-                        <span id="weather-range" class="font-bold text-gray-200">28° / 20°</span>
+                        <span class="block text-gray-400 dark:text-gray-500 text-[10px]">अधिकतम/न्यूनतम</span>
+                        <span id="weather-range" class="font-bold text-gray-800 dark:text-gray-200">28° / 20°</span>
                     </div>
                     <div>
-                        <span class="block text-gray-500 text-[10px]">नमी (Humidity)</span>
-                        <span id="weather-humidity" class="font-bold text-gray-200">65%</span>
+                        <span class="block text-gray-400 dark:text-gray-500 text-[10px]">नमी (Humidity)</span>
+                        <span id="weather-humidity" class="font-bold text-gray-800 dark:text-gray-200">65%</span>
                     </div>
                     <div>
-                        <span class="block text-gray-500 text-[10px]">हवा की गति</span>
-                        <span id="weather-wind" class="font-bold text-gray-200">4 km/h</span>
+                        <span class="block text-gray-400 dark:text-gray-500 text-[10px]">हवा की गति</span>
+                        <span id="weather-wind" class="font-bold text-gray-800 dark:text-gray-200">4 km/h</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Follow Us Section with Followers Count -->
-            <div class="bg-[#181a1f] rounded-xl p-5 shadow-lg border border-[#2d3239]">
-                <h3 class="text-base font-bold text-white mb-4 flex items-center space-x-1.5">
+            <!-- Follow Us Section: Original Facebook & Instagram Links -->
+            <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239]">
+                <h3 class="text-base font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-1.5">
                     <span class="text-amber-500 font-black text-lg">/</span>
                     <span class="font-extrabold tracking-wide">Follow US</span>
                     <span class="text-amber-500 font-black text-lg">/</span>
                 </h3>
                 
-                <div class="grid grid-cols-2 gap-3 text-xs">
-                    <!-- Facebook -->
-                    <a href="https://facebook.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
-                        <div class="w-9 h-9 rounded-full bg-blue-900/40 flex items-center justify-center text-blue-400 text-lg">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+                    <!-- Facebook: Original Link -->
+                    <a href="https://www.facebook.com/share/1SSVChhkT5/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 p-3.5 rounded-lg border border-gray-200 dark:border-[#2b3038] bg-gray-50 dark:bg-[#14161a] hover:border-amber-500 transition group shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl group-hover:scale-105 transition">
                             <i class="fa-brands fa-facebook-f"></i>
                         </div>
                         <div>
-                            <span class="block font-black text-sm text-gray-100 leading-tight">12.5k Followers</span>
-                            <span class="text-[11px] text-gray-400 font-medium">Like</span>
+                            <span class="block font-black text-sm text-gray-900 dark:text-gray-100 leading-tight">Follow on Facebook</span>
+                            <span class="text-xs text-blue-600 dark:text-blue-400 font-bold">Facebook Page &rarr;</span>
                         </div>
                     </a>
 
-                    <!-- Twitter / X -->
-                    <a href="https://twitter.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
-                        <div class="w-9 h-9 rounded-full bg-sky-900/40 flex items-center justify-center text-sky-400 text-lg">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </div>
-                        <div>
-                            <span class="block font-black text-sm text-gray-100 leading-tight">1.2k Followers</span>
-                            <span class="text-[11px] text-gray-400 font-medium">Follow</span>
-                        </div>
-                    </a>
-
-                    <!-- Instagram -->
-                    <a href="https://instagram.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
-                        <div class="w-9 h-9 rounded-full bg-pink-900/40 flex items-center justify-center text-pink-400 text-lg">
+                    <!-- Instagram: Original Link -->
+                    <a href="https://instagram.com/navkashi14?exln=YXlxcmR5bGY3a2s3" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 p-3.5 rounded-lg border border-gray-200 dark:border-[#2b3038] bg-gray-50 dark:bg-[#14161a] hover:border-amber-500 transition group shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center text-pink-600 dark:text-pink-400 text-xl group-hover:scale-105 transition">
                             <i class="fa-brands fa-instagram"></i>
                         </div>
                         <div>
-                            <span class="block font-black text-sm text-gray-100 leading-tight">3.8k Followers</span>
-                            <span class="text-[11px] text-gray-400 font-medium">Follow</span>
-                        </div>
-                    </a>
-
-                    <!-- YouTube -->
-                    <a href="https://youtube.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-[#2b3038] bg-[#14161a] hover:border-amber-500/60 transition">
-                        <div class="w-9 h-9 rounded-full bg-red-900/40 flex items-center justify-center text-red-400 text-lg">
-                            <i class="fa-brands fa-youtube"></i>
-                        </div>
-                        <div>
-                            <span class="block font-black text-sm text-gray-100 leading-tight">5.4k Subscribers</span>
-                            <span class="text-[11px] text-gray-400 font-medium">Subscribe</span>
+                            <span class="block font-black text-sm text-gray-900 dark:text-gray-100 leading-tight">Follow on Instagram</span>
+                            <span class="text-xs text-pink-600 dark:text-pink-400 font-bold">@navkashi14 &rarr;</span>
                         </div>
                     </a>
                 </div>
@@ -253,13 +250,13 @@
     </main>
 
     <!-- Floating WhatsApp Tip-line Button -->
-    <a href="https://api.whatsapp.com/send?phone=919999999999&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-[#121316] transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
+    <a href="https://api.whatsapp.com/send?phone=919999999999&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white dark:border-[#121316] transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
         <i class="fa-brands fa-whatsapp text-xl"></i>
         <span class="text-xs font-bold hidden sm:inline">खबर भेजें</span>
     </a>
 
     <!-- Footer -->
-    <footer class="bg-[#0e0f12] text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-[#22252c]">
+    <footer class="bg-gray-900 dark:bg-[#0e0f12] text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-gray-800 dark:border-[#22252c]">
         <div class="container mx-auto px-4 text-center space-y-2">
             <p class="font-extrabold text-amber-500 text-base tracking-wider">NEWS ARROW</p>
             <p class="text-gray-400">सत्य, निष्पक्षता और सटीकता ही हमारी पहचान है।</p>
@@ -269,14 +266,14 @@
 
     <!-- Admin Login Modal -->
     <div id="login-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-[#181a1f] border border-[#2d3239] rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
-            <h3 class="text-lg font-bold mb-4 text-white flex items-center space-x-2">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
+            <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center space-x-2">
                 <i class="fa-solid fa-shield-halved text-amber-500"></i>
                 <span>एडमिन प्रमाणीकरण</span>
             </h3>
-            <input type="password" id="admin-pass" placeholder="पासवर्ड दर्ज करें" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded mb-4 text-sm focus:outline-none focus:border-amber-500">
+            <input type="password" id="admin-pass" placeholder="पासवर्ड दर्ज करें" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded mb-4 text-sm focus:outline-none focus:border-amber-500">
             <div class="flex justify-end space-x-2">
-                <button onclick="closeAdminModal()" class="px-3 py-1.5 rounded text-gray-400 hover:bg-[#252830] text-sm">रद्द करें</button>
+                <button onclick="closeAdminModal()" class="px-3 py-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#252830] text-sm">रद्द करें</button>
                 <button onclick="verifyAdmin()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded text-sm font-bold shadow">लॉगिन</button>
             </div>
         </div>
@@ -284,17 +281,17 @@
 
     <!-- Full News Reading Modal -->
     <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-0 hidden">
-        <div class="bg-[#181a1f] border border-[#2d3239] w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
             <div>
-                <div class="flex justify-between items-center border-b border-[#282d36] pb-3 mb-4">
+                <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
                     <span id="read-category" class="px-2.5 py-1 text-xs font-black rounded bg-amber-500 text-black uppercase tracking-wider shadow"></span>
-                    <button onclick="closeFullNews()" class="text-gray-400 hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
+                    <button onclick="closeFullNews()" class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
                 </div>
                 
-                <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 text-white leading-snug"></h2>
+                <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 text-gray-900 dark:text-white leading-snug"></h2>
                 
                 <!-- Reporter, Date & Audio Listen Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y border-[#282d36] mb-4 text-xs text-gray-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y border-gray-200 dark:border-[#282d36] mb-4 text-xs text-gray-500 dark:text-gray-400">
                     <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
                     <div class="flex items-center space-x-2">
                         <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-amber-500 hover:bg-amber-600 text-black px-3.5 py-1 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
@@ -305,7 +302,7 @@
                 </div>
 
                 <!-- Main Featured Photo -->
-                <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4 border border-[#2b3038]">
+                <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4 border border-gray-200 dark:border-[#2b3038]">
 
                 <!-- Video Embed Container -->
                 <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow border border-[#2b3038]">
@@ -313,41 +310,41 @@
                 </div>
 
                 <!-- Full News Text Content -->
-                <p id="read-content" class="text-gray-200 leading-relaxed whitespace-pre-line text-sm sm:text-base font-normal"></p>
+                <p id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-line text-sm sm:text-base font-normal"></p>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-[#282d36] flex justify-end">
-                <button onclick="closeFullNews()" class="px-5 py-2 bg-[#252830] hover:bg-[#323642] text-amber-400 rounded-md text-sm font-bold border border-[#3a404e]">बंद करें</button>
+            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
+                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-md text-sm font-bold border border-gray-300 dark:border-[#3a404e]">बंद करें</button>
             </div>
         </div>
     </div>
 
     <!-- Admin Panel Modal -->
     <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-[#181a1f] border border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-[#282d36] pb-3 mb-4">
-                <h3 class="text-xl font-bold text-white flex items-center space-x-2">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                     <i class="fa-solid fa-gauge-high text-amber-500"></i>
                     <span>कंटेंट मैनेजमेंट डैशबोर्ड</span>
                 </h3>
-                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-black dark:hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <!-- News Creation Form -->
             <form onsubmit="handlePublish(event)" class="space-y-4 text-sm">
                 <div>
-                    <label class="block font-medium mb-1 text-gray-300">खबर का शीर्षक (Headline)</label>
-                    <input type="text" id="news-title" required placeholder="मुख्य समाचार का शीर्षक..." class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                    <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">खबर का शीर्षक (Headline)</label>
+                    <input type="text" id="news-title" required placeholder="मुख्य समाचार का शीर्षक..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                 </div>
                 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-medium mb-1 text-gray-300">रिपोर्टर का नाम (Reporter Name)</label>
-                        <input type="text" id="news-reporter" placeholder="उदा. अभय श्रीवास्तव / वाराणसी ब्यूरो" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">रिपोर्टर का नाम (Reporter Name)</label>
+                        <input type="text" id="news-reporter" placeholder="उदा. अभय श्रीवास्तव / वाराणसी ब्यूरो" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 text-gray-300">श्रेणी (Category)</label>
-                        <select id="news-category" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">श्रेणी (Category)</label>
+                        <select id="news-category" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                             <option value="वाराणसी">वाराणसी</option>
                             <option value="देश">देश</option>
                             <option value="विदेश">विदेश</option>
@@ -362,30 +359,30 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-medium mb-1 text-gray-300">फ़ोटो अपलोड करें (गैलरी से)</label>
-                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-black hover:file:bg-amber-600">
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">फ़ोटो अपलोड करें (गैलरी से)</label>
+                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-black hover:file:bg-amber-600">
                         <input type="hidden" id="news-image"> 
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 text-gray-300">यूट्यूब वीडियो/शॉर्ट्स लिंक (वैकल्पिक)</label>
-                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... या Shorts" class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">यूट्यूब वीडियो/शॉर्ट्स लिंक (वैकल्पिक)</label>
+                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... या Shorts" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-medium mb-1 text-gray-300">खबर का पूरा विवरण (Details)</label>
-                    <textarea id="news-content" rows="4" required placeholder="समाचार का पूरा विवरण यहाँ लिखें..." class="w-full border border-[#343a46] bg-[#23272e] text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500"></textarea>
+                    <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">खबर का पूरा विवरण (Details)</label>
+                    <textarea id="news-content" rows="4" required placeholder="समाचार का पूरा विवरण यहाँ लिखें..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500"></textarea>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="news-breaking" class="rounded text-amber-500 focus:ring-amber-500 h-4 w-4 bg-[#23272e] border-[#343a46]">
-                    <label for="news-breaking" class="text-sm font-medium text-gray-300 cursor-pointer">इसे ब्रेकिंग न्यूज़ पट्टी (Marquee) में भी दिखाएं</label>
+                    <input type="checkbox" id="news-breaking" class="rounded text-amber-500 focus:ring-amber-500 h-4 w-4 bg-gray-50 dark:bg-[#23272e] border-gray-300 dark:border-[#343a46]">
+                    <label for="news-breaking" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">इसे ब्रेकिंग न्यूज़ पट्टी (Marquee) में भी दिखाएं</label>
                 </div>
                 <button type="submit" id="publish-btn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-2.5 rounded shadow transition">समाचार पब्लिश करें</button>
             </form>
 
             <!-- Manage Existing News -->
-            <div class="mt-8 border-t border-[#282d36] pt-4">
-                <h4 class="font-bold text-sm mb-3 text-gray-300">मौजूदा समाचार प्रबंधित करें</h4>
+            <div class="mt-8 border-t border-gray-200 dark:border-[#282d36] pt-4">
+                <h4 class="font-bold text-sm mb-3 text-gray-800 dark:text-gray-300">मौजूदा समाचार प्रबंधित करें</h4>
                 <div id="admin-news-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
             </div>
         </div>
@@ -515,7 +512,7 @@
             }
         };
 
-        // Render Functions (News Arrow Charcoal Gray & Gold Card)
+        // Render Functions (News Arrow Card)
         window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
@@ -537,7 +534,7 @@
 
             data.forEach(item => {
                 const card = document.createElement('article');
-                card.className = "bg-[#181a1f] text-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:border-amber-500/50 transition duration-200 flex flex-col border border-[#2d3239] cursor-pointer mb-4";
+                card.className = "bg-white dark:bg-[#181a1f] text-gray-900 dark:text-white rounded-xl overflow-hidden shadow-sm dark:shadow-lg hover:shadow-md dark:hover:shadow-2xl hover:border-amber-500/50 transition duration-200 flex flex-col border border-gray-200 dark:border-[#2d3239] cursor-pointer mb-4";
                 
                 card.onclick = (e) => {
                     if (e.target.closest('.share-btn-action')) return;
@@ -560,25 +557,25 @@
                                 </span>
                             </div>
 
-                            <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-100 hover:text-amber-400 transition line-clamp-3">
+                            <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-900 dark:text-gray-100 hover:text-amber-500 transition line-clamp-3">
                                 ${item.title || ''}
                             </h3>
                         </div>
 
-                        <div class="pt-3 border-t border-[#282d36] flex justify-between items-center text-xs text-gray-400">
+                        <div class="pt-3 border-t border-gray-100 dark:border-[#282d36] flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
                             <div class="flex items-center space-x-2">
-                                <span class="w-7 h-7 rounded-full bg-[#252830] border border-amber-500/40 flex items-center justify-center text-amber-400">
+                                <span class="w-7 h-7 rounded-full bg-gray-100 dark:bg-[#252830] border border-gray-300 dark:border-amber-500/40 flex items-center justify-center text-amber-500">
                                     <i class="fa-solid fa-user text-xs"></i>
                                 </span>
-                                <span class="font-semibold text-gray-200 text-sm truncate max-w-[130px] sm:max-w-[180px]">${item.reporter || 'News Arrow'}</span>
-                                <span class="text-gray-500">•</span>
-                                <span class="text-gray-400">${item.date || ''}</span>
+                                <span class="font-semibold text-gray-800 dark:text-gray-200 text-sm truncate max-w-[130px] sm:max-w-[180px]">${item.reporter || 'News Arrow'}</span>
+                                <span class="text-gray-400 dark:text-gray-500">•</span>
+                                <span class="text-gray-500 dark:text-gray-400">${item.date || ''}</span>
                             </div>
                             <div class="flex items-center space-x-3 text-base">
-                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-amber-400 transition p-1" title="शेयर करें">
+                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-amber-500 transition p-1" title="शेयर करें">
                                     <i class="fa-solid fa-share-nodes"></i>
                                 </button>
-                                <span class="text-gray-400 hover:text-amber-400 cursor-pointer">
+                                <span class="text-gray-400 hover:text-amber-500 cursor-pointer">
                                     <i class="fa-regular fa-bookmark"></i>
                                 </span>
                             </div>
@@ -603,10 +600,10 @@
             }
             newsData.forEach(item => {
                 const row = document.createElement('div');
-                row.className = "flex justify-between items-center bg-[#23272e] border border-[#343a46] p-2 rounded text-xs";
+                row.className = "flex justify-between items-center bg-gray-50 dark:bg-[#23272e] border border-gray-200 dark:border-[#343a46] p-2 rounded text-xs";
                 row.innerHTML = `
-                    <span class="truncate max-w-[80%] text-gray-200 font-medium">${item.title}</span>
-                    <button onclick="deleteNews('${item.id}')" class="text-red-400 hover:text-red-500 font-bold ml-2">हटाएं</button>
+                    <span class="truncate max-w-[80%] text-gray-800 dark:text-gray-200 font-medium">${item.title}</span>
+                    <button onclick="deleteNews('${item.id}')" class="text-red-500 hover:text-red-700 font-bold ml-2">हटाएं</button>
                 `;
                 list.appendChild(row);
             });
@@ -631,7 +628,7 @@
                 if (btn.innerText === cat) {
                     btn.className = "category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow";
                 } else {
-                    btn.className = "category-btn px-3.5 py-1 rounded hover:bg-[#252830] text-gray-300";
+                    btn.className = "category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300";
                 }
             });
             const catHeader = document.getElementById('current-category-title');
@@ -692,7 +689,7 @@
 
             document.getElementById('read-title').innerText = item.title || '';
             document.getElementById('read-category').innerText = `${item.category || 'ख़बर'} NEWS`;
-            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
+            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-800 dark:text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
             document.getElementById('read-image').src = item.image || '';
             
             const videoContainer = document.getElementById('read-video-container');
@@ -708,8 +705,8 @@
             }
 
             document.getElementById('read-content').innerHTML = (item.content || '')
-            .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-amber-400">$1</b>')
-            .replace(/\*(.*?)\*/g, '<b class="font-bold text-amber-400">$1</b>')
+            .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-amber-600 dark:text-amber-400">$1</b>')
+            .replace(/\*(.*?)\*/g, '<b class="font-bold text-amber-600 dark:text-amber-400">$1</b>')
             .replace(/\n/g, '<br>');
 
             document.getElementById('full-news-modal').classList.remove('hidden');
@@ -779,6 +776,39 @@
                 alert('गलत पासवर्ड!');
             }
         };
+
+        // Theme Toggle Switch (Uttam Savera Style)
+        window.toggleThemeMode = function() {
+            const html = document.documentElement;
+            const toggleInput = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-sun-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                toggleInput.checked = false;
+                sunIcon.className = "fa-solid fa-sun text-amber-500 text-sm";
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                toggleInput.checked = true;
+                sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
+                localStorage.setItem('theme', 'dark');
+            }
+        };
+
+        // Initialize Theme from localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const toggleInput = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('theme-sun-icon');
+        if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            if (toggleInput) toggleInput.checked = false;
+            if (sunIcon) sunIcon.className = "fa-solid fa-sun text-amber-500 text-sm";
+        } else {
+            document.documentElement.classList.add('dark');
+            if (toggleInput) toggleInput.checked = true;
+            if (sunIcon) sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
+        }
 
         // Live Open-Meteo Weather Fetcher
         async function fetchLiveWeather() {
