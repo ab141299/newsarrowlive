@@ -173,9 +173,7 @@
                 </h3>
                 <span class="text-xs text-amber-500 font-bold flex items-center">स्क्रॉल करें &rarr;</span>
             </div>
-            <div id="video-feed-container" class="flex space-x-4 overflow-x-auto no-scrollbar py-2">
-                <!-- Injected automatically from posts having video -->
-            </div>
+            <div id="video-feed-container" class="flex space-x-4 overflow-x-auto no-scrollbar py-2"></div>
         </div>
 
         <!-- News Header -->
@@ -196,7 +194,7 @@
             <p class="text-gray-500 dark:text-gray-400 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
         </div>
 
-        <!-- Widgets Section: Weather, Social Media & Public Poll -->
+        <!-- Widgets Section: Weather, 100% Real Live Poll & Social Media -->
         <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-200 dark:border-[#252830]">
             
             <!-- 1. Weather Card -->
@@ -238,25 +236,25 @@
                 </div>
             </div>
 
-            <!-- 2. Janta Ki Aawaz (Public Opinion Poll) -->
+            <!-- 2. Janta Ki Aawaz (Real-time Firebase Live Poll) -->
             <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
                 <div>
                     <div class="mb-3 flex justify-between items-center">
                         <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">जनता की आवाज़</span>
-                        <span class="text-[11px] text-gray-400">दैनिक पोल</span>
+                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>लाइव पोल</span>
                     </div>
                     <h4 class="text-sm font-extrabold text-gray-900 dark:text-white mb-4 leading-snug">
                         क्या वाराणसी में हालिया विकास कार्यों और सुंदरीकरण से पर्यटन और रोज़गार बढ़ा है?
                     </h4>
                     
                     <div id="poll-actions" class="space-y-2">
-                        <button onclick="votePoll('yes')" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
+                        <button onclick="votePoll('yes')" id="btn-vote-yes" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
                             <span>👍 हाँ, काफ़ी सुधार हुआ है</span>
-                            <span class="text-amber-500">वोट दें</span>
+                            <span class="text-amber-500 font-black">वोट दें</span>
                         </button>
-                        <button onclick="votePoll('no')" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
+                        <button onclick="votePoll('no')" id="btn-vote-no" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
                             <span>👎 नहीं, अभी और काम बाकी है</span>
-                            <span class="text-amber-500">वोट दें</span>
+                            <span class="text-amber-500 font-black">वोट दें</span>
                         </button>
                     </div>
 
@@ -265,25 +263,25 @@
                         <div>
                             <div class="flex justify-between font-bold mb-1">
                                 <span>हाँ (सहमति)</span>
-                                <span id="poll-yes-pct">82%</span>
+                                <span id="poll-yes-pct">0%</span>
                             </div>
-                            <div class="w-full bg-gray-200 dark:bg-[#252830] h-2 rounded-full overflow-hidden">
-                                <div id="poll-yes-bar" class="bg-amber-500 h-full rounded-full" style="width: 82%"></div>
+                            <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
+                                <div id="poll-yes-bar" class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                             </div>
                         </div>
                         <div>
                             <div class="flex justify-between font-bold mb-1">
                                 <span>नहीं (असहमत)</span>
-                                <span id="poll-no-pct">18%</span>
+                                <span id="poll-no-pct">0%</span>
                             </div>
-                            <div class="w-full bg-gray-200 dark:bg-[#252830] h-2 rounded-full overflow-hidden">
-                                <div id="poll-no-bar" class="bg-gray-400 h-full rounded-full" style="width: 18%"></div>
+                            <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
+                                <div id="poll-no-bar" class="bg-gray-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <p class="text-[10px] text-gray-400 mt-4 pt-2 border-t border-gray-100 dark:border-[#282d36] text-center">
-                    कुल मत: <span id="total-votes" class="font-bold text-amber-500">1,428</span> पाठकों ने भाग लिया
+                    कुल लाइव मत: <span id="total-votes" class="font-bold text-amber-500">0</span> पाठकों ने भाग लिया
                 </p>
             </div>
 
@@ -476,6 +474,9 @@
             addDoc, 
             deleteDoc, 
             doc, 
+            setDoc, 
+            updateDoc, 
+            increment, 
             query, 
             orderBy, 
             onSnapshot, 
@@ -498,7 +499,7 @@
         let newsData = [];
         let currentFilter = 'सभी';
 
-        // Listen for Realtime News from Firebase
+        // 1. Listen for Realtime News from Firebase
         const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
             newsData = [];
@@ -519,6 +520,81 @@
         }, (err) => {
             console.error("Firebase read error: ", err);
         });
+
+        // 2. Real-time Firebase Poll Setup
+        const pollDocRef = doc(db, "polls", "current_poll");
+        let pollData = { yes: 0, no: 0 };
+
+        onSnapshot(pollDocRef, (snap) => {
+            if (snap.exists()) {
+                pollData = snap.data();
+                updatePollUI(pollData);
+            } else {
+                setDoc(pollDocRef, { yes: 0, no: 0, question: "पर्यटन और रोज़गार" });
+            }
+        }, (err) => {
+            console.error("Poll read error: ", err);
+        });
+
+        function updatePollUI(data) {
+            const yesVotes = data.yes || 0;
+            const noVotes = data.no || 0;
+            const total = yesVotes + noVotes;
+
+            const yesPct = total > 0 ? Math.round((yesVotes / total) * 100) : 0;
+            const noPct = total > 0 ? (100 - yesPct) : 0;
+
+            document.getElementById('poll-yes-pct').innerText = `${yesPct}%`;
+            document.getElementById('poll-no-pct').innerText = `${noPct}%`;
+            document.getElementById('poll-yes-bar').style.width = `${yesPct}%`;
+            document.getElementById('poll-no-bar').style.width = `${noPct}%`;
+            document.getElementById('total-votes').innerText = total.toLocaleString('hi-IN');
+        }
+
+        // Live Vote Submission Function
+        window.votePoll = async function(choice) {
+            if (localStorage.getItem('newsarrow_has_voted') === 'true') {
+                alert('आप पहले ही अपना मत दर्ज कर चुके हैं!');
+                return;
+            }
+
+            const btnYes = document.getElementById('btn-vote-yes');
+            const btnNo = document.getElementById('btn-vote-no');
+            if (btnYes) btnYes.disabled = true;
+            if (btnNo) btnNo.disabled = true;
+
+            try {
+                if (choice === 'yes') {
+                    await updateDoc(pollDocRef, { yes: increment(1) });
+                } else {
+                    await updateDoc(pollDocRef, { no: increment(1) });
+                }
+
+                localStorage.setItem('newsarrow_has_voted', 'true');
+                document.getElementById('poll-actions').classList.add('hidden');
+                document.getElementById('poll-result').classList.remove('hidden');
+                alert('धन्यवाद! आपका मत सफलतापूर्वक Firebase में दर्ज हो गया है।');
+            } catch (err) {
+                console.error("Poll vote error:", err);
+                await setDoc(pollDocRef, {
+                    yes: choice === 'yes' ? 1 : 0,
+                    no: choice === 'no' ? 1 : 0
+                }, { merge: true });
+                localStorage.setItem('newsarrow_has_voted', 'true');
+                document.getElementById('poll-actions').classList.add('hidden');
+                document.getElementById('poll-result').classList.remove('hidden');
+            }
+        };
+
+        // Check if user already voted on this device
+        if (localStorage.getItem('newsarrow_has_voted') === 'true') {
+            const actions = document.getElementById('poll-actions');
+            const result = document.getElementById('poll-result');
+            if (actions && result) {
+                actions.classList.add('hidden');
+                result.classList.remove('hidden');
+            }
+        }
 
         // Universal YouTube URL Parser
         function getYouTubeEmbedUrl(url) {
@@ -840,7 +916,7 @@
 
             document.getElementById('read-content').innerHTML = (item.content || '')
             .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-amber-600 dark:text-amber-400">$1</b>')
-            .replace(/\*(.*?)\*/g, '<b class="font-bold text-amber-600 dark:text-amber-400">$1</b>')
+            .replace(/\*(.*?)\*\*/g, '<b class="font-bold text-amber-600 dark:text-amber-400">$1</b>')
             .replace(/\n/g, '<br>');
 
             document.getElementById('full-news-modal').classList.remove('hidden');
@@ -891,25 +967,6 @@
 
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
         };
-
-        // Poll Voting Function
-        window.votePoll = function(choice) {
-            localStorage.setItem('has_voted_poll', 'true');
-            document.getElementById('poll-actions').classList.add('hidden');
-            document.getElementById('poll-result').classList.remove('hidden');
-            const total = document.getElementById('total-votes');
-            if (total) total.innerText = '1,429';
-            alert('आपका कीमती मत दर्ज कर लिया गया है!');
-        };
-
-        if (localStorage.getItem('has_voted_poll') === 'true') {
-            const actions = document.getElementById('poll-actions');
-            const result = document.getElementById('poll-result');
-            if (actions && result) {
-                actions.classList.add('hidden');
-                result.classList.remove('hidden');
-            }
-        }
 
         window.openAdminModal = function() { document.getElementById('login-modal').classList.remove('hidden'); };
         window.closeAdminModal = function() { document.getElementById('login-modal').classList.add('hidden'); };
