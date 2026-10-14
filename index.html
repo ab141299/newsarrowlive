@@ -351,45 +351,27 @@
         };
 
         // Render Functions
-                window.renderNews = function(filteredData = null) {
+                        window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
             const countLabel = document.getElementById('news-count');
             
+            if (!container) return;
+
             let data = filteredData || (currentFilter === 'सभी' ? newsData : newsData.filter(item => item.category === currentFilter));
             
             container.innerHTML = '';
-            countLabel.innerText = `${data.length} खबरें उपलब्ध`;
+            if (countLabel) countLabel.innerText = `${data.length} खबरें उपलब्ध`;
 
-            if (data.length === 0) {
-                noNews.classList.remove('hidden');
+            if (!data || data.length === 0) {
+                if (noNews) noNews.classList.remove('hidden');
                 return;
             }
 
-            noNews.classList.add('hidden');
+            if (noNews) noNews.classList.add('hidden');
 
             data.forEach(item => {
                 const card = document.createElement('article');
-        window.renderNews = function(filteredData = null) {
-            const container = document.getElementById('news-container');
-            const noNews = document.getElementById('no-news-message');
-            const countLabel = document.getElementById('news-count');
-            
-            let data = filteredData || (currentFilter === 'सभी' ? newsData : newsData.filter(item => item.category === currentFilter));
-            
-            container.innerHTML = '';
-            countLabel.innerText = `${data.length} खबरें उपलब्ध`;
-
-            if (data.length === 0) {
-                noNews.classList.remove('hidden');
-                return;
-            }
-
-            noNews.classList.add('hidden');
-
-            data.forEach(item => {
-                const card = document.createElement('article');
-                // उत्तम सवेरा जैसा डार्क/प्रीमियम कार्ड
                 card.className = "bg-[#181a1b] text-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-200 flex flex-col border border-gray-800 cursor-pointer mb-4";
                 
                 card.onclick = (e) => {
@@ -397,29 +379,26 @@
                     readFullArticle(item.id);
                 };
 
+                const cleanContent = item.content ? item.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>') : '';
+
                 card.innerHTML = `
-                    <!-- 1. बड़ी 16:9 फ़ोटो -->
                     <div class="relative w-full aspect-video bg-black overflow-hidden">
-                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
                     </div>
 
-                    <!-- 2. नीचे का पूरा कंटेंट सेक्शन -->
                     <div class="p-4 flex flex-col justify-between flex-grow">
                         <div>
-                            <!-- उत्तम सवेरा स्टाइल लाल कैटेगरी टैग (फ़ोटो के नीचे) -->
                             <div class="mb-2.5">
                                 <span class="bg-[#e00613] text-white text-[11px] font-extrabold px-3 py-1 rounded-[3px] uppercase tracking-wider inline-block">
-                                    ${item.category} NEWS
+                                    ${item.category || 'ख़बर'} NEWS
                                 </span>
                             </div>
 
-                            <!-- बड़ी बोल्ड हेडलाइन -->
                             <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-100 hover:text-red-500 transition line-clamp-3">
-                                ${item.title}
+                                ${item.title || ''}
                             </h3>
                         </div>
 
-                        <!-- रिपोर्टर, तारीख और बुकमार्क/शेयर -->
                         <div class="pt-3 border-t border-gray-800 flex justify-between items-center text-xs text-gray-400">
                             <div class="flex items-center space-x-2">
                                 <span class="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-gray-300">
@@ -427,10 +406,10 @@
                                 </span>
                                 <span class="font-semibold text-gray-200 text-sm">News Arrow</span>
                                 <span class="text-gray-500">•</span>
-                                <span class="text-gray-400">${item.date}</span>
+                                <span class="text-gray-400">${item.date || ''}</span>
                             </div>
                             <div class="flex items-center space-x-3 text-base">
-                                <button type="button" onclick="shareArticle('${item.title}')" class="share-btn-action text-gray-400 hover:text-red-500 transition p-1" title="शेयर करें">
+                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-red-500 transition p-1" title="शेयर करें">
                                     <i class="fa-solid fa-share-nodes"></i>
                                 </button>
                                 <span class="text-gray-400 hover:text-white cursor-pointer">
@@ -443,12 +422,10 @@
                 container.appendChild(card);
             });
 
-            updateMarquee();
-        };
-
-                            
-        
-
+            if (typeof updateMarquee === 'function') {
+                updateMarquee();
+            }
+        };                                
         window.renderAdminNewsList = function() {
             const list = document.getElementById('admin-news-list');
             list.innerHTML = '';
