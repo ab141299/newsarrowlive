@@ -57,7 +57,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col font-sans">
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
 
     <!-- Top Header -->
     <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 transition-colors duration-300">
@@ -121,6 +121,19 @@
         </nav>
     </header>
 
+    <!-- WhatsApp Channel Banner -->
+    <div class="bg-gradient-to-r from-emerald-600 to-green-700 text-white text-xs sm:text-sm py-2 px-4 shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <span class="flex items-center space-x-2 font-medium truncate">
+                <i class="fa-brands fa-whatsapp text-lg text-green-200"></i>
+                <span class="truncate">ताज़ा खबरों और वीडियो के लिए हमारे आधिकारिक <b>WhatsApp चैनल</b> से जुड़ें</span>
+            </span>
+            <a href="https://whatsapp.com/channel/" target="_blank" class="bg-white text-green-700 font-bold px-3 py-1 rounded-full text-xs shadow hover:bg-green-50 transition shrink-0 ml-2">
+                जुड़ें &rarr;
+            </a>
+        </div>
+    </div>
+
     <!-- Main Content Area -->
     <main class="container mx-auto px-4 py-6 flex-grow">
         <div class="flex justify-between items-center mb-4 border-b pb-2 dark:border-gray-700">
@@ -139,7 +152,110 @@
             <i class="fa-regular fa-newspaper text-5xl text-gray-400 mb-3"></i>
             <p class="text-gray-500 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
         </div>
+
+        <!-- Weather & Follow Us Widgets Section -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t dark:border-gray-800">
+            
+            <!-- Weather Card -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                <div class="mb-4">
+                    <span class="bg-[#e00613] text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">
+                        Weather
+                    </span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3">
+                            <i id="weather-icon" class="fa-solid fa-sun text-4xl text-amber-500"></i>
+                            <div>
+                                <h4 class="text-xl font-extrabold text-gray-900 dark:text-gray-100">Varanasi, UP</h4>
+                                <p id="weather-desc" class="text-xs text-gray-500 dark:text-gray-400 capitalize">Clear Sky</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span id="weather-temp" class="text-4xl font-black text-gray-900 dark:text-gray-100">23°C</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-gray-700 text-center text-xs text-gray-600 dark:text-gray-300">
+                    <div>
+                        <span class="block text-gray-400 text-[10px]">अधिकतम/न्यूनतम</span>
+                        <span id="weather-range" class="font-bold">28° / 20°</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[10px]">नमी (Humidity)</span>
+                        <span id="weather-humidity" class="font-bold">65%</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-[10px]">हवा की गति</span>
+                        <span id="weather-wind" class="font-bold">4 km/h</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Follow Us Section -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-200 dark:border-gray-700">
+                <h3 class="text-base font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                    <span class="text-red-600 font-extrabold text-lg">/</span>
+                    <span>Follow US</span>
+                    <span class="text-red-600 font-extrabold text-lg">/</span>
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <!-- Facebook -->
+                    <a href="https://facebook.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                        <div class="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+                            <i class="fa-brands fa-facebook-f text-base"></i>
+                        </div>
+                        <div>
+                            <span class="block font-bold text-gray-800 dark:text-gray-200">Facebook</span>
+                            <span class="text-[11px] text-gray-400">News Arrow</span>
+                        </div>
+                    </a>
+
+                    <!-- Twitter / X -->
+                    <a href="https://twitter.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                        <div class="w-8 h-8 rounded-full bg-sky-50 dark:bg-sky-900/30 flex items-center justify-center text-sky-500">
+                            <i class="fa-brands fa-x-twitter text-base"></i>
+                        </div>
+                        <div>
+                            <span class="block font-bold text-gray-800 dark:text-gray-200">X (Twitter)</span>
+                            <span class="text-[11px] text-gray-400">Follow us</span>
+                        </div>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a href="https://instagram.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                        <div class="w-8 h-8 rounded-full bg-pink-50 dark:bg-pink-900/30 flex items-center justify-center text-pink-600">
+                            <i class="fa-brands fa-instagram text-base"></i>
+                        </div>
+                        <div>
+                            <span class="block font-bold text-gray-800 dark:text-gray-200">Instagram</span>
+                            <span class="text-[11px] text-gray-400">Follow us</span>
+                        </div>
+                    </a>
+
+                    <!-- YouTube -->
+                    <a href="https://youtube.com" target="_blank" class="flex items-center space-x-3 p-3 rounded-lg border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                        <div class="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/30 flex items-center justify-center text-red-600">
+                            <i class="fa-brands fa-youtube text-base"></i>
+                        </div>
+                        <div>
+                            <span class="block font-bold text-gray-800 dark:text-gray-200">YouTube</span>
+                            <span class="text-[11px] text-gray-400">Subscribe</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
     </main>
+
+    <!-- Floating WhatsApp Tip-line Button -->
+    <a href="https://api.whatsapp.com/send?phone=919999999999&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
+        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <span class="text-xs font-bold hidden sm:inline">खबर भेजें</span>
+    </a>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-gray-800">
@@ -165,20 +281,38 @@
         </div>
     </div>
 
-    <!-- Full News Reading Modal -->
-<div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-0 hidden">
-    <div class="bg-white dark:bg-gray-800 w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 shadow-2xl">
+    <!-- Full News Reading Modal with Audio TTS & Video -->
+    <div id="full-news-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-0 hidden">
+        <div class="bg-white dark:bg-gray-800 w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center border-b dark:border-gray-700 pb-3 mb-4">
+                    <span id="read-category" class="px-2.5 py-1 text-xs font-bold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300 uppercase tracking-wide"></span>
+                    <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
+                </div>
+                
+                <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 dark:text-white leading-snug"></h2>
+                
+                <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y dark:border-gray-700 mb-4 text-xs text-gray-500 dark:text-gray-400">
+                    <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
+                    <div class="flex items-center space-x-2">
+                        <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1 shadow transition">
+                            <i id="tts-icon" class="fa-solid fa-volume-high"></i>
+                            <span id="tts-text">खबर सुनें</span>
+                        </button>
+                    </div>
+                </div>
 
-            <div class="flex justify-between items-start border-b dark:border-gray-700 pb-3 mb-4">
-                <span id="read-category" class="px-2.5 py-1 text-xs font-semibold rounded bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300"></span>
-                <button onclick="closeFullNews()" class="text-gray-500 hover:text-black dark:hover:text-white text-2xl font-bold leading-none">&times;</button>
+                <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4">
+
+                <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow">
+                    <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+
+                <p id="read-content" class="text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line text-sm sm:text-base font-normal"></p>
             </div>
-            <h2 id="read-title" class="text-xl sm:text-2xl font-bold mb-3 dark:text-white leading-snug"></h2>
-            <div id="read-date" class="text-xs text-gray-500 mb-4"></div>
-            <img id="read-image" src="" alt="News Image" class="w-full max-h-80 object-cover rounded-lg mb-4">
-            <p id="read-content" class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base"></p>
-            <div class="mt-6 pt-3 border-t dark:border-gray-700 flex justify-end">
-                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md text-sm">बंद करें</button>
+
+            <div class="mt-6 pt-4 border-t dark:border-gray-700 flex justify-end">
+                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-md text-sm font-semibold">बंद करें</button>
             </div>
         </div>
     </div>
@@ -200,7 +334,12 @@
                     <label class="block font-medium mb-1 dark:text-gray-200">खबर का शीर्षक (Headline)</label>
                     <input type="text" id="news-title" required placeholder="मुख्य समाचार का शीर्षक..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
                 </div>
+                
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1 dark:text-gray-200">रिपोर्टर का नाम (Reporter Name)</label>
+                        <input type="text" id="news-reporter" placeholder="उदा. अभय श्रीवास्तव / वाराणसी ब्यूरो" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                    </div>
                     <div>
                         <label class="block font-medium mb-1 dark:text-gray-200">श्रेणी (Category)</label>
                         <select id="news-category" class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
@@ -214,12 +353,20 @@
                             <option value="तकनीक">तकनीक</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-medium mb-1 dark:text-gray-200">फ़ोटो अपलोड करें (गैलरी से)</label>
                         <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
                         <input type="hidden" id="news-image"> 
                     </div>
+                    <div>
+                        <label class="block font-medium mb-1 dark:text-gray-200">यूट्यूब वीडियो लिंक (वैकल्पिक)</label>
+                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600">
+                    </div>
                 </div>
+
                 <div>
                     <label class="block font-medium mb-1 dark:text-gray-200">खबर का पूरा विवरण (Details)</label>
                     <textarea id="news-content" rows="4" required placeholder="समाचार का पूरा विवरण यहाँ लिखें..." class="w-full border dark:border-gray-700 dark:bg-gray-700 dark:text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-600"></textarea>
@@ -280,7 +427,6 @@
             renderNews();
             renderAdminNewsList();
 
-            // Link se direct khabar kholna
             const params = new URLSearchParams(window.location.search);
             const newsId = params.get('id');
             if (newsId) {
@@ -301,6 +447,8 @@
 
             const titleVal = document.getElementById('news-title').value.trim();
             const catVal = document.getElementById('news-category').value;
+            const reporterVal = document.getElementById('news-reporter').value.trim() || 'News Arrow';
+            const videoVal = document.getElementById('news-video').value.trim();
             const contentVal = document.getElementById('news-content').value.trim();
             let imgVal = document.getElementById('news-image').value;
             const isBreakingVal = document.getElementById('news-breaking').checked;
@@ -312,6 +460,8 @@
             const newItem = {
                 title: titleVal,
                 category: catVal,
+                reporter: reporterVal,
+                video: videoVal,
                 image: imgVal,
                 content: contentVal,
                 isBreaking: isBreakingVal,
@@ -324,6 +474,8 @@
                 alert('समाचार सफलतापूर्वक पब्लिश हो गया!');
                 
                 document.getElementById('news-title').value = '';
+                document.getElementById('news-reporter').value = '';
+                document.getElementById('news-video').value = '';
                 document.getElementById('news-content').value = '';
                 document.getElementById('news-image').value = '';
                 const fileBox = document.getElementById('news-image-file');
@@ -350,8 +502,8 @@
             }
         };
 
-        // Render Functions
-                        window.renderNews = function(filteredData = null) {
+        // Render Functions (Uttam Savera Style Dark Cards)
+        window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
             const countLabel = document.getElementById('news-count');
@@ -379,11 +531,10 @@
                     readFullArticle(item.id);
                 };
 
-                const cleanContent = item.content ? item.content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>') : '';
-
                 card.innerHTML = `
                     <div class="relative w-full aspect-video bg-black overflow-hidden">
                         <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
+                        ${item.video ? '<span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
                     </div>
 
                     <div class="p-4 flex flex-col justify-between flex-grow">
@@ -404,7 +555,7 @@
                                 <span class="w-7 h-7 rounded-full bg-gray-700 flex items-center justify-center text-gray-300">
                                     <i class="fa-solid fa-user text-xs"></i>
                                 </span>
-                                <span class="font-semibold text-gray-200 text-sm">News Arrow</span>
+                                <span class="font-semibold text-gray-200 text-sm truncate max-w-[130px] sm:max-w-[180px]">${item.reporter || 'News Arrow'}</span>
                                 <span class="text-gray-500">•</span>
                                 <span class="text-gray-400">${item.date || ''}</span>
                             </div>
@@ -425,9 +576,11 @@
             if (typeof updateMarquee === 'function') {
                 updateMarquee();
             }
-        };                                
+        };
+
         window.renderAdminNewsList = function() {
             const list = document.getElementById('admin-news-list');
+            if (!list) return;
             list.innerHTML = '';
             if (newsData.length === 0) {
                 list.innerHTML = '<p class="text-xs text-gray-400">कोई खबर मौजूद नहीं है।</p>';
@@ -447,6 +600,7 @@
         window.updateMarquee = function() {
             const breaking = newsData.filter(item => item.isBreaking);
             const marquee = document.getElementById('marquee-text');
+            if (!marquee) return;
             if (breaking.length > 0) {
                 marquee.innerText = breaking.map(item => item.title).join('  ★  ');
             } else if (newsData.length > 0) {
@@ -465,25 +619,87 @@
                     btn.className = "category-btn px-3 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300";
                 }
             });
-            document.getElementById('current-category-title').children[1].innerText = cat === 'सभी' ? 'ताज़ा समाचार' : `${cat} समाचार`;
+            const catHeader = document.getElementById('current-category-title');
+            if (catHeader && catHeader.children[1]) {
+                catHeader.children[1].innerText = cat === 'सभी' ? 'ताज़ा समाचार' : `${cat} समाचार`;
+            }
             renderNews();
         };
 
         window.handleSearch = function() {
             const q = document.getElementById('search-input').value.toLowerCase();
-            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || item.content.toLowerCase().includes(q));
+            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || (item.content && item.content.toLowerCase().includes(q)));
             renderNews(matched);
         };
+
+        // Text-to-Speech (खबर सुनें) Logic
+        window.toggleAudioNews = function() {
+            if (!('speechSynthesis' in window)) {
+                alert('आपके ब्राउज़र में आवाज़ का सपोर्ट उपलब्ध नहीं है।');
+                return;
+            }
+
+            const icon = document.getElementById('tts-icon');
+            const text = document.getElementById('tts-text');
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                icon.className = 'fa-solid fa-volume-high';
+                text.innerText = 'खबर सुनें';
+                return;
+            }
+
+            const title = document.getElementById('read-title').innerText;
+            const content = document.getElementById('read-content').innerText;
+            const fullStory = `${title}। ${content}`;
+
+            const utterance = new SpeechSynthesisUtterance(fullStory);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 0.95;
+
+            utterance.onend = function() {
+                icon.className = 'fa-solid fa-volume-high';
+                text.innerText = 'खबर सुनें';
+            };
+
+            window.speechSynthesis.speak(utterance);
+            icon.className = 'fa-solid fa-stop';
+            text.innerText = 'बंद करें';
+        };
+
+        function getYouTubeEmbedUrl(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+        }
 
         window.readFullArticle = function(id) {
             const item = newsData.find(n => n.id == id);
             if (!item) return;
 
-            document.getElementById('read-title').innerText = item.title;
-            document.getElementById('read-category').innerText = item.category;
-            document.getElementById('read-date').innerText = item.date;
-            document.getElementById('read-image').src = item.image;
-            document.getElementById('read-content').innerHTML = item.content
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            document.getElementById('tts-icon').className = 'fa-solid fa-volume-high';
+            document.getElementById('tts-text').innerText = 'खबर सुनें';
+
+            document.getElementById('read-title').innerText = item.title || '';
+            document.getElementById('read-category').innerText = `${item.category || 'ख़बर'} NEWS`;
+            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-800 dark:text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-red-600"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
+            document.getElementById('read-image').src = item.image || '';
+            
+            const videoContainer = document.getElementById('read-video-container');
+            const videoIframe = document.getElementById('read-video-iframe');
+            const embedUrl = getYouTubeEmbedUrl(item.video);
+
+            if (embedUrl) {
+                videoIframe.src = embedUrl;
+                videoContainer.classList.remove('hidden');
+            } else {
+                videoIframe.src = '';
+                videoContainer.classList.add('hidden');
+            }
+
+            document.getElementById('read-content').innerHTML = (item.content || '')
             .replace(/\*\*(.*?)\*\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
             .replace(/\*(.*?)\*/g, '<b class="font-bold text-gray-900 dark:text-white">$1</b>')
             .replace(/\n/g, '<br>');
@@ -492,6 +708,9 @@
         };
 
         window.closeFullNews = function() {
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            const videoIframe = document.getElementById('read-video-iframe');
+            if (videoIframe) videoIframe.src = '';
             document.getElementById('full-news-modal').classList.add('hidden');
         };
 
@@ -565,9 +784,47 @@
             }
         };
 
-        // Date Display
+        // Live Open-Meteo Weather Fetcher
+        async function fetchLiveWeather() {
+            try {
+                // Varanasi Coordinates
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
+                const data = await res.json();
+                
+                if (data && data.current) {
+                    const temp = Math.round(data.current.temperature_2m);
+                    const humidity = data.current.relative_humidity_2m;
+                    const wind = Math.round(data.current.wind_speed_10m);
+                    const maxT = Math.round(data.daily.temperature_2m_max[0]);
+                    const minT = Math.round(data.daily.temperature_2m_min[0]);
+                    
+                    document.getElementById('weather-temp').innerText = `${temp}°C`;
+                    document.getElementById('weather-humidity').innerText = `${humidity}%`;
+                    document.getElementById('weather-wind').innerText = `${wind} km/h`;
+                    document.getElementById('weather-range').innerText = `${maxT}° / ${minT}°`;
+                    
+                    // Simple description
+                    const code = data.current.weather_code;
+                    let desc = "Clear Sky";
+                    let iconClass = "fa-solid fa-sun text-amber-500";
+                    if (code > 2 && code <= 48) {
+                        desc = "Partly Cloudy";
+                        iconClass = "fa-solid fa-cloud-sun text-gray-400";
+                    } else if (code > 48) {
+                        desc = "Rainy / Showers";
+                        iconClass = "fa-solid fa-cloud-rain text-blue-400";
+                    }
+                    document.getElementById('weather-desc').innerText = desc;
+                    document.getElementById('weather-icon').className = `${iconClass} text-4xl`;
+                }
+            } catch (e) {
+                console.log("Weather error: ", e);
+            }
+        }
+
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
+        fetchLiveWeather();
 
         // Ultra-sharp Compressor setup
         setTimeout(() => {
