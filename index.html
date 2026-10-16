@@ -73,6 +73,7 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Full News Modal Formatting */
         #read-content b, #read-content strong {
             font-weight: 800 !important;
             color: #d97706;
@@ -83,14 +84,14 @@
         .bullet-point-line {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 0.65rem;
+            margin-bottom: 0.75rem;
             line-height: 1.6;
         }
         .bullet-point-dot {
             color: #f59e0b;
             font-size: 1.1rem;
             line-height: 1.4;
-            margin-right: 0.5rem;
+            margin-right: 0.6rem;
             flex-shrink: 0;
         }
     </style>
@@ -114,7 +115,7 @@
             </div>
         </div>
 
-        <!-- Main Branding Bar -->
+        <!-- Main Branding Bar (Triple tap logo opens secret admin login) -->
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="handleSecretLogoClick()">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
@@ -134,7 +135,7 @@
             </div>
         </div>
 
-        <!-- Breaking News Marquee -->
+        <!-- Breaking News Marquee (Clickable & Smooth) -->
         <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-black text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden font-bold">
             <div class="max-w-7xl mx-auto w-full flex items-center">
                 <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap shrink-0">
@@ -200,7 +201,7 @@
             <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 खबरें उपलब्ध</span>
         </div>
 
-        <!-- News Cards Grid: Responsive Desktop Layout -->
+        <!-- News Cards Grid (Responsive Layout) -->
         <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
 
         <!-- No News Placeholder -->
@@ -368,17 +369,20 @@
         </div>
     </div>
 
-    <!-- Full News Reading Modal -->
+    <!-- Complete Enhanced Full News Reading Modal (Popup) -->
     <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-0 hidden">
         <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
             <div>
+                <!-- Top Category & Close Button -->
                 <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
                     <span id="read-category" class="px-2.5 py-1 text-xs font-black rounded bg-amber-500 text-black uppercase tracking-wider shadow"></span>
                     <button onclick="closeFullNews()" class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
                 </div>
                 
+                <!-- News Title -->
                 <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 text-gray-900 dark:text-white leading-snug"></h2>
                 
+                <!-- Reporter, Date & Audio Read Button -->
                 <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y border-gray-200 dark:border-[#282d36] mb-4 text-xs text-gray-500 dark:text-gray-400">
                     <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
                     <div class="flex items-center space-x-2">
@@ -389,15 +393,19 @@
                     </div>
                 </div>
 
+                <!-- Featured Image -->
                 <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4 border border-gray-200 dark:border-[#2b3038]">
 
+                <!-- Embedded Video / Reels (If available) -->
                 <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow border border-[#2b3038]">
                     <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
+                <!-- Full Formatted Content (Bold & Star Bullets) -->
                 <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-sm sm:text-base font-normal"></div>
             </div>
 
+            <!-- Modal Bottom Close -->
             <div class="mt-6 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
                 <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-md text-sm font-bold border border-gray-300 dark:border-[#3a404e]">बंद करें</button>
             </div>
@@ -500,7 +508,7 @@
             serverTimestamp 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 100% Verified Correct Firebase Config with trailing zero
+        // Verified Accurate Firebase Config with trailing zero
         const firebaseConfig = {
             apiKey: "AIzaSyCKL_XkMlp74NcMKHJmzL-9xTqQjF3k6A0",
             authDomain: "newsarrow-199cf.firebaseapp.com",
@@ -637,6 +645,7 @@
             return match ? `https://www.youtube.com/embed/${match[1]}` : null;
         }
 
+        // Popup Content Formatter (Bold ** and Star Bullets ★)
         function formatNewsContent(text) {
             if (!text) return '';
             const lines = text.split('\n');
@@ -823,7 +832,6 @@
             });
         };
 
-        // Render News Cards (Responsive Desktop Layout)
         window.renderNews = function(filteredData = null) {
             const container = document.getElementById('news-container');
             const noNews = document.getElementById('no-news-message');
@@ -1019,6 +1027,7 @@
             text.innerText = 'बंद करें';
         };
 
+        // Complete Popup Open Function
         window.readFullArticle = function(id) {
             const item = newsData.find(n => n.id == id);
             if (!item) return;
@@ -1048,6 +1057,7 @@
             document.getElementById('full-news-modal').classList.remove('hidden');
         };
 
+        // Complete Popup Close Function
         window.closeFullNews = function() {
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             const videoIframe = document.getElementById('read-video-iframe');
