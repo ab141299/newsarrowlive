@@ -73,7 +73,7 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Full News Modal Formatting */
+        /* Custom formatting for bold text inside full news modal */
         #read-content b, #read-content strong {
             font-weight: 800 !important;
             color: #d97706;
@@ -99,7 +99,7 @@
 <body class="bg-gray-100 text-gray-900 dark:bg-[#121316] dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
 
     <!-- Top Header -->
-    <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-50 transition-colors duration-300">
+    <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
             <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
             
@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        <!-- Main Branding Bar (Triple tap logo opens secret admin login) -->
+        <!-- Main Branding Bar (Triple tap on logo opens admin modal) -->
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="handleSecretLogoClick()">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
@@ -135,7 +135,7 @@
             </div>
         </div>
 
-        <!-- Breaking News Marquee (Clickable & Smooth) -->
+        <!-- Breaking News Marquee (Clickable & Slow) -->
         <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-black text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden font-bold">
             <div class="max-w-7xl mx-auto w-full flex items-center">
                 <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap shrink-0">
@@ -201,7 +201,7 @@
             <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 खबरें उपलब्ध</span>
         </div>
 
-        <!-- News Cards Grid (Responsive Layout) -->
+        <!-- News Cards Grid (Responsive Grid) -->
         <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
 
         <!-- No News Placeholder -->
@@ -340,7 +340,7 @@
     </main>
 
     <!-- Floating WhatsApp Tip-line Button -->
-    <a href="https://api.whatsapp.com/send?phone=917348020619&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white dark:border-[#121316] transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
+    <a href="https://api.whatsapp.com/send?phone=917348020619&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-30 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white dark:border-[#121316] transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
         <i class="fa-brands fa-whatsapp text-xl"></i>
         <span class="text-xs font-bold hidden sm:inline">खबर भेजें</span>
     </a>
@@ -355,7 +355,7 @@
     </footer>
 
     <!-- Admin Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
+    <div id="login-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminModal()">
         <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
             <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center space-x-2">
                 <i class="fa-solid fa-shield-halved text-amber-500"></i>
@@ -369,20 +369,20 @@
         </div>
     </div>
 
-    <!-- Complete Enhanced Full News Reading Modal (Popup) -->
-    <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-0 hidden">
-        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
+    <!-- 100% Reliable Full News Reading Popup Modal -->
+    <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-[100] hidden items-center justify-center p-2 sm:p-4" onclick="if(event.target===this) closeFullNews()">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-full max-w-3xl max-h-[92vh] rounded-xl overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
             <div>
-                <!-- Top Category & Close Button -->
+                <!-- Top Bar -->
                 <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
                     <span id="read-category" class="px-2.5 py-1 text-xs font-black rounded bg-amber-500 text-black uppercase tracking-wider shadow"></span>
-                    <button onclick="closeFullNews()" class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
+                    <button onclick="closeFullNews()" class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1 cursor-pointer">&times;</button>
                 </div>
                 
-                <!-- News Title -->
+                <!-- Headline -->
                 <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 text-gray-900 dark:text-white leading-snug"></h2>
                 
-                <!-- Reporter, Date & Audio Read Button -->
+                <!-- Reporter & Audio Button -->
                 <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y border-gray-200 dark:border-[#282d36] mb-4 text-xs text-gray-500 dark:text-gray-400">
                     <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
                     <div class="flex items-center space-x-2">
@@ -396,24 +396,24 @@
                 <!-- Featured Image -->
                 <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4 border border-gray-200 dark:border-[#2b3038]">
 
-                <!-- Embedded Video / Reels (If available) -->
+                <!-- Video Iframe -->
                 <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow border border-[#2b3038]">
                     <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
-                <!-- Full Formatted Content (Bold & Star Bullets) -->
+                <!-- Formatted News Details -->
                 <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-sm sm:text-base font-normal"></div>
             </div>
 
-            <!-- Modal Bottom Close -->
+            <!-- Bottom Close Button -->
             <div class="mt-6 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
-                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-md text-sm font-bold border border-gray-300 dark:border-[#3a404e]">बंद करें</button>
+                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-md text-sm font-bold border border-gray-300 dark:border-[#3a404e] cursor-pointer">बंद करें</button>
             </div>
         </div>
     </div>
 
     <!-- Admin Panel Modal -->
-    <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
+    <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminPanel()">
         <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
@@ -508,7 +508,7 @@
             serverTimestamp 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Verified Accurate Firebase Config with trailing zero
+        // Verified Accurate Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCKL_XkMlp74NcMKHJmzL-9xTqQjF3k6A0",
             authDomain: "newsarrow-199cf.firebaseapp.com",
@@ -742,7 +742,7 @@
         };
 
         window.startEditNews = function(id) {
-            const item = newsData.find(n => n.id === id);
+            const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
             document.getElementById('edit-news-id').value = item.id;
@@ -1027,10 +1027,13 @@
             text.innerText = 'बंद करें';
         };
 
-        // Complete Popup Open Function
+        // 100% Guaranteed Open Popup Handler
         window.readFullArticle = function(id) {
-            const item = newsData.find(n => n.id == id);
-            if (!item) return;
+            const item = newsData.find(n => String(n.id) === String(id) || String(n.title).trim() === String(id).trim());
+            if (!item) {
+                console.warn("News item not found for id:", id);
+                return;
+            }
 
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             document.getElementById('tts-icon').className = 'fa-solid fa-volume-high';
@@ -1039,7 +1042,7 @@
             document.getElementById('read-title').innerText = item.title || '';
             document.getElementById('read-category').innerText = `${item.category || 'ख़बर'} NEWS`;
             document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-800 dark:text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
-            document.getElementById('read-image').src = item.image || '';
+            document.getElementById('read-image').src = item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
             
             const videoContainer = document.getElementById('read-video-container');
             const videoIframe = document.getElementById('read-video-iframe');
@@ -1053,16 +1056,25 @@
                 videoContainer.classList.add('hidden');
             }
 
+            // Enhanced Content Injection
             document.getElementById('read-content').innerHTML = formatNewsContent(item.content);
-            document.getElementById('full-news-modal').classList.remove('hidden');
+
+            const modal = document.getElementById('full-news-modal');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Stop background scrolling
         };
 
-        // Complete Popup Close Function
+        // Guaranteed Close Popup Handler
         window.closeFullNews = function() {
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             const videoIframe = document.getElementById('read-video-iframe');
             if (videoIframe) videoIframe.src = '';
-            document.getElementById('full-news-modal').classList.add('hidden');
+            
+            const modal = document.getElementById('full-news-modal');
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Re-enable background scrolling
         };
 
         window.shareArticle = async function(title) {
@@ -1104,16 +1116,28 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
         };
 
-        window.openAdminModal = function() { document.getElementById('login-modal').classList.remove('hidden'); };
-        window.closeAdminModal = function() { document.getElementById('login-modal').classList.add('hidden'); };
+        window.openAdminModal = function() { 
+            const m = document.getElementById('login-modal');
+            m.style.display = 'flex';
+            m.classList.remove('hidden'); 
+        };
+        window.closeAdminModal = function() { 
+            const m = document.getElementById('login-modal');
+            m.style.display = 'none';
+            m.classList.add('hidden'); 
+        };
         window.openAdminPanel = function() { 
             closeAdminModal(); 
-            document.getElementById('admin-panel').classList.remove('hidden'); 
+            const p = document.getElementById('admin-panel');
+            p.style.display = 'flex';
+            p.classList.remove('hidden'); 
             renderAdminNewsList();
         };
         window.closeAdminPanel = function() { 
             cancelEditMode();
-            document.getElementById('admin-panel').classList.add('hidden'); 
+            const p = document.getElementById('admin-panel');
+            p.style.display = 'none';
+            p.classList.add('hidden'); 
         };
 
         window.verifyAdmin = function() {
