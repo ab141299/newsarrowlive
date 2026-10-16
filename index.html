@@ -96,8 +96,8 @@
         }
         .bullet-point-dot {
             color: #f59e0b;
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 1.15rem;
+            line-height: 1.5;
             margin-right: 0.65rem;
             flex-shrink: 0;
         }
@@ -376,9 +376,9 @@
         </div>
     </div>
 
-    <!-- Enhanced Full News Modal (Wide & Magazine Formatted) -->
+    <!-- Wide & Magazine Formatted Modal (Covers width properly) -->
     <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-[100] hidden items-center justify-center p-2 sm:p-6" onclick="if(event.target===this) closeFullNews()">
-        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-full max-w-4xl max-h-[92vh] rounded-2xl overflow-y-auto p-4 sm:p-8 shadow-2xl flex flex-col justify-between">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-[96%] max-w-5xl max-h-[92vh] rounded-2xl overflow-y-auto p-4 sm:p-8 shadow-2xl flex flex-col justify-between">
             <div>
                 <!-- Top Bar -->
                 <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
@@ -651,11 +651,10 @@
             return match ? `https://www.youtube.com/embed/${match[1]}` : null;
         }
 
-        // Smart Content Formatter: Converts markdown, bold and bullets automatically
+        // Automatic Smart Formatter: If text has **heading:** or * bullet, injects ★ icon automatically
         function formatNewsContent(text) {
             if (!text) return '';
             
-            // Normalize carriage returns
             const cleanText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
             const lines = cleanText.split('\n');
             let formattedHtml = '';
@@ -667,17 +666,22 @@
                     return;
                 }
 
-                // Check for bullet marks: *, -, •, or bold bullet patterns
                 let isBullet = false;
+
+                // 1. If line explicitly starts with *, -, •
                 if (/^[\*\-•]\s+/.test(trimmed)) {
                     isBullet = true;
                     trimmed = trimmed.replace(/^[\*\-•]\s+/, '');
                 } else if (trimmed.startsWith('*') && !trimmed.startsWith('**')) {
                     isBullet = true;
                     trimmed = trimmed.substring(1).trim();
+                } 
+                // 2. Or if line starts with a bold heading like **हेडिंग:**
+                else if (trimmed.startsWith('**') && trimmed.includes(':**')) {
+                    isBullet = true;
                 }
 
-                // Convert **bold text** to <b>bold text</b>
+                // Convert markdown **text** to <b>text</b>
                 trimmed = trimmed.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
                 if (isBullet) {
