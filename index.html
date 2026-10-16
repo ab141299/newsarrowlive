@@ -40,7 +40,7 @@
         .marquee-content {
             display: inline-block;
             white-space: nowrap;
-            animation: marquee 45s linear infinite; /* Slowed down for smooth reading */
+            animation: marquee 45s linear infinite;
         }
         .marquee-content:hover {
             animation-play-state: paused;
@@ -59,7 +59,6 @@
             display: inline-block;
             animation: shootArrow 1.6s ease-in-out infinite;
         }
-        /* Uttam Savera Style Toggle Switch */
         .toggle-switch-checkbox:checked ~ .toggle-switch-dot {
             transform: translateX(100%);
             background-color: #f59e0b;
@@ -74,7 +73,6 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Custom formatting for bold text inside full news modal */
         #read-content b, #read-content strong {
             font-weight: 800 !important;
             color: #d97706;
@@ -101,11 +99,10 @@
 
     <!-- Top Header -->
     <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-50 transition-colors duration-300">
-        <div class="container mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
             <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
             
             <div class="flex items-center space-x-3">
-                <!-- Theme Mode Toggle -->
                 <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
                     <i id="theme-sun-icon" class="fa-regular fa-sun text-gray-500 dark:text-amber-400 text-sm"></i>
                     <div class="relative inline-block w-8 h-4 align-middle select-none">
@@ -117,8 +114,8 @@
             </div>
         </div>
 
-        <!-- Main Branding Bar (Hidden Secret Login: Triple click logo to login) -->
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <!-- Main Branding Bar -->
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="handleSecretLogoClick()">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
                 <h1 class="text-xl sm:text-2xl font-black tracking-tight text-gray-900 dark:text-white inline-flex items-center">
@@ -131,26 +128,28 @@
             </div>
             
             <!-- Quick Search Bar -->
-            <div class="relative w-36 sm:w-64">
+            <div class="relative w-44 sm:w-72">
                 <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="खबरें खोजें..." class="w-full bg-gray-100 dark:bg-[#23272e] border border-gray-300 dark:border-[#343a46] text-xs sm:text-sm rounded-full pl-8 pr-3 py-1.5 focus:outline-none focus:border-amber-500 text-gray-800 dark:text-white placeholder-gray-400 transition">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-amber-500 text-xs"></i>
             </div>
         </div>
 
-        <!-- Breaking News Marquee (Golden Theme, Slow & Clickable) -->
+        <!-- Breaking News Marquee -->
         <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-black text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden font-bold">
-            <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap shrink-0">
-                <i class="fa-solid fa-bolt-lightning text-black"></i>
-                <span>ब्रेकिंग न्यूज़:</span>
-            </span>
-            <div class="overflow-hidden w-full relative">
-                <div id="marquee-text" class="marquee-content font-bold">News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।</div>
+            <div class="max-w-7xl mx-auto w-full flex items-center">
+                <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap shrink-0">
+                    <i class="fa-solid fa-bolt-lightning text-black"></i>
+                    <span>ब्रेकिंग न्यूज़:</span>
+                </span>
+                <div class="overflow-hidden w-full relative">
+                    <div id="marquee-text" class="marquee-content font-bold">News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।</div>
+                </div>
             </div>
         </div>
 
         <!-- Category Navigation -->
         <nav class="bg-gray-50 dark:bg-[#14161a] border-b border-gray-200 dark:border-[#252830] overflow-x-auto whitespace-nowrap scrollbar-none">
-            <div class="container mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
                 <button onclick="filterCategory('सभी')" class="category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow">सभी</button>
                 <button onclick="filterCategory('वाराणसी')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">वाराणसी</button>
                 <button onclick="filterCategory('देश')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">देश</button>
@@ -166,7 +165,7 @@
 
     <!-- WhatsApp Channel Banner -->
     <div class="bg-white dark:bg-[#1c2026] border-b border-gray-200 dark:border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow-sm">
-        <div class="container mx-auto flex justify-between items-center">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="flex items-center space-x-2 font-medium truncate text-gray-700 dark:text-gray-300">
                 <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
                 <span class="truncate">ताज़ा अपडेट्स और ग्राउंड रिपोर्ट के लिए हमारे आधिकारिक <b>WhatsApp चैनल</b> से जुड़ें</span>
@@ -178,7 +177,7 @@
     </div>
 
     <!-- Main Content Area -->
-    <main class="container mx-auto px-4 py-6 flex-grow">
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
 
         <!-- Ground Video / Reels Horizontal Strip -->
         <div id="video-feed-section" class="mb-8 hidden">
@@ -201,8 +200,8 @@
             <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 खबरें उपलब्ध</span>
         </div>
 
-        <!-- News Cards Grid -->
-        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <!-- News Cards Grid: 1 col on mobile, 2 col on tablet, 3 on laptop, 4 on wide desktop -->
+        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
 
         <!-- No News Placeholder -->
         <div id="no-news-message" class="hidden text-center py-16">
@@ -210,7 +209,7 @@
             <p class="text-gray-500 dark:text-gray-400 font-medium">इस श्रेणी में अभी कोई खबर उपलब्ध नहीं है।</p>
         </div>
 
-        <!-- Widgets Section -->
+        <!-- Widgets Section (Proper Grid for Desktop) -->
         <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-200 dark:border-[#252830]">
             
             <!-- 1. Weather Card -->
@@ -274,7 +273,6 @@
                         </button>
                     </div>
 
-                    <!-- Live Poll Result Container -->
                     <div id="poll-result" class="hidden space-y-3 mt-2 text-xs">
                         <div>
                             <div class="flex justify-between font-bold mb-1">
@@ -311,964 +309,9 @@
                     </h3>
                     
                     <div class="space-y-3 text-xs">
-                        <!-- Facebook -->
                         <a href="https://www.facebook.com/share/1SSVChhkT5/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 p-3 rounded-lg border border-gray-200 dark:border-[#2b3038] bg-gray-50 dark:bg-[#14161a] hover:border-amber-500 transition group shadow-sm">
                             <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl group-hover:scale-105 transition">
                                 <i class="fa-brands fa-facebook-f"></i>
                             </div>
                             <div>
-                                <span class="block font-black text-sm text-gray-900 dark:text-gray-100 leading-tight">Follow on Facebook</span>
-                                <span class="text-xs text-blue-600 dark:text-blue-400 font-bold">Facebook Page &rarr;</span>
-                            </div>
-                        </a>
-
-                        <!-- Instagram -->
-                        <a href="https://instagram.com/navkashi14?exln=YXlxcmR5bGY3a2s3" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 p-3 rounded-lg border border-gray-200 dark:border-[#2b3038] bg-gray-50 dark:bg-[#14161a] hover:border-amber-500 transition group shadow-sm">
-                            <div class="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center text-pink-600 dark:text-pink-400 text-xl group-hover:scale-105 transition">
-                                <i class="fa-brands fa-instagram"></i>
-                            </div>
-                            <div>
-                                <span class="block font-black text-sm text-gray-900 dark:text-gray-100 leading-tight">Follow on Instagram</span>
-                                <span class="text-xs text-pink-600 dark:text-pink-400 font-bold">@navkashi14 &rarr;</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="text-[11px] text-gray-400 text-center mt-3 pt-2 border-t border-gray-100 dark:border-[#282d36]">
-                    News Arrow के सोशल मीडिया से तुरंत जुड़ें
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Floating WhatsApp Tip-line Button -->
-    <a href="https://api.whatsapp.com/send?phone=917348020619&text=नमस्ते%20News%20Arrow,%20मेरे%20पास%20एक%20खबर/वीडियो%20है:" target="_blank" class="fixed bottom-5 left-4 z-40 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white dark:border-[#121316] transition-all transform hover:scale-105" title="खबर/वीडियो भेजें">
-        <i class="fa-brands fa-whatsapp text-xl"></i>
-        <span class="text-xs font-bold hidden sm:inline">खबर भेजें</span>
-    </a>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 dark:bg-[#0e0f12] text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-gray-800 dark:border-[#22252c]">
-        <div class="container mx-auto px-4 text-center space-y-2">
-            <p class="font-extrabold text-amber-500 text-base tracking-wider">NEWS ARROW</p>
-            <p class="text-gray-400">सत्य, निष्पक्षता और सटीकता ही हमारी पहचान है।</p>
-            <p class="text-gray-600 pt-2">© 2026 News Arrow. सर्वाधिकार सुरक्षित।</p>
-        </div>
-    </footer>
-
-    <!-- Admin Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
-            <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center space-x-2">
-                <i class="fa-solid fa-shield-halved text-amber-500"></i>
-                <span>एडमिन प्रमाणीकरण</span>
-            </h3>
-            <input type="password" id="admin-pass" placeholder="पासवर्ड दर्ज करें" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded mb-4 text-sm focus:outline-none focus:border-amber-500">
-            <div class="flex justify-end space-x-2">
-                <button onclick="closeAdminModal()" class="px-3 py-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#252830] text-sm">रद्द करें</button>
-                <button onclick="verifyAdmin()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded text-sm font-bold shadow">लॉगिन</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Full News Reading Modal -->
-    <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-0 hidden">
-        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] w-full h-full sm:rounded-xl sm:max-w-3xl sm:h-auto sm:max-h-[92vh] overflow-y-auto p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
-            <div>
-                <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
-                    <span id="read-category" class="px-2.5 py-1 text-xs font-black rounded bg-amber-500 text-black uppercase tracking-wider shadow"></span>
-                    <button onclick="closeFullNews()" class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1">&times;</button>
-                </div>
-                
-                <h2 id="read-title" class="text-xl sm:text-2xl font-black mb-3 text-gray-900 dark:text-white leading-snug"></h2>
-                
-                <!-- Reporter, Date & Audio Listen Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-2 py-2 border-y border-gray-200 dark:border-[#282d36] mb-4 text-xs text-gray-500 dark:text-gray-400">
-                    <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
-                    <div class="flex items-center space-x-2">
-                        <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-amber-500 hover:bg-amber-600 text-black px-3.5 py-1 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
-                            <i id="tts-icon" class="fa-solid fa-volume-high"></i>
-                            <span id="tts-text">खबर सुनें</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Main Featured Photo -->
-                <img id="read-image" src="" alt="News Image" class="w-full max-h-96 object-cover rounded-lg mb-4 border border-gray-200 dark:border-[#2b3038]">
-
-                <!-- Video Embed Container -->
-                <div id="read-video-container" class="hidden mb-5 aspect-video w-full rounded-lg overflow-hidden bg-black shadow border border-[#2b3038]">
-                    <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-
-                <!-- Full News Text Content with Enhanced Bold & Bullets -->
-                <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-sm sm:text-base font-normal"></div>
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
-                <button onclick="closeFullNews()" class="px-5 py-2 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-md text-sm font-bold border border-gray-300 dark:border-[#3a404e]">बंद करें</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel Modal -->
-    <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
-                    <i class="fa-solid fa-gauge-high text-amber-500"></i>
-                    <span id="admin-panel-title">कंटेंट मैनेजमेंट डैशबोर्ड</span>
-                </h3>
-                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-black dark:hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <!-- News Form -->
-            <form onsubmit="handlePublish(event)" class="space-y-4 text-sm">
-                <input type="hidden" id="edit-news-id" value="">
-                
-                <div>
-                    <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">खबर का शीर्षक (Headline)</label>
-                    <input type="text" id="news-title" required placeholder="मुख्य समाचार का शीर्षक..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">रिपोर्टर का नाम (Reporter Name)</label>
-                        <input type="text" id="news-reporter" placeholder="उदा. अभय श्रीवास्तव / वाराणसी ब्यूरो" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">श्रेणी (Category)</label>
-                        <select id="news-category" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
-                            <option value="वाराणसी">वाराणसी</option>
-                            <option value="देश">देश</option>
-                            <option value="विदेश">विदेश</option>
-                            <option value="अपराध">अपराध</option>
-                            <option value="व्यापार">व्यापार</option>
-                            <option value="खेल">खेल</option>
-                            <option value="मनोरंजन">मनोरंजन</option>
-                            <option value="तकनीक">तकनीक</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">फ़ोटो अपलोड करें (गैलरी से)</label>
-                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-black hover:file:bg-amber-600">
-                        <input type="hidden" id="news-image"> 
-                        <span id="existing-img-note" class="text-[11px] text-gray-400 hidden mt-1 block">पहले से फोटो लगी है (बदलना चाहें तभी नई फाइल चुनें)</span>
-                    </div>
-                    <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">यूट्यूब वीडियो/शॉर्ट्स लिंक (वैकल्पिक)</label>
-                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... या Shorts" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">खबर का पूरा विवरण (Details)</label>
-                    <textarea id="news-content" rows="6" required placeholder="समाचार का पूरा विवरण लिखें... आप बुलेट पॉइंट के लिए * या हेडिंग को **बोल्ड** कर सकते हैं" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <input type="checkbox" id="news-breaking" class="rounded text-amber-500 focus:ring-amber-500 h-4 w-4 bg-gray-50 dark:bg-[#23272e] border-gray-300 dark:border-[#343a46]">
-                    <label for="news-breaking" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">इसे ब्रेकिंग न्यूज़ पट्टी (Marquee) में भी दिखाएं</label>
-                </div>
-                
-                <div class="flex space-x-2 pt-2">
-                    <button type="submit" id="publish-btn" class="flex-grow bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-2.5 rounded shadow transition">
-                        समाचार पब्लिश करें
-                    </button>
-                    <button type="button" id="cancel-edit-btn" onclick="cancelEditMode()" class="hidden px-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2.5 rounded shadow transition">
-                        रद्द करें
-                    </button>
-                </div>
-            </form>
-
-            <!-- Manage Existing News -->
-            <div class="mt-8 border-t border-gray-200 dark:border-[#282d36] pt-4">
-                <h4 class="font-bold text-sm mb-3 text-gray-800 dark:text-gray-300">मौजूदा समाचार प्रबंधित करें (एडिट / हटाएं)</h4>
-                <div id="admin-news-list" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase & Frontend Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            deleteDoc, 
-            doc, 
-            setDoc, 
-            updateDoc, 
-            increment, 
-            query, 
-            orderBy, 
-            onSnapshot, 
-            serverTimestamp 
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // Verified Accurate Firebase Config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCKL_XkMlp74NcMKHJmzL-9xTqQjF3k6A0",
-            authDomain: "newsarrow-199cf.firebaseapp.com",
-            projectId: "newsarrow-199cf",
-            storageBucket: "newsarrow-199cf.firebasestorage.app",
-            messagingSenderId: "545957236502",
-            appId: "1:545957236502:web:5df6cc317042a6c8916327",
-            measurementId: "G-9RKDM3CW2V"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        let newsData = [];
-        let currentFilter = 'सभी';
-
-        // Secret Admin Login: 3 clicks on logo opens admin modal
-        let logoClickCount = 0;
-        let logoTimer = null;
-        window.handleSecretLogoClick = function() {
-            logoClickCount++;
-            clearTimeout(logoTimer);
-            logoTimer = setTimeout(() => {
-                logoClickCount = 0;
-            }, 1200);
-
-            if (logoClickCount === 3) {
-                logoClickCount = 0;
-                openAdminModal();
-            } else if (logoClickCount === 1) {
-                filterCategory('सभी');
-            }
-        };
-
-        // 1. Listen for Realtime News from Firebase
-        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
-        onSnapshot(q, (snapshot) => {
-            newsData = [];
-            snapshot.forEach((d) => {
-                newsData.push({ id: d.id, ...d.data() });
-            });
-            renderNews();
-            renderVideoFeed();
-            renderAdminNewsList();
-
-            const params = new URLSearchParams(window.location.search);
-            const newsId = params.get('id');
-            if (newsId) {
-                const decoded = decodeURIComponent(newsId).trim();
-                const item = newsData.find(n => (n.id && n.id.toString() === decoded) || (n.title && n.title.trim() === decoded));
-                if (item) readFullArticle(item.id);
-            }
-        }, (err) => {
-            console.error("Firebase read error: ", err);
-        });
-
-        // 2. Real-time Firebase Poll Setup
-        const pollDocRef = doc(db, "polls", "current_poll");
-        let pollData = { yes: 0, no: 0 };
-
-        onSnapshot(pollDocRef, (snap) => {
-            if (snap.exists()) {
-                pollData = snap.data();
-                updatePollUI(pollData);
-            } else {
-                setDoc(pollDocRef, { yes: 0, no: 0, question: "पर्यटन और रोज़गार" });
-            }
-        }, (err) => {
-            console.error("Poll read error: ", err);
-        });
-
-        function updatePollUI(data) {
-            const yesVotes = data.yes || 0;
-            const noVotes = data.no || 0;
-            const total = yesVotes + noVotes;
-
-            const yesPct = total > 0 ? Math.round((yesVotes / total) * 100) : 0;
-            const noPct = total > 0 ? (100 - yesPct) : 0;
-
-            document.getElementById('poll-yes-pct').innerText = `${yesPct}%`;
-            document.getElementById('poll-no-pct').innerText = `${noPct}%`;
-            document.getElementById('poll-yes-bar').style.width = `${yesPct}%`;
-            document.getElementById('poll-no-bar').style.width = `${noPct}%`;
-            document.getElementById('total-votes').innerText = total.toLocaleString('hi-IN');
-        }
-
-        // Live Vote Submission Function
-        window.votePoll = async function(choice) {
-            if (localStorage.getItem('newsarrow_has_voted') === 'true') {
-                alert('आप पहले ही अपना मत दर्ज कर चुके हैं!');
-                return;
-            }
-
-            const btnYes = document.getElementById('btn-vote-yes');
-            const btnNo = document.getElementById('btn-vote-no');
-            if (btnYes) btnYes.disabled = true;
-            if (btnNo) btnNo.disabled = true;
-
-            try {
-                if (choice === 'yes') {
-                    await updateDoc(pollDocRef, { yes: increment(1) });
-                } else {
-                    await updateDoc(pollDocRef, { no: increment(1) });
-                }
-
-                localStorage.setItem('newsarrow_has_voted', 'true');
-                document.getElementById('poll-actions').classList.add('hidden');
-                document.getElementById('poll-result').classList.remove('hidden');
-                alert('धन्यवाद! आपका मत सफलतापूर्वक दर्ज हो गया है।');
-            } catch (err) {
-                console.error("Poll vote error:", err);
-                await setDoc(pollDocRef, {
-                    yes: choice === 'yes' ? 1 : 0,
-                    no: choice === 'no' ? 1 : 0
-                }, { merge: true });
-                localStorage.setItem('newsarrow_has_voted', 'true');
-                document.getElementById('poll-actions').classList.add('hidden');
-                document.getElementById('poll-result').classList.remove('hidden');
-            }
-        };
-
-        if (localStorage.getItem('newsarrow_has_voted') === 'true') {
-            const actions = document.getElementById('poll-actions');
-            const result = document.getElementById('poll-result');
-            if (actions && result) {
-                actions.classList.add('hidden');
-                result.classList.remove('hidden');
-            }
-        }
-
-        // Universal YouTube URL Parser
-        function getYouTubeEmbedUrl(url) {
-            if (!url) return null;
-            const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})/;
-            const match = url.match(regExp);
-            return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-        }
-
-        // Helper function to format content into Rich Bold & Bullets
-        function formatNewsContent(text) {
-            if (!text) return '';
-            
-            const lines = text.split('\n');
-            let formattedHtml = '';
-
-            lines.forEach(line => {
-                let trimmed = line.trim();
-                if (!trimmed) {
-                    formattedHtml += '<div class="h-3"></div>';
-                    return;
-                }
-
-                let isBullet = false;
-                if (trimmed.startsWith('* ') || trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
-                    isBullet = true;
-                    trimmed = trimmed.replace(/^[\*\-•]\s*/, '');
-                }
-
-                trimmed = trimmed.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-
-                if (isBullet) {
-                    formattedHtml += `
-                        <div class="bullet-point-line">
-                            <span class="bullet-point-dot">★</span>
-                            <div>${trimmed}</div>
-                        </div>
-                    `;
-                } else {
-                    formattedHtml += `<p class="mb-2 leading-relaxed">${trimmed}</p>`;
-                }
-            });
-
-            return formattedHtml;
-        }
-
-        // Publish & Update Function
-        window.handlePublish = async function(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            const pubBtn = document.getElementById('publish-btn');
-            pubBtn.disabled = true;
-
-            const editId = document.getElementById('edit-news-id').value.trim();
-            pubBtn.innerText = editId ? 'अपडेट हो रहा है...' : 'पब्लिश हो रहा है...';
-
-            const titleVal = document.getElementById('news-title').value.trim();
-            const catVal = document.getElementById('news-category').value;
-            const reporterVal = document.getElementById('news-reporter').value.trim() || 'News Arrow';
-            const videoVal = document.getElementById('news-video').value.trim();
-            const contentVal = document.getElementById('news-content').value.trim();
-            let imgVal = document.getElementById('news-image').value;
-            const isBreakingVal = document.getElementById('news-breaking').checked;
-            
-            if (!imgVal && !editId) {
-                imgVal = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
-            }
-
-            try {
-                if (editId) {
-                    const updateData = {
-                        title: titleVal,
-                        category: catVal,
-                        reporter: reporterVal,
-                        video: videoVal,
-                        content: contentVal,
-                        isBreaking: isBreakingVal
-                    };
-                    if (imgVal) {
-                        updateData.image = imgVal;
-                    }
-                    await updateDoc(doc(db, "news", editId), updateData);
-                    alert('समाचार सफलतापूर्वक अपडेट हो गया!');
-                } else {
-                    const newItem = {
-                        title: titleVal,
-                        category: catVal,
-                        reporter: reporterVal,
-                        video: videoVal,
-                        image: imgVal,
-                        content: contentVal,
-                        isBreaking: isBreakingVal,
-                        date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-                        timestamp: serverTimestamp()
-                    };
-                    await addDoc(collection(db, "news"), newItem);
-                    alert('समाचार सफलतापूर्वक पब्लिश हो गया!');
-                }
-                
-                cancelEditMode();
-                closeAdminPanel();
-            } catch (err) {
-                alert('एरर: ' + err.message);
-            } finally {
-                pubBtn.disabled = false;
-            }
-        };
-
-        // Prepare Edit Mode
-        window.startEditNews = function(id) {
-            const item = newsData.find(n => n.id === id);
-            if (!item) return;
-
-            document.getElementById('edit-news-id').value = item.id;
-            document.getElementById('news-title').value = item.title || '';
-            document.getElementById('news-reporter').value = item.reporter || '';
-            document.getElementById('news-category').value = item.category || 'वाराणसी';
-            document.getElementById('news-video').value = item.video || '';
-            document.getElementById('news-content').value = item.content || '';
-            document.getElementById('news-breaking').checked = !!item.isBreaking;
-            
-            document.getElementById('news-image').value = '';
-            const existingNote = document.getElementById('existing-img-note');
-            if (existingNote) existingNote.classList.remove('hidden');
-
-            document.getElementById('admin-panel-title').innerText = 'समाचार संपादित करें (Edit News)';
-            document.getElementById('publish-btn').innerText = 'अपडेट करें (Save Changes)';
-            document.getElementById('cancel-edit-btn').classList.remove('hidden');
-
-            const modal = document.getElementById('admin-panel');
-            if (modal) modal.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        // Cancel Edit Mode
-        window.cancelEditMode = function() {
-            document.getElementById('edit-news-id').value = '';
-            document.getElementById('news-title').value = '';
-            document.getElementById('news-reporter').value = '';
-            document.getElementById('news-video').value = '';
-            document.getElementById('news-content').value = '';
-            document.getElementById('news-image').value = '';
-            const fileBox = document.getElementById('news-image-file');
-            if (fileBox) fileBox.value = '';
-            document.getElementById('news-breaking').checked = false;
-
-            const existingNote = document.getElementById('existing-img-note');
-            if (existingNote) existingNote.classList.add('hidden');
-
-            document.getElementById('admin-panel-title').innerText = 'कंटेंट मैनेजमेंट डैशबोर्ड';
-            document.getElementById('publish-btn').innerText = 'समाचार पब्लिश करें';
-            document.getElementById('cancel-edit-btn').classList.add('hidden');
-        };
-
-        // Delete Function
-        window.deleteNews = async function(id) {
-            if (confirm('क्या आप वाकई इस समाचार को हटाना चाहते हैं?')) {
-                try {
-                    await deleteDoc(doc(db, "news", id));
-                } catch (err) {
-                    alert('हटाने में त्रुटि: ' + err.message);
-                }
-            }
-        };
-
-        // Render Ground Video / Shorts Slider
-        window.renderVideoFeed = function() {
-            const feedSection = document.getElementById('video-feed-section');
-            const feedContainer = document.getElementById('video-feed-container');
-            if (!feedSection || !feedContainer) return;
-
-            const videoNews = newsData.filter(item => item.video && getYouTubeEmbedUrl(item.video));
-            
-            if (videoNews.length === 0) {
-                feedSection.classList.add('hidden');
-                return;
-            }
-
-            feedSection.classList.remove('hidden');
-            feedContainer.innerHTML = '';
-
-            videoNews.forEach(item => {
-                const card = document.createElement('div');
-                card.className = "flex-shrink-0 w-44 sm:w-52 bg-[#181a1f] border border-amber-500/30 rounded-xl overflow-hidden cursor-pointer shadow-lg hover:border-amber-500 transition group";
-                card.onclick = () => readFullArticle(item.id);
-                
-                card.innerHTML = `
-                    <div class="relative w-full aspect-[9/14] bg-black overflow-hidden">
-                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
-                        <div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow">
-                            <i class="fa-solid fa-play text-[8px]"></i>
-                            <span>REELS</span>
-                        </div>
-                        <div class="absolute bottom-2 left-2 right-2 text-white">
-                            <span class="text-[10px] text-amber-400 font-bold block mb-1 uppercase">${item.reporter || 'Ground Bureau'}</span>
-                            <p class="text-xs font-bold line-clamp-2 leading-tight">${item.title}</p>
-                        </div>
-                    </div>
-                `;
-                feedContainer.appendChild(card);
-            });
-        };
-
-        // Render News Cards
-        window.renderNews = function(filteredData = null) {
-            const container = document.getElementById('news-container');
-            const noNews = document.getElementById('no-news-message');
-            const countLabel = document.getElementById('news-count');
-            
-            if (!container) return;
-
-            let data = filteredData || (currentFilter === 'सभी' ? newsData : newsData.filter(item => item.category === currentFilter));
-            
-            container.innerHTML = '';
-            if (countLabel) countLabel.innerText = `${data.length} खबरें उपलब्ध`;
-
-            if (!data || data.length === 0) {
-                if (noNews) noNews.classList.remove('hidden');
-                return;
-            }
-
-            noNews.classList.add('hidden');
-
-            data.forEach(item => {
-                const card = document.createElement('article');
-                card.className = "bg-white dark:bg-[#181a1f] text-gray-900 dark:text-white rounded-xl overflow-hidden shadow-sm dark:shadow-lg hover:shadow-md dark:hover:shadow-2xl hover:border-amber-500/50 transition duration-200 flex flex-col border border-gray-200 dark:border-[#2d3239] cursor-pointer mb-4";
-                
-                card.onclick = (e) => {
-                    if (e.target.closest('.share-btn-action') || e.target.closest('.bookmark-btn-action')) return;
-                    readFullArticle(item.id);
-                };
-
-                const hasVideo = getYouTubeEmbedUrl(item.video);
-
-                card.innerHTML = `
-                    <div class="relative w-full aspect-video bg-black overflow-hidden">
-                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
-                        ${hasVideo ? '<span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
-                    </div>
-
-                    <div class="p-4 flex flex-col justify-between flex-grow">
-                        <div>
-                            <div class="mb-2.5">
-                                <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-black text-[11px] font-black px-3 py-1 rounded-[4px] uppercase tracking-wider inline-block shadow">
-                                    ${item.category || 'ख़बर'} NEWS
-                                </span>
-                            </div>
-
-                            <h3 class="font-extrabold text-lg sm:text-xl mb-3 leading-snug text-gray-900 dark:text-gray-100 hover:text-amber-500 transition line-clamp-3">
-                                ${item.title || ''}
-                            </h3>
-                        </div>
-
-                        <div class="pt-3 border-t border-gray-100 dark:border-[#282d36] flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                            <div class="flex items-center space-x-2">
-                                <span class="w-7 h-7 rounded-full bg-gray-100 dark:bg-[#252830] border border-gray-300 dark:border-amber-500/40 flex items-center justify-center text-amber-500">
-                                    <i class="fa-solid fa-user text-xs"></i>
-                                </span>
-                                <span class="font-semibold text-gray-800 dark:text-gray-200 text-sm truncate max-w-[130px] sm:max-w-[180px]">${item.reporter || 'News Arrow'}</span>
-                                <span class="text-gray-400 dark:text-gray-500">•</span>
-                                <span class="text-gray-500 dark:text-gray-400">${item.date || ''}</span>
-                            </div>
-                            <div class="flex items-center space-x-3 text-base">
-                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-amber-500 transition p-1" title="शेयर करें">
-                                    <i class="fa-solid fa-share-nodes"></i>
-                                </button>
-                                <button type="button" onclick="toggleBookmark('${item.id}', this)" class="bookmark-btn-action text-gray-400 hover:text-amber-500 p-1" title="सेव करें">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            if (typeof updateMarquee === 'function') {
-                updateMarquee();
-            }
-        };
-
-        // Render Admin News List
-        window.renderAdminNewsList = function() {
-            const list = document.getElementById('admin-news-list');
-            if (!list) return;
-            list.innerHTML = '';
-            if (newsData.length === 0) {
-                list.innerHTML = '<p class="text-xs text-gray-500">कोई खबर मौजूद नहीं है।</p>';
-                return;
-            }
-            newsData.forEach(item => {
-                const row = document.createElement('div');
-                row.className = "flex justify-between items-center bg-gray-50 dark:bg-[#23272e] border border-gray-200 dark:border-[#343a46] p-2.5 rounded text-xs";
-                row.innerHTML = `
-                    <div class="truncate max-w-[65%] sm:max-w-[70%]">
-                        <span class="text-amber-500 font-bold block text-[10px]">${item.category} • ${item.reporter || 'News Arrow'}</span>
-                        <span class="truncate text-gray-800 dark:text-gray-200 font-medium block">${item.title}</span>
-                    </div>
-                    <div class="flex items-center space-x-2 shrink-0">
-                        <button onclick="startEditNews('${item.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded font-bold text-[11px] flex items-center space-x-1">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            <span>एडिट</span>
-                        </button>
-                        <button onclick="deleteNews('${item.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded font-bold text-[11px] flex items-center space-x-1">
-                            <i class="fa-solid fa-trash"></i>
-                            <span>हटाएं</span>
-                        </button>
-                    </div>
-                `;
-                list.appendChild(row);
-            });
-        };
-
-        // Clickable & Slow Marquee Setup
-        window.updateMarquee = function() {
-            const marquee = document.getElementById('marquee-text');
-            if (!marquee) return;
-
-            let tickerItems = newsData.filter(item => item.isBreaking);
-            if (tickerItems.length === 0) {
-                tickerItems = newsData.slice(0, 5);
-            }
-
-            if (tickerItems.length > 0) {
-                marquee.innerHTML = tickerItems.map(item => {
-                    const safeTitle = item.title.replace(/"/g, '&quot;');
-                    return `<span onclick="readFullArticle('${item.id}')" class="cursor-pointer hover:underline mx-4 text-black font-extrabold hover:text-gray-900 inline-block transition">${safeTitle}</span> ★`;
-                }).join(' ');
-            } else {
-                marquee.innerText = "News Arrow पर आपका स्वागत है! ताज़ा और निष्पक्ष खबरों के लिए जुड़े रहें।";
-            }
-        };
-
-        window.filterCategory = function(cat) {
-            currentFilter = cat;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                if (btn.innerText === cat) {
-                    btn.className = "category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow";
-                } else {
-                    btn.className = "category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300";
-                }
-            });
-            const catHeader = document.getElementById('current-category-title');
-            if (catHeader && catHeader.children[1]) {
-                catHeader.children[1].innerText = cat === 'सभी' ? 'ताज़ा समाचार' : `${cat} समाचार`;
-            }
-            renderNews();
-        };
-
-        window.handleSearch = function() {
-            const q = document.getElementById('search-input').value.toLowerCase();
-            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || (item.content && item.content.toLowerCase().includes(q)));
-            renderNews(matched);
-        };
-
-        // Bookmark Toggle
-        window.toggleBookmark = function(id, btn) {
-            let bookmarks = JSON.parse(localStorage.getItem('news_bookmarks') || '[]');
-            const icon = btn.querySelector('i');
-            if (bookmarks.includes(id)) {
-                bookmarks = bookmarks.filter(bId => bId !== id);
-                icon.className = 'fa-regular fa-bookmark text-gray-400';
-            } else {
-                bookmarks.push(id);
-                icon.className = 'fa-solid fa-bookmark text-amber-500';
-                alert('ख़बर आपकी बुकमार्क लिस्ट में सेव हो गई!');
-            }
-            localStorage.setItem('news_bookmarks', JSON.stringify(bookmarks));
-        };
-
-        // Text-to-Speech (खबर सुनें) Logic
-        window.toggleAudioNews = function() {
-            if (!('speechSynthesis' in window)) {
-                alert('आपके ब्राउज़र में आवाज़ का सपोर्ट उपलब्ध नहीं है।');
-                return;
-            }
-
-            const icon = document.getElementById('tts-icon');
-            const text = document.getElementById('tts-text');
-
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-                icon.className = 'fa-solid fa-volume-high';
-                text.innerText = 'खबर सुनें';
-                return;
-            }
-
-            const title = document.getElementById('read-title').innerText;
-            const content = document.getElementById('read-content').innerText;
-            const fullStory = `${title}। ${content}`;
-
-            const utterance = new SpeechSynthesisUtterance(fullStory);
-            utterance.lang = 'hi-IN';
-            utterance.rate = 0.95;
-
-            utterance.onend = function() {
-                icon.className = 'fa-solid fa-volume-high';
-                text.innerText = 'खबर सुनें';
-            };
-
-            window.speechSynthesis.speak(utterance);
-            icon.className = 'fa-solid fa-stop';
-            text.innerText = 'बंद करें';
-        };
-
-        window.readFullArticle = function(id) {
-            const item = newsData.find(n => n.id == id);
-            if (!item) return;
-
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-            document.getElementById('tts-icon').className = 'fa-solid fa-volume-high';
-            document.getElementById('tts-text').innerText = 'खबर सुनें';
-
-            document.getElementById('read-title').innerText = item.title || '';
-            document.getElementById('read-category').innerText = `${item.category || 'ख़बर'} NEWS`;
-            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-800 dark:text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
-            document.getElementById('read-image').src = item.image || '';
-            
-            const videoContainer = document.getElementById('read-video-container');
-            const videoIframe = document.getElementById('read-video-iframe');
-            const embedUrl = getYouTubeEmbedUrl(item.video);
-
-            if (embedUrl) {
-                videoIframe.src = embedUrl;
-                videoContainer.classList.remove('hidden');
-            } else {
-                videoIframe.src = '';
-                videoContainer.classList.add('hidden');
-            }
-
-            // Enhanced Content Formatter (Handles Bold ** and Bullets *)
-            document.getElementById('read-content').innerHTML = formatNewsContent(item.content);
-
-            document.getElementById('full-news-modal').classList.remove('hidden');
-        };
-
-        window.closeFullNews = function() {
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-            const videoIframe = document.getElementById('read-video-iframe');
-            if (videoIframe) videoIframe.src = '';
-            document.getElementById('full-news-modal').classList.add('hidden');
-        };
-
-        window.shareArticle = async function(title) {
-            const item = newsData.find(n => n.title === title);
-            if (!item) return;
-            const newsIdentifier = item.id !== undefined ? item.id : item.title;
-            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(newsIdentifier)}`;
-            const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
-
-            try {
-                if (item.image && navigator.canShare) {
-                    const blob = await (await fetch(item.image)).blob();
-                    const file = new File([blob], 'news.jpg', { type: blob.type || 'image/jpeg' });
-                    
-                    const shareDataWithFile = {
-                        files: [file],
-                        title: item.title,
-                        text: shareText
-                    };
-
-                    if (navigator.canShare(shareDataWithFile)) {
-                        await navigator.share(shareDataWithFile);
-                        return;
-                    }
-                }
-
-                if (navigator.share) {
-                    await navigator.share({
-                        title: item.title,
-                        text: shareText,
-                        url: shareUrl
-                    });
-                    return;
-                }
-            } catch (err) {
-                if (err.name === 'AbortError') return;
-            }
-
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
-        };
-
-        window.openAdminModal = function() { document.getElementById('login-modal').classList.remove('hidden'); };
-        window.closeAdminModal = function() { document.getElementById('login-modal').classList.add('hidden'); };
-        window.openAdminPanel = function() { 
-            closeAdminModal(); 
-            document.getElementById('admin-panel').classList.remove('hidden'); 
-            renderAdminNewsList();
-        };
-        window.closeAdminPanel = function() { 
-            cancelEditMode();
-            document.getElementById('admin-panel').classList.add('hidden'); 
-        };
-
-        window.verifyAdmin = function() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass === 'admin123') {
-                document.getElementById('admin-pass').value = '';
-                openAdminPanel();
-            } else {
-                alert('गलत पासवर्ड!');
-            }
-        };
-
-        // Theme Toggle Switch
-        window.toggleThemeMode = function() {
-            const html = document.documentElement;
-            const toggleInput = document.getElementById('theme-toggle');
-            const sunIcon = document.getElementById('theme-sun-icon');
-            
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                toggleInput.checked = false;
-                sunIcon.className = "fa-solid fa-sun text-amber-500 text-sm";
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.classList.add('dark');
-                toggleInput.checked = true;
-                sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
-                localStorage.setItem('theme', 'dark');
-            }
-        };
-
-        // Initialize Theme from localStorage
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        const toggleInput = document.getElementById('theme-toggle');
-        const sunIcon = document.getElementById('theme-sun-icon');
-        if (savedTheme === 'light') {
-            document.documentElement.classList.remove('dark');
-            if (toggleInput) toggleInput.checked = false;
-            if (sunIcon) sunIcon.className = "fa-solid fa-sun text-amber-500 text-sm";
-        } else {
-            document.documentElement.classList.add('dark');
-            if (toggleInput) toggleInput.checked = true;
-            if (sunIcon) sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
-        }
-
-        // Live Open-Meteo Weather Fetcher
-        async function fetchLiveWeather() {
-            try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
-                const data = await res.json();
-                
-                if (data && data.current) {
-                    const temp = Math.round(data.current.temperature_2m);
-                    const humidity = data.current.relative_humidity_2m;
-                    const wind = Math.round(data.current.wind_speed_10m);
-                    const maxT = Math.round(data.daily.temperature_2m_max[0]);
-                    const minT = Math.round(data.daily.temperature_2m_min[0]);
-                    
-                    document.getElementById('weather-temp').innerText = `${temp}°C`;
-                    document.getElementById('weather-humidity').innerText = `${humidity}%`;
-                    document.getElementById('weather-wind').innerText = `${wind} km/h`;
-                    document.getElementById('weather-range').innerText = `${maxT}° / ${minT}°`;
-                    
-                    const code = data.current.weather_code;
-                    let desc = "Clear Sky";
-                    let iconClass = "fa-solid fa-sun text-amber-500";
-                    if (code > 2 && code <= 48) {
-                        desc = "Partly Cloudy";
-                        iconClass = "fa-solid fa-cloud-sun text-gray-400";
-                    } else if (code > 48) {
-                        desc = "Rainy / Showers";
-                        iconClass = "fa-solid fa-cloud-rain text-blue-400";
-                    }
-                    document.getElementById('weather-desc').innerText = desc;
-                    document.getElementById('weather-icon').className = `${iconClass} text-4xl`;
-                }
-            } catch (e) {
-                console.log("Weather error: ", e);
-            }
-        }
-
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
-        fetchLiveWeather();
-
-        // Ultra-sharp Compressor setup
-        setTimeout(() => {
-            const fileInput = document.getElementById('news-image-file');
-            if (fileInput) {
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (!file) return;
-
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const img = new Image();
-                        img.onload = function() {
-                            let curW = img.width;
-                            let curH = img.height;
-                            const targetWidth = 1200;
-
-                            let oc = document.createElement('canvas');
-                            let octx = oc.getContext('2d');
-                            oc.width = curW;
-                            oc.height = curH;
-                            octx.drawImage(img, 0, 0);
-
-                            while (curW * 0.5 > targetWidth) {
-                                curW = Math.round(curW * 0.5);
-                                curH = Math.round(curH * 0.5);
-                                const canvasStep = document.createElement('canvas');
-                                canvasStep.width = curW;
-                                canvasStep.height = curH;
-                                const stepCtx = canvasStep.getContext('2d');
-                                stepCtx.imageSmoothingEnabled = true;
-                                stepCtx.imageSmoothingQuality = 'high';
-                                stepCtx.drawImage(oc, 0, 0, curW, curH);
-                                oc = canvasStep;
-                            }
-
-                            const finalCanvas = document.createElement('canvas');
-                            const targetHeight = Math.round((img.height * targetWidth) / img.width);
-                            finalCanvas.width = targetWidth;
-                            finalCanvas.height = targetHeight;
-                            const finalCtx = finalCanvas.getContext('2d');
-                            finalCtx.imageSmoothingEnabled = true;
-                            finalCtx.imageSmoothingQuality = 'high';
-                            finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
-
-                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
-                            document.getElementById('news-image').value = ultraHdData;
-                        };
-                        img.src = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        }, 500);
-    </script>
-</body>
-</html>
+                      
