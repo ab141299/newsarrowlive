@@ -1,1132 +1,1445 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="dark">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEWS ARROW - निष्पक्ष और तेज़ ग्राउंड रिपोर्टिंग</title>
-
-  <!-- Default Fallback Meta Tags -->
-  <meta name="description" content="News Arrow पर पढ़ें देश, दुनिया, वाराणसी और कानून से जुड़ी ताज़ा और निष्पक्ष खबरें।">
-  <meta name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
-  
-  <!-- Open Graph / Social Sharing Meta Tags -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="NEWS ARROW - तेज़ और निष्पक्ष ग्राउंड न्यूज़">
-  <meta property="og:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्टिंग सीधे आप तक।">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200">
-  <meta property="og:url" content="https://newsarrow.in">
-
-  <!-- Lucide Icons & Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Firebase App & Firestore SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-
-  <style>
-    :root {
-      --bg-body: #0b0c10;
-      --bg-surface: #13141c;
-      --bg-surface-elevated: #1c1d27;
-      --border-color: #272835;
-      --border-subtle: #1e1f2b;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --text-dim: #6b7280;
-      --primary-accent: #f59e0b;
-      --primary-accent-rgb: 245, 158, 11;
-      --primary-hover: #d97706;
-      --breaking-bg: #d97706;
-      --breaking-text: #000000;
-      --whatsapp-green: #25d366;
-      --danger: #ef4444;
-      --success: #10b981;
-      --font-hindi: 'Mukta', sans-serif;
-      --font-eng: 'Outfit', sans-serif;
-    }
-
-    [data-theme="light"] {
-      --bg-body: #f8fafc;
-      --bg-surface: #ffffff;
-      --bg-surface-elevated: #f1f5f9;
-      --border-color: #e2e8f0;
-      --border-subtle: #edf2f7;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --text-dim: #94a3b8;
-      --primary-accent: #d97706;
-      --breaking-bg: #f59e0b;
-      --breaking-text: #000000;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      font-family: var(--font-hindi);
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      transition: background-color 0.25s ease, color 0.25s ease;
-    }
-
-    /* Top Sub-Bar (Date & Theme Toggle) */
-    .top-bar {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      padding: 6px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      color: var(--text-muted);
-      font-family: var(--font-eng);
-    }
-
-    .theme-toggle-btn {
-      background: none;
-      border: none;
-      color: var(--primary-accent);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      padding: 4px;
-    }
-
-    /* Main Navigation Header */
-    .site-header {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 90;
-      backdrop-filter: blur(8px);
-    }
-
-    .nav-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .brand-logo-badge {
-      background: var(--primary-accent);
-      color: #000;
-      font-weight: 900;
-      font-size: 14px;
-      padding: 4px 7px;
-      border-radius: 6px;
-      font-family: var(--font-eng);
-      letter-spacing: -0.5px;
-    }
-
-    .brand-title {
-      font-family: var(--font-eng);
-      font-size: 21px;
-      font-weight: 800;
-      color: var(--primary-accent);
-      letter-spacing: -0.5px;
-    }
-
-    .search-box-wrap {
-      flex: 1;
-      max-width: 320px;
-      position: relative;
-    }
-
-    .search-input {
-      width: 100%;
-      background: var(--bg-surface-elevated);
-      border: 1px solid var(--border-color);
-      padding: 7px 12px 7px 34px;
-      border-radius: 20px;
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .search-input:focus {
-      border-color: var(--primary-accent);
-    }
-
-    .search-icon-pos {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-dim);
-      pointer-events: none;
-    }
-
-    .post-modal-btn {
-      background: var(--primary-accent);
-      color: #000;
-      border: none;
-      padding: 7px 14px;
-      font-weight: 700;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    /* Breaking Ticker */
-    .ticker-bar {
-      background: var(--breaking-bg);
-      color: var(--breaking-text);
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    .ticker-label {
-      background: #000;
-      color: #fff;
-      padding: 5px 12px;
-      text-transform: uppercase;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    .ticker-marquee {
-      padding: 5px 12px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex: 1;
-    }
-
-    /* Category Nav Bar */
-    .categories-bar {
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .categories-bar::-webkit-scrollbar {
-      display: none;
-    }
-
-    .categories-wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      gap: 8px;
-      padding: 8px 16px;
-    }
-
-    .category-chip {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 600;
-      padding: 4px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-
-    .category-chip.active {
-      background: var(--primary-accent);
-      color: #000;
-      border-color: var(--primary-accent);
-    }
-
-    .category-chip:hover:not(.active) {
-      background: var(--bg-surface-elevated);
-      color: var(--text-main);
-    }
-
-    /* Main Container */
-    .main-wrapper {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 16px;
-      width: 100%;
-      flex: 1;
-    }
-
-    /* WhatsApp Channel Join Banner */
-    .whatsapp-join-banner {
-      background: rgba(37, 211, 102, 0.1);
-      border: 1px solid rgba(37, 211, 102, 0.3);
-      padding: 10px 14px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .whatsapp-join-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--whatsapp-green);
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .join-channel-btn {
-      background: var(--primary-accent);
-      color: #000;
-      font-weight: 700;
-      font-size: 12px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    /* Section Head */
-    .feed-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      border-left: 4px solid var(--primary-accent);
-      padding-left: 10px;
-    }
-
-    .feed-header h2 {
-      font-size: 19px;
-      font-weight: 800;
-    }
-
-    .feed-header span {
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-
-    /* Feed Cards */
-    .news-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 20px;
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .news-card:hover {
-      border-color: rgba(var(--primary-accent-rgb), 0.4);
-    }
-
-    .news-card-thumbnail-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #181920;
-      overflow: hidden;
-    }
-
-    .news-card-thumbnail {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-category-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
-      color: var(--primary-accent);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .news-card-body {
-      padding: 16px;
-    }
-
-    .news-card-title {
-      font-size: 19px;
-      font-weight: 800;
-      line-height: 1.45;
-      margin-bottom: 8px;
-      color: var(--text-main);
-      text-decoration: none;
-      display: block;
-    }
-
-    .news-card-title:hover {
-      color: var(--primary-accent);
-    }
-
-    .news-card-meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 12px;
-      color: var(--text-dim);
-      margin-bottom: 12px;
-    }
-
-    .news-card-meta span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .news-card-excerpt {
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 16px;
-      white-space: pre-wrap;
-    }
-
-    .news-card-actions {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 12px;
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .action-group {
-      display: flex;
-      gap: 8px;
-    }
-
-    .share-pill-btn {
-      background: rgba(37, 211, 102, 0.12);
-      color: var(--whatsapp-green);
-      border: 1px solid rgba(37, 211, 102, 0.25);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .read-more-link {
-      color: var(--primary-accent);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Modal Overlay (Dashboard) */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1000;
-      overflow-y: auto;
-      padding: 16px;
-    }
-
-    .modal-card {
-      background: #181920;
-      border: 1px solid #2e303d;
-      border-radius: 12px;
-      max-width: 580px;
-      margin: 20px auto;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
-    }
-
-    .modal-head-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-close-modal {
-      background: none;
-      border: none;
-      color: var(--text-dim);
-      font-size: 24px;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    /* Form Layout */
-    .field-group {
-      margin-bottom: 14px;
-    }
-
-    .field-group label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 700;
-      color: #a1a1aa;
-      margin-bottom: 6px;
-    }
-
-    .field-input, .field-textarea, .field-select {
-      width: 100%;
-      background: #101116;
-      border: 1px solid #2a2c38;
-      border-radius: 8px;
-      padding: 10px 12px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .field-input:focus, .field-textarea:focus, .field-select:focus {
-      border-color: var(--primary-accent);
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    /* SEO & Live Discover Meter */
-    .seo-analyzer-card {
-      background: #101116;
-      border: 1px solid #272833;
-      border-radius: 8px;
-      padding: 12px;
-      margin: 16px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .seo-analyzer-title {
-      font-size: 13px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #e4e4e7;
-    }
-
-    .seo-pill {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 4px;
-    }
-
-    .seo-pill-fail {
-      background: rgba(239, 68, 68, 0.2);
-      color: var(--danger);
-    }
-
-    .seo-pill-pass {
-      background: rgba(16, 185, 129, 0.2);
-      color: var(--success);
-    }
-
-    .submit-publish-btn {
-      width: 100%;
-      background: var(--primary-accent);
-      color: #000;
-      font-weight: 800;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-size: 15px;
-      transition: background-color 0.2s ease;
-    }
-
-    .submit-publish-btn:hover {
-      background: var(--primary-hover);
-    }
-
-    .submit-publish-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Floating WhatsApp Button */
-    .floating-whatsapp {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 52px;
-      height: 52px;
-      background: var(--whatsapp-green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-      z-index: 80;
-      text-decoration: none;
-      transition: transform 0.2s ease;
-    }
-
-    .floating-whatsapp:hover {
-      transform: scale(1.08);
-    }
-
-    /* Footer */
-    footer {
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-color);
-      padding: 24px 16px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-dim);
-      margin-top: auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Arrow - Latest and Unbiased News</title>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="News Arrow">
+    <meta property="og:title" content="News Arrow - Latest and Unbiased News">
+    <meta property="og:description" content="Read latest national, international and local news">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        arrowGold: '#f59e0b',
+                        arrowGoldDark: '#d97706',
+                        arrowDark: '#121316',
+                        arrowCard: '#1a1d21',
+                        arrowBorder: '#2d3239'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 45s linear infinite;
+        }
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes shootArrow {
+            0% { transform: translateX(-4px); opacity: 0; }
+            40% { opacity: 1; }
+            80% { transform: translateX(6px); opacity: 1; }
+            100% { transform: translateX(12px); opacity: 0; }
+        }
+        .animate-arrow-shoot {
+            display: inline-block;
+            animation: shootArrow 1.6s ease-in-out infinite;
+        }
+        .toggle-switch-checkbox:checked ~ .toggle-switch-dot {
+            transform: translateX(100%);
+            background-color: #f59e0b;
+        }
+        .toggle-switch-checkbox:checked ~ .toggle-switch-bg {
+            background-color: #374151;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #read-content b, #read-content strong {
+            font-weight: 800 !important;
+            color: #d97706;
+            display: inline;
+        }
+        .dark #read-content b, .dark #read-content strong {
+            color: #fbbf24 !important;
+        }
+        .bullet-point-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.9rem;
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+        @media (min-width: 640px) {
+            .bullet-point-line {
+                font-size: 1.08rem;
+            }
+        }
+        .bullet-point-dot {
+            color: #f59e0b;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-right: 0.65rem;
+            flex-shrink: 0;
+        }
+        #news-popup-card {
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 0 !important;
+            max-width: 100% !important;
+        }
+        @media (min-width: 768px) {
+            #news-popup-card {
+                width: 90% !important;
+                height: auto !important;
+                max-height: 90vh !important;
+                border-radius: 1rem !important;
+                max-width: 54rem !important;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-900 dark:bg-[#121316] dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
 
-  <!-- Top Bar: Date & Light/Dark Mode -->
-  <div class="top-bar">
-    <span id="currentDateDisplay">सोमवार, 19 अक्टूबर 2026</span>
-    <button class="theme-toggle-btn" onclick="toggleTheme()">
-      <i data-lucide="sun" id="themeIcon"></i>
-      <span id="themeText">Light Mode</span>
-    </button>
-  </div>
-
-  <!-- Main Navigation Header -->
-  <header class="site-header">
-    <div class="nav-container">
-      <a href="/" class="brand-wrap">
-        <span class="brand-logo-badge">NEWS</span>
-        <span class="brand-title">ARROW ➔</span>
-      </a>
-
-      <div class="search-box-wrap">
-        <i data-lucide="search" class="search-icon-pos" style="width: 16px; height: 16px;"></i>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search news..." oninput="handleSearch(this.value)">
-      </div>
-
-      <button class="post-modal-btn" onclick="openPublishModal()">
-        <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
-        <span>Post News</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Breaking News Ticker -->
-  <div class="ticker-bar">
-    <div class="ticker-label">
-      <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
-      BREAKING
-    </div>
-    <div class="ticker-marquee" id="breakingNewsText">
-      वाराणसी व देश-विदेश की ताज़ा खबरों के लिए News Arrow से जुड़े रहें...
-    </div>
-  </div>
-
-  <!-- Categories Tab Bar -->
-  <nav class="categories-bar">
-    <div class="categories-wrap">
-      <button class="category-chip active" onclick="filterCategory('All', this)">All</button>
-      <button class="category-chip" onclick="filterCategory('Varanasi', this)">Varanasi</button>
-      <button class="category-chip" onclick="filterCategory('National', this)">National</button>
-      <button class="category-chip" onclick="filterCategory('World', this)">World</button>
-      <button class="category-chip" onclick="filterCategory('Law World', this)">Law World</button>
-      <button class="category-chip" onclick="filterCategory('Crime', this)">Crime</button>
-    </div>
-  </nav>
-
-  <!-- Main News Content Container -->
-  <main class="main-wrapper">
-    <!-- WhatsApp Channel Banner -->
-    <div class="whatsapp-join-banner">
-      <div class="whatsapp-join-info">
-        <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
-        <span>Join our official WhatsApp Channel for ground updates!</span>
-      </div>
-      <a href="https://whatsapp.com" target="_blank" class="join-channel-btn">
-        Join ➔
-      </a>
-    </div>
-
-    <!-- Feed Header -->
-    <div class="feed-header">
-      <h2 id="feedSectionTitle">Latest News</h2>
-      <span id="storyCountBadge">Loading stories...</span>
-    </div>
-
-    <!-- Feed / Article View -->
-    <section id="newsFeedList">
-      <div style="text-align: center; padding: 50px 20px; color: var(--text-muted);">
-        खबरें लोड हो रही हैं, कृपया प्रतीक्षा करें...
-      </div>
-    </section>
-  </main>
-
-  <!-- Floating WhatsApp Contact Button -->
-  <a href="https://api.whatsapp.com" target="_blank" class="floating-whatsapp" title="WhatsApp Channel">
-    <i data-lucide="message-circle" style="width: 28px; height: 28px;"></i>
-  </a>
-
-  <!-- Content Management Dashboard (Modal) -->
-  <div class="modal-backdrop" id="publishModal">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3 class="modal-head-title">
-          <i data-lucide="gauge" style="color: var(--primary-accent); width: 18px; height: 18px;"></i>
-          Content Management Dashboard
-        </h3>
-        <button class="btn-close-modal" onclick="closePublishModal()">&times;</button>
-      </div>
-
-      <form id="newsPublishForm" onsubmit="submitNewsPost(event)">
-        <!-- Headline -->
-        <div class="field-group">
-          <label>
-            <span>Headline</span>
-            <span id="headlineCharCount">0 / 70 chars</span>
-          </label>
-          <input type="text" id="postHeadline" class="field-input" placeholder="Enter headline..." maxlength="70" required oninput="evaluateSEOScore()">
-        </div>
-
-        <!-- Reporter & Category -->
-        <div class="grid-2">
-          <div class="field-group">
-            <label>Reporter Name</label>
-            <input type="text" id="postReporter" class="field-input" placeholder="e.g. Abhay Shrivastav" required>
-          </div>
-          <div class="field-group">
-            <label>Category</label>
-            <select id="postCategory" class="field-select">
-              <option value="Varanasi">Varanasi</option>
-              <option value="National">National</option>
-              <option value="World">World</option>
-              <option value="Law World">Law World</option>
-              <option value="Crime">Crime</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Photo URL -->
-        <div class="field-group">
-          <label>Photo URL (Photo Card / Thumbnail)</label>
-          <input type="url" id="postPhotoUrl" class="field-input" placeholder="https://example.com/image.jpg" required oninput="evaluateSEOScore()">
-        </div>
-
-        <!-- YouTube Video / Shorts Link -->
-        <div class="field-group">
-          <label>YouTube Video / Shorts Link (Optional)</label>
-          <input type="url" id="postYoutubeUrl" class="field-input" placeholder="https://youtube.com/watch?v=... or Shorts">
-        </div>
-
-        <!-- Meta Description (SEO) -->
-        <div class="field-group">
-          <label>
-            <span>Meta Description (SEO & Discover)</span>
-            <span id="metaDescCharCount">0 / 160</span>
-          </label>
-          <textarea id="postMetaDesc" class="field-textarea" rows="2" maxlength="160" placeholder="Google Search के लिए 140-160 अक्षरों की संक्षिप्त समरी..." oninput="evaluateSEOScore()"></textarea>
-        </div>
-
-        <!-- Keywords & Tags -->
-        <div class="field-group">
-          <label>Keywords & Tags (Comma separated)</label>
-          <input type="text" id="postKeywords" class="field-input" placeholder="e.g. Varanasi, Court, BHU Andolan, News Arrow" oninput="evaluateSEOScore()">
-        </div>
-
-        <!-- News Details (Body) -->
-        <div class="field-group">
-          <label>
-            <span>News Details</span>
-            <span id="detailsWordCount">0 words</span>
-          </label>
-          <textarea id="postDetails" class="field-textarea" rows="6" placeholder="Write details here... You can use **heading:** or * for bullets" required oninput="evaluateSEOScore()"></textarea>
-        </div>
-
-        <!-- Live SEO & Discover Score Meter -->
-        <div class="seo-analyzer-card">
-          <div class="seo-analyzer-title">
-            <i data-lucide="trending-up" style="width: 16px; height: 16px; color: var(--primary-accent);"></i>
-            <span>LIVE SEO & DISCOVER</span>
-          </div>
-          <div id="seoScoreBadge" class="seo-pill seo-pill-fail">Needs Optimization (0/100)</div>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" id="btnPublishAction" class="submit-publish-btn">Publish News to newsarrow.in</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Site Footer -->
-  <footer>
-    <p>&copy; 2026 NEWS ARROW. All rights reserved. | Ground Reporting Network Varanasi</p>
-  </footer>
-
-  <script>
-    // 1. FIREBASE CONFIGURATION (यहाँ अपनी Firebase Project Keys सत्यापित करें)
-    const firebaseConfig = {
-      apiKey: "AIzaSyDummyKey_ReplaceWithActual",
-      authDomain: "newsarrow-portal.firebaseapp.com",
-      projectId: "newsarrow-portal",
-      storageBucket: "newsarrow-portal.appspot.com",
-      messagingSenderId: "1234567890",
-      appId: "1:1234567890:web:abcdef123456"
-    };
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const db = firebase.firestore();
-
-    let allLoadedArticles = [];
-    let currentCategoryFilter = 'All';
-
-    // 2. THEME TOGGLE (Dark / Light)
-    function toggleTheme() {
-      const html = document.documentElement;
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', newTheme);
-      document.getElementById('themeText').innerText = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
-      lucide.createIcons();
-    }
-
-    // 3. MODAL HANDLERS
-    function openPublishModal() {
-      document.getElementById('publishModal').style.display = 'block';
-    }
-
-    function closePublishModal() {
-      document.getElementById('publishModal').style.display = 'none';
-    }
-
-    // 4. LIVE SEO & DISCOVER EVALUATOR
-    function evaluateSEOScore() {
-      const headline = document.getElementById('postHeadline').value.trim();
-      const photoUrl = document.getElementById('postPhotoUrl').value.trim();
-      const metaDesc = document.getElementById('postMetaDesc').value.trim();
-      const keywords = document.getElementById('postKeywords').value.trim();
-      const details = document.getElementById('postDetails').value.trim();
-
-      document.getElementById('headlineCharCount').innerText = `${headline.length} / 70 chars`;
-      document.getElementById('metaDescCharCount').innerText = `${metaDesc.length} / 160`;
-
-      const words = details.length > 0 ? details.split(/\s+/).filter(w => w.length > 0).length : 0;
-      document.getElementById('detailsWordCount').innerText = `${words} words`;
-
-      let score = 0;
-      if (headline.length >= 35 && headline.length <= 70) score += 25;
-      if (metaDesc.length >= 70 && metaDesc.length <= 160) score += 25;
-      if (keywords.length >= 5) score += 15;
-      if (words >= 120) score += 20;
-      if (photoUrl.length > 10) score += 15;
-
-      const badge = document.getElementById('seoScoreBadge');
-      if (score >= 70) {
-        badge.className = 'seo-pill seo-pill-pass';
-        badge.innerText = `SEO Excellent (${score}/100)`;
-      } else {
-        badge.className = 'seo-pill seo-pill-fail';
-        badge.innerText = `Needs Work (${score}/100)`;
-      }
-    }
-
-    // 5. PUBLISH NEWS HANDLER
-    async function submitNewsPost(event) {
-      event.preventDefault();
-      const btn = document.getElementById('btnPublishAction');
-      btn.disabled = true;
-      btn.innerText = "Publishing to newsarrow.in...";
-
-      const headline = document.getElementById('postHeadline').value.trim();
-      const reporter = document.getElementById('postReporter').value.trim();
-      const category = document.getElementById('postCategory').value;
-      const photoUrl = document.getElementById('postPhotoUrl').value.trim();
-      const youtubeUrl = document.getElementById('postYoutubeUrl').value.trim();
-      const metaDesc = document.getElementById('postMetaDesc').value.trim();
-      const keywords = document.getElementById('postKeywords').value.trim();
-      const details = document.getElementById('postDetails').value.trim();
-
-      const articlePayload = {
-        headline: headline,
-        reporter: reporter,
-        category: category,
-        photoUrl: photoUrl,
-        youtubeUrl: youtubeUrl || "",
-        details: details,
-        metaDescription: metaDesc !== "" ? metaDesc : details.substring(0, 155),
-        keywords: keywords,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        timestampMs: Date.now()
-      };
-
-      try {
-        const docRef = await db.collection('news').add(articlePayload);
-        alert("खबर सफलतापूर्वक लाइव हो गई!");
-        document.getElementById('newsPublishForm').reset();
-        closePublishModal();
-        window.location.href = `/?id=${docRef.id}`;
-      } catch (err) {
-        console.error("Firebase Publish Error:", err);
-        alert("त्रुटि: खबर पब्लिश नहीं हो सकी। " + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerText = "Publish News to newsarrow.in";
-      }
-    }
-
-    // 6. DYNAMIC META TAG UPDATER (Single News SEO)
-    function applyDynamicSEOTags(article) {
-      document.title = `${article.headline} - News Arrow`;
-
-      function updateTag(attrName, attrVal, content) {
-        let el = document.querySelector(`meta[${attrName}="${attrVal}"]`);
-        if (!el) {
-          el = document.createElement('meta');
-          el.setAttribute(attrName, attrVal);
-          document.head.appendChild(el);
-        }
-        el.setAttribute('content', content || '');
-      }
-
-      const snippet = article.metaDescription || (article.details ? article.details.substring(0, 155) : '');
-
-      updateTag('name', 'description', snippet);
-      updateTag('name', 'keywords', article.keywords || 'News Arrow, Varanasi News');
-      updateTag('property', 'og:title', article.headline);
-      updateTag('property', 'og:description', snippet);
-      updateTag('property', 'og:image', article.photoUrl || '');
-      updateTag('property', 'og:url', window.location.href);
-    }
-
-    // 7. RENDER NEWS FEED
-    function renderFeed(articles) {
-      const container = document.getElementById('newsFeedList');
-      document.getElementById('storyCountBadge').innerText = `${articles.length} stories`;
-
-      if (articles.length === 0) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 60px 20px; color: var(--text-dim);">
-            इस कैटेगरी में अभी कोई खबर उपलब्ध नहीं है।
-          </div>`;
-        return;
-      }
-
-      // Update Breaking Bar with first news
-      if (articles[0] && articles[0].headline) {
-        document.getElementById('breakingNewsText').innerText = articles[0].headline;
-      }
-
-      let cardsHtml = '';
-      articles.forEach(item => {
-        const shareLink = `${window.location.origin}/?id=${item.id}`;
-        const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(item.headline + '\n\n' + shareLink)}`;
-
-        cardsHtml += `
-          <article class="news-card">
-            <div class="news-card-thumbnail-wrap">
-              <img src="${item.photoUrl}" alt="${item.headline}" class="news-card-thumbnail" loading="lazy">
-              <span class="card-category-badge">${item.category}</span>
+    <!-- Header -->
+    <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
+            
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
+                    <i id="theme-sun-icon" class="fa-regular fa-sun text-gray-500 dark:text-amber-400 text-sm"></i>
+                    <div class="relative inline-block w-8 h-4 align-middle select-none">
+                        <input type="checkbox" id="theme-toggle" class="toggle-switch-checkbox sr-only">
+                        <div class="toggle-switch-bg block w-8 h-4 bg-gray-300 rounded-full transition-colors duration-200"></div>
+                        <div class="toggle-switch-dot absolute left-0.5 top-0.5 bg-white w-3 h-3 rounded-full transition-transform duration-200"></div>
+                    </div>
+                </div>
             </div>
-            <div class="news-card-body">
-              <a href="/?id=${item.id}" class="news-card-title">${item.headline}</a>
-              <div class="news-card-meta">
-                <span><i data-lucide="user" style="width: 13px; height: 13px;"></i> ${item.reporter}</span>
-                <span>•</span>
-                <span>News Arrow Network</span>
-              </div>
-              <p class="news-card-excerpt">${item.details.length > 200 ? item.details.substring(0, 200) + '...' : item.details}</p>
-              
-              <div class="news-card-actions">
-                <div class="action-group">
-                  <a href="${whatsappShareUrl}" target="_blank" class="share-pill-btn">
-                    <i data-lucide="share-2" style="width: 14px; height: 14px;"></i> Share
-                  </a>
-                </div>
-                <a href="/?id=${item.id}" class="read-more-link">
-                  पूरा पढ़ें ➔
-                </a>
-              </div>
+        </div>
+
+        <!-- Branding Bar -->
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex justify-between items-center gap-2">
+            <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer select-none shrink-0" onclick="handleSecretLogoClick()">
+                <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-9 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
+                <h1 class="text-lg sm:text-2xl font-black tracking-tight text-gray-900 dark:text-white inline-flex items-center whitespace-nowrap">
+                    <span>NEWS</span>
+                    <span class="text-amber-500 ml-1.5 inline-flex items-center">
+                        ARROW
+                        <i class="fa-solid fa-arrow-right-long text-xs sm:text-sm ml-1 text-amber-500 animate-arrow-shoot"></i>
+                    </span>
+                </h1>
             </div>
-          </article>
-        `;
-      });
+            
+            <!-- Search -->
+            <div class="relative w-36 sm:w-72 shrink">
+                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Search..." class="w-full bg-gray-100 dark:bg-[#23272e] border border-gray-300 dark:border-[#343a46] text-xs sm:text-sm rounded-full pl-7 sm:pl-8 pr-2.5 sm:pr-3 py-1 sm:py-1.5 focus:outline-none focus:border-amber-500 text-gray-800 dark:text-white placeholder-gray-400 transition">
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 sm:left-3 top-2 sm:top-2.5 text-amber-500 text-xs"></i>
+            </div>
+        </div>
 
-      container.innerHTML = cardsHtml;
-      lucide.createIcons();
-    }
-
-    // 8. CATEGORY & SEARCH FILTER
-    function filterCategory(categoryName, btnElement) {
-      currentCategoryFilter = categoryName;
-      document.querySelectorAll('.category-chip').forEach(btn => btn.classList.remove('active'));
-      btnElement.classList.add('active');
-
-      if (categoryName === 'All') {
-        renderFeed(allLoadedArticles);
-      } else {
-        const filtered = allLoadedArticles.filter(a => a.category && a.category.toLowerCase() === categoryName.toLowerCase());
-        renderFeed(filtered);
-      }
-    }
-
-    function handleSearch(query) {
-      const q = query.toLowerCase().trim();
-      if (!q) {
-        filterCategory(currentCategoryFilter, document.querySelector('.category-chip.active') || document.querySelector('.category-chip'));
-        return;
-      }
-      const searchResults = allLoadedArticles.filter(a => 
-        (a.headline && a.headline.toLowerCase().includes(q)) || 
-        (a.details && a.details.toLowerCase().includes(q)) ||
-        (a.keywords && a.keywords.toLowerCase().includes(q))
-      );
-      renderFeed(searchResults);
-    }
-
-    // 9. APP INITIALIZATION (Feed or Single Article Mode)
-    async function initApplication() {
-      lucide.createIcons();
-      const params = new URLSearchParams(window.location.search);
-      const singleId = params.get('id');
-      const feedContainer = document.getElementById('newsFeedList');
-
-      if (singleId) {
-        // Single Article Detail View
-        try {
-          const docSnap = await db.collection('news').doc(singleId).get();
-          if (docSnap.exists) {
-            const article = { id: docSnap.id, ...docSnap.data() };
-            applyDynamicSEOTags(article);
-
-            document.getElementById('feedSectionTitle').innerText = "Special Coverage";
-            document.getElementById('storyCountBadge').innerText = "Full Story";
-
-            const shareUrl = window.location.href;
-            const waShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(article.headline + '\n\n' + shareUrl)}`;
-
-            feedContainer.innerHTML = `
-              <article class="news-card" style="border: none; background: transparent;">
-                <div class="news-card-thumbnail-wrap" style="border-radius: 12px; max-height: 440px;">
-                  <img src="${article.photoUrl}" alt="${article.headline}" class="news-card-thumbnail">
-                  <span class="card-category-badge">${article.category}</span>
+        <!-- Breaking Ticker -->
+        <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-black text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden font-bold">
+            <div class="max-w-7xl mx-auto w-full flex items-center">
+                <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap shrink-0">
+                    <i class="fa-solid fa-bolt-lightning text-black"></i>
+                    <span>BREAKING:</span>
+                </span>
+                <div class="overflow-hidden w-full relative">
+                    <div id="marquee-text" class="marquee-content font-bold">Welcome to News Arrow! Real-time verified stories.</div>
                 </div>
-                <div class="news-card-body" style="padding: 20px 0;">
-                  <h1 style="font-size: 26px; font-weight: 800; line-height: 1.4; margin-bottom: 12px; color: var(--text-main);">
-                    ${article.headline}
-                  </h1>
-                  
-                  <div class="news-card-meta" style="font-size: 13px; margin-bottom: 20px;">
-                    <span><b>रिपोर्टर:</b> ${article.reporter}</span>
-                    <span>•</span>
-                    <span>NEWS ARROW वाराणसी</span>
-                  </div>
+            </div>
+        </div>
 
-                  <div style="font-size: 17px; line-height: 1.8; color: var(--text-main); white-space: pre-wrap; margin-bottom: 24px;">
-                    ${article.details}
-                  </div>
+        <!-- Category Bar -->
+        <nav class="bg-gray-50 dark:bg-[#14161a] border-b border-gray-200 dark:border-[#252830] overflow-x-auto whitespace-nowrap scrollbar-none">
+            <div class="max-w-7xl mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
+                <button onclick="filterCategory('All')" class="category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow">All</button>
+                <button onclick="filterCategory('Varanasi')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Varanasi</button>
+                <button onclick="filterCategory('National')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">National</button>
+                <button onclick="filterCategory('World')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">World</button>
+                <button onclick="filterCategory('Law World')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Law World</button>
+                <button onclick="filterCategory('Crime')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Crime</button>
+                <button onclick="filterCategory('Business')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Business</button>
+                <button onclick="filterCategory('Sports')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Sports</button>
+                <button onclick="filterCategory('Entertainment')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Entertainment</button>
+                <button onclick="filterCategory('Tech')" class="category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300">Tech</button>
+            </div>
+        </nav>
+    </header>
 
-                  <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
-                    <span style="font-size: 14px; font-weight: 700;">इस खबर को शेयर करें:</span>
-                    <a href="${waShareUrl}" target="_blank" class="share-pill-btn" style="padding: 8px 16px; font-size: 13px;">
-                      <i data-lucide="share-2"></i> WhatsApp पर शेयर करें
-                    </a>
-                  </div>
+    <!-- WhatsApp Banner -->
+    <div class="bg-white dark:bg-[#1c2026] border-b border-gray-200 dark:border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="flex items-center space-x-2 font-medium truncate text-gray-700 dark:text-gray-300">
+                <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
+                <span class="truncate">Join our official <b>WhatsApp Channel</b> for ground reports and instant updates</span>
+            </span>
+            <a href="https://whatsapp.com/channel/" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-black font-extrabold px-3 py-1 rounded-full text-xs shadow transition shrink-0 ml-2">
+                Join &rarr;
+            </a>
+        </div>
+    </div>
 
-                  <div style="text-align: center; margin-top: 30px;">
-                    <a href="/" style="color: var(--primary-accent); text-decoration: none; font-weight: 700; font-size: 15px;">
-                      ➔ सभी ताज़ा खबरें पढ़ें (Homepage)
-                    </a>
-                  </div>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- Video Strip -->
+        <div id="video-feed-section" class="mb-8 hidden">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-base sm:text-lg font-black flex items-center space-x-2 text-gray-900 dark:text-white">
+                    <span class="w-2 h-5 bg-red-600 rounded inline-block shadow"></span>
+                    <span class="flex items-center"><i class="fa-solid fa-circle-play text-red-600 mr-2 text-base"></i>Ground Videos & Shorts</span>
+                </h3>
+                <span class="text-xs text-amber-500 font-bold flex items-center">Scroll &rarr;</span>
+            </div>
+            <div id="video-feed-container" class="flex space-x-4 overflow-x-auto no-scrollbar py-2"></div>
+        </div>
+
+        <!-- News Header -->
+        <div class="flex justify-between items-center mb-5 border-b border-gray-200 dark:border-[#252830] pb-2.5">
+            <h2 id="current-category-title" class="text-lg sm:text-xl font-bold flex items-center space-x-2 text-gray-900 dark:text-white">
+                <span class="w-2 h-6 bg-amber-500 rounded inline-block shadow-[0_0_10px_#f59e0b]"></span>
+                <span>Latest News</span>
+            </h2>
+            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 stories</span>
+        </div>
+
+        <!-- News Cards Grid -->
+        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+
+        <!-- No News Found -->
+        <div id="no-news-message" class="hidden text-center py-16">
+            <i class="fa-regular fa-newspaper text-5xl text-gray-400 dark:text-gray-500 mb-3"></i>
+            <p class="text-gray-500 dark:text-gray-400 font-medium">No stories available in this category.</p>
+        </div>
+
+        <!-- Widgets Section -->
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-200 dark:border-[#252830]">
+            
+            <!-- Weather Card -->
+            <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
+                <div>
+                    <div class="mb-4">
+                        <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-black text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider shadow">
+                            Weather
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-3">
+                                <i id="weather-icon" class="fa-solid fa-sun text-4xl text-amber-500"></i>
+                                <div>
+                                    <h4 class="text-xl font-extrabold text-gray-900 dark:text-white">Varanasi, UP</h4>
+                                    <p id="weather-desc" class="text-xs text-gray-500 dark:text-gray-400 capitalize">Clear Sky</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span id="weather-temp" class="text-4xl font-black text-amber-500 dark:text-amber-400">23°C</span>
+                        </div>
+                    </div>
                 </div>
-              </article>
-            `;
-            lucide.createIcons();
-          } else {
-            feedContainer.innerHTML = `<div style="text-align:center; padding: 60px;">यह खबर मौजूद नहीं है या हटा दी गई है।</div>`;
-          }
-        } catch (err) {
-          console.error(err);
-          feedContainer.innerHTML = `<div style="text-align:center; padding: 60px; color: var(--danger);">खबर लोड नहीं हो सकी: ${err.message}</div>`;
-        }
-      } else {
-        // Main Feed Mode
-        try {
-          const snapshot = await db.collection('news').orderBy('createdAt', 'desc').limit(25).get();
-          allLoadedArticles = [];
-          snapshot.forEach(doc => {
-            allLoadedArticles.push({ id: doc.id, ...doc.data() });
-          });
-          renderFeed(allLoadedArticles);
-        } catch (err) {
-          console.error(err);
-          feedContainer.innerHTML = `<div style="text-align:center; padding: 60px; color: var(--danger);">फीड लोड करने में समस्या: ${err.message}</div>`;
-        }
-      }
-    }
+                <div class="grid grid-cols-3 gap-2 mt-5 pt-4 border-t border-gray-100 dark:border-[#282d36] text-center text-xs text-gray-600 dark:text-gray-300">
+                    <div>
+                        <span class="block text-gray-400 dark:text-gray-500 text-[10px]">Max / Min</span>
+                        <span id="weather-range" class="font-bold text-gray-800 dark:text-gray-200">28° / 20°</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 dark:text-gray-500 text-[10px]">Humidity</span>
+                        <span id="weather-humidity" class="font-bold text-gray-800 dark:text-gray-200">65%</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 dark:text-gray-500 text-[10px]">Wind Speed</span>
+                        <span id="weather-wind" class="font-bold text-gray-800 dark:text-gray-200">4 km/h</span>
+                    </div>
+                </div>
+            </div>
 
-    window.onload = initApplication;
-  </script>
+            <!-- Opinion Poll -->
+            <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
+                <div>
+                    <div class="mb-3 flex justify-between items-center">
+                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">Opinion Poll</span>
+                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>Live Poll</span>
+                    </div>
+                    <h4 class="text-sm font-extrabold text-gray-900 dark:text-white mb-4 leading-snug">
+                        Has recent infrastructure and development in Varanasi significantly boosted local tourism and employment?
+                    </h4>
+                    
+                    <div id="poll-actions" class="space-y-2">
+                        <button onclick="votePoll('yes')" id="btn-vote-yes" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
+                            <span>👍 Yes, major improvement</span>
+                            <span class="text-amber-500 font-black">Vote</span>
+                        </button>
+                        <button onclick="votePoll('no')" id="btn-vote-no" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
+                            <span>👎 No, more work needed</span>
+                            <span class="text-amber-500 font-black">Vote</span>
+                        </button>
+                    </div>
+
+                    <div id="poll-result" class="hidden space-y-3 mt-2 text-xs">
+                        <div>
+                            <div class="flex justify-between font-bold mb-1">
+                                <span>Yes</span>
+                                <span id="poll-yes-pct">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
+                                <div id="poll-yes-bar" class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between font-bold mb-1">
+                                <span>No</span>
+                                <span id="poll-no-pct">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
+                                <div id="poll-no-bar" class="bg-gray-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-4 pt-2 border-t border-gray-100 dark:border-[#282d36] text-center">
+                    Total Votes: <span id="total-votes" class="font-bold text-amber-500">0</span>
+                </p>
+            </div>
+
+            <!-- Follow Us -->
+            <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
+                <div>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white mb-4 flex items-center space-x-1.5">
+                        <span class="text-amber-500 font-black text-lg">/</span>
+                        <span class="font-extrabold tracking-wide">Follow US</span>
+                        <span class="text-amber-500 font-black text-lg">/</span>
+                    </h3>
+                    
+                    <div class="space-y-3 text-xs">
+                        <a href="https://www.facebook.com/share/1SSVChhkT5/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 p-3 rounded-lg border border-gray-200 dark:border-[#2b3038] bg-gray-50 dark:bg-[#14161a] hover:border-amber-500 transition group shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 text-xl group-hover:scale-105 transition">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </div>
+                            <div>
+                                <span class="block font-black text-sm text-gray-900 dark:text-gray-100 leading-tight">Follow on Facebook</span>
+                                <span class="text-xs text-blue-600 dark:text-blue-400 font-bold">Facebook Page &rarr;</span>
+                            </div>
+                        </a>
+
+                        <a href="https://instagram.com/navkashi14?exln=YXlxcmR5bGY3a2s3" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3.5 p-3 rounded-lg border border-gray-200 dark:border-[#2b3038] bg-gray-50 dark:bg-[#14161a] hover:border-amber-500 transition group shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center text-pink-600 dark:text-pink-400 text-xl group-hover:scale-105 transition">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <span class="block font-black text-sm text-gray-900 dark:text-gray-100 leading-tight">Follow on Instagram</span>
+                                <span class="text-xs text-pink-600 dark:text-pink-400 font-bold">@navkashi14 &rarr;</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-[11px] text-gray-400 text-center mt-3 pt-2 border-t border-gray-100 dark:border-[#282d36]">
+                    Stay connected with News Arrow
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- WhatsApp Floating Action -->
+    <a href="https://api.whatsapp.com/send?phone=917348020619&text=Hello%20News%20Arrow,%20I%20have%20a%20news%20story/video:" target="_blank" class="fixed bottom-5 left-4 z-30 bg-[#25D366] hover:bg-[#20ba59] text-white px-3.5 py-2.5 rounded-full shadow-2xl flex items-center space-x-2 border-2 border-white dark:border-[#121316] transition-all transform hover:scale-105" title="Send News">
+        <i class="fa-brands fa-whatsapp text-xl"></i>
+        <span class="text-xs font-bold hidden sm:inline">Send News</span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 dark:bg-[#0e0f12] text-gray-400 text-xs sm:text-sm py-6 mt-12 border-t border-gray-800 dark:border-[#22252c]">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-extrabold text-amber-500 text-base tracking-wider">NEWS ARROW</p>
+            <p class="text-gray-400">Truth, Impartiality, and Accuracy define our reporting.</p>
+            <p class="text-gray-600 pt-2">© 2026 News Arrow. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Admin Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminModal()">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl p-6 max-w-sm w-full shadow-2xl relative">
+            <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white flex items-center space-x-2">
+                <i class="fa-solid fa-shield-halved text-amber-500"></i>
+                <span>Admin Login</span>
+            </h3>
+            <input type="password" id="admin-pass" placeholder="Enter password" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded mb-4 text-sm focus:outline-none focus:border-amber-500">
+            <div class="flex justify-end space-x-2">
+                <button onclick="closeAdminModal()" class="px-3 py-1.5 rounded text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#252830] text-sm">Cancel</button>
+                <button onclick="verifyAdmin()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded text-sm font-bold shadow">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full Article Modal -->
+    <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-[100] hidden items-center justify-center p-0 md:p-6" onclick="if(event.target===this) closeFullNews()">
+        <div id="news-popup-card" class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] overflow-y-auto p-4 sm:p-8 shadow-2xl flex flex-col justify-between">
+            <div>
+                <!-- Top Actions -->
+                <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
+                    <span id="read-category" class="px-3 py-1 text-xs font-black rounded bg-amber-500 text-black uppercase tracking-wider shadow"></span>
+                    <button onclick="closeFullNews()" class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white text-3xl font-bold leading-none p-1 cursor-pointer">&times;</button>
+                </div>
+                
+                <!-- Headline -->
+                <h2 id="read-title" class="text-xl sm:text-3xl font-black mb-4 text-gray-900 dark:text-white leading-snug tracking-tight"></h2>
+                
+                <!-- Reporter & Audio Button -->
+                <div class="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-gray-200 dark:border-[#282d36] mb-5 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                    <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
+                    <div class="flex items-center space-x-2">
+                        <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
+                            <i id="tts-icon" class="fa-solid fa-volume-high"></i>
+                            <span id="tts-text">Listen Story</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Media -->
+                <img id="read-image" src="" alt="News Image" class="w-full max-h-[460px] object-cover rounded-xl mb-6 border border-gray-200 dark:border-[#2b3038] shadow">
+
+                <div id="read-video-container" class="hidden mb-6 aspect-video w-full rounded-xl overflow-hidden bg-black shadow border border-[#2b3038]">
+                    <iframe id="read-video-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <!-- News Body -->
+                <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg font-normal space-y-3"></div>
+            </div>
+
+            <!-- Footer Close -->
+            <div class="mt-8 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
+                <button onclick="closeFullNews()" class="px-6 py-2.5 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-lg text-sm font-bold border border-gray-300 dark:border-[#3a404e] cursor-pointer">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminPanel()">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-gauge-high text-amber-500"></i>
+                    <span id="admin-panel-title">Content Management Dashboard</span>
+                </h3>
+                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-black dark:hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="handlePublish(event)" class="space-y-4 text-sm">
+                <input type="hidden" id="edit-news-id" value="">
+                
+                <!-- Headline -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block font-medium text-gray-700 dark:text-gray-300">Headline</label>
+                        <span id="title-char-count" class="text-xs text-gray-400">0 / 70 chars</span>
+                    </div>
+                    <input type="text" id="news-title" oninput="calculateLiveSEO()" required placeholder="Enter headline..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Reporter Name</label>
+                        <input type="text" id="news-reporter" placeholder="e.g. Abhay Shrivastav" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Category</label>
+                        <select id="news-category" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                            <option value="Varanasi">Varanasi</option>
+                            <option value="National">National</option>
+                            <option value="World">World</option>
+                            <option value="Law World">Law World</option>
+                            <option value="Crime">Crime</option>
+                            <option value="Business">Business</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Tech">Tech</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Upload Photo</label>
+                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-amber-500 file:text-black hover:file:bg-amber-600">
+                        <input type="hidden" id="news-image"> 
+                        <span id="existing-img-note" class="text-[11px] text-gray-400 hidden mt-1 block">Image already uploaded</span>
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">YouTube Video / Shorts Link</label>
+                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... or Shorts" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block font-medium text-gray-700 dark:text-gray-300">News Details</label>
+                        <span id="content-word-count" class="text-xs text-gray-400">0 words</span>
+                    </div>
+                    <textarea id="news-content" oninput="calculateLiveSEO()" rows="6" required placeholder="Write details here... You can use **heading:** or * for bullets" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
+                </div>
+
+                <!-- LIVE SEO CHECKLIST -->
+                <div class="bg-gray-50 dark:bg-[#20242c] p-4 rounded-xl border border-gray-200 dark:border-[#343a46] space-y-3">
+                    <div class="flex items-center justify-between border-b border-gray-200 dark:border-[#2e333d] pb-2.5">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-line text-amber-500"></i>
+                            <span class="font-bold text-xs uppercase tracking-wider text-gray-800 dark:text-gray-200">Live SEO & Discover Score</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span id="seo-score-badge" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-red-500 text-white shadow">0 / 100</span>
+                            <span id="seo-status-text" class="text-xs font-bold text-red-500">Needs Work</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-gray-200 dark:bg-[#2b303a] h-2 rounded-full overflow-hidden">
+                        <div id="seo-progress-bar" class="bg-red-500 h-full w-0 transition-all duration-300"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+                        <div id="check-title" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-circle-xmark text-red-500"></i>
+                            <span>Headline Length (40–75 chars)</span>
+                        </div>
+                        <div id="check-content" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-circle-xmark text-red-500"></i>
+                            <span>Content Length (100+ words)</span>
+                        </div>
+                        <div id="check-image" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-circle-xmark text-red-500"></i>
+                            <span>Featured HD Image Uploaded</span>
+                        </div>
+                        <div id="check-focus" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-circle-xmark text-red-500"></i>
+                            <span>Focus Keywords in First Para</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="news-breaking" class="rounded text-amber-500 focus:ring-amber-500 h-4 w-4 bg-gray-50 dark:bg-[#23272e] border-gray-300 dark:border-[#343a46]">
+                    <label for="news-breaking" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">Show in Breaking News Ticker</label>
+                </div>
+                
+                <div class="flex space-x-2 pt-2">
+                    <button type="submit" id="publish-btn" class="flex-grow bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-2.5 rounded shadow transition">
+                        Publish News
+                    </button>
+                    <button type="button" id="cancel-edit-btn" onclick="cancelEditMode()" class="hidden px-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2.5 rounded shadow transition">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 border-t border-gray-200 dark:border-[#282d36] pt-4">
+                <h4 class="font-bold text-sm mb-3 text-gray-800 dark:text-gray-300">Manage Published News</h4>
+                <div id="admin-news-list" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            deleteDoc, 
+            doc, 
+            setDoc, 
+            updateDoc, 
+            increment, 
+            query, 
+            orderBy, 
+            onSnapshot, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKL_XkMlp74NcMKHJmzL-9xTqQjF3k6A0",
+            authDomain: "newsarrow-199cf.firebaseapp.com",
+            projectId: "newsarrow-199cf",
+            storageBucket: "newsarrow-199cf.firebasestorage.app",
+            messagingSenderId: "545957236502",
+            appId: "1:545957236502:web:5df6cc317042a6c8916327",
+            measurementId: "G-9RKDM3CW2V"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let newsData = [];
+        let currentFilter = 'All';
+
+        const categoryMap = {
+            'All': ['All', 'सभी'],
+            'Varanasi': ['Varanasi', 'वाराणसी'],
+            'National': ['National', 'देश'],
+            'World': ['World', 'विदेश'],
+            'Law World': ['Law World', 'कानून', 'विधि'],
+            'Crime': ['Crime', 'अपराध'],
+            'Business': ['Business', 'व्यापार'],
+            'Sports': ['Sports', 'खेल'],
+            'Entertainment': ['Entertainment', 'मनोरंजन'],
+            'Tech': ['Tech', 'तकनीक']
+        };
+
+        let logoClickCount = 0;
+        let logoTimer = null;
+        window.handleSecretLogoClick = function() {
+            logoClickCount++;
+            clearTimeout(logoTimer);
+            logoTimer = setTimeout(() => {
+                logoClickCount = 0;
+            }, 1200);
+
+            if (logoClickCount === 3) {
+                logoClickCount = 0;
+                openAdminModal();
+            } else if (logoClickCount === 1) {
+                filterCategory('All');
+            }
+        };
+
+        window.calculateLiveSEO = function() {
+            const title = (document.getElementById('news-title').value || '').trim();
+            const content = (document.getElementById('news-content').value || '').trim();
+            const imageVal = (document.getElementById('news-image').value || '');
+            const hasExistingImg = !document.getElementById('existing-img-note').classList.contains('hidden');
+
+            const titleLen = title.length;
+            document.getElementById('title-char-count').innerText = `${titleLen} / 70 chars`;
+            const isTitleGood = (titleLen >= 35 && titleLen <= 78);
+            updateCheckUI('check-title', isTitleGood);
+
+            const words = content.split(/\s+/).filter(w => w.length > 0);
+            const wordCount = words.length;
+            document.getElementById('content-word-count').innerText = `${wordCount} words`;
+            const isContentGood = (wordCount >= 90);
+            updateCheckUI('check-content', isContentGood);
+
+            const hasImage = (imageVal.length > 50 || hasExistingImg);
+            updateCheckUI('check-image', hasImage);
+
+            let isFocusGood = false;
+            if (titleLen > 10 && wordCount > 20) {
+                const titleWords = title.split(/\s+/).filter(w => w.length > 3);
+                const firstPara = content.substring(0, 300).toLowerCase();
+                isFocusGood = titleWords.some(w => firstPara.includes(w.toLowerCase()));
+            }
+            updateCheckUI('check-focus', isFocusGood);
+
+            let score = 0;
+            if (isTitleGood) score += 30; else if (titleLen > 15) score += 15;
+            if (isContentGood) score += 30; else if (wordCount > 35) score += 15;
+            if (hasImage) score += 25;
+            if (isFocusGood) score += 15;
+
+            const badge = document.getElementById('seo-score-badge');
+            const status = document.getElementById('seo-status-text');
+            const bar = document.getElementById('seo-progress-bar');
+
+            badge.innerText = `${score} / 100`;
+            bar.style.width = `${score}%`;
+
+            if (score >= 80) {
+                badge.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500 text-white shadow";
+                bar.className = "bg-emerald-500 h-full transition-all duration-300";
+                status.innerText = "Excellent (Ready!)";
+                status.className = "text-xs font-bold text-emerald-500";
+            } else if (score >= 50) {
+                badge.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-500 text-black shadow";
+                bar.className = "bg-amber-500 h-full transition-all duration-300";
+                status.innerText = "Average (Can Improve)";
+                status.className = "text-xs font-bold text-amber-500";
+            } else {
+                badge.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-red-500 text-white shadow";
+                bar.className = "bg-red-500 h-full transition-all duration-300";
+                status.innerText = "Needs Work";
+                status.className = "text-xs font-bold text-red-500";
+            }
+        };
+
+        function updateCheckUI(elementId, passed) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const icon = el.querySelector('i');
+            if (passed) {
+                icon.className = "fa-solid fa-circle-check text-emerald-500";
+                el.className = "flex items-center space-x-2 text-gray-800 dark:text-gray-200 font-semibold";
+            } else {
+                icon.className = "fa-solid fa-circle-xmark text-red-500";
+                el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
+            }
+        }
+
+        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+        onSnapshot(q, (snapshot) => {
+            newsData = [];
+            snapshot.forEach((d) => {
+                newsData.push({ id: d.id, ...d.data() });
+            });
+            renderNews();
+            renderVideoFeed();
+            renderAdminNewsList();
+
+            const params = new URLSearchParams(window.location.search);
+            const newsId = params.get('id');
+            if (newsId) {
+                const decoded = decodeURIComponent(newsId).trim();
+                const item = newsData.find(n => (n.id && n.id.toString() === decoded) || (n.title && n.title.trim() === decoded));
+                if (item) readFullArticle(item.id);
+            }
+        }, (err) => {
+            console.error("Firebase read error: ", err);
+        });
+
+        // 0% Clean Poll
+        const pollDocRef = doc(db, "polls", "current_poll_v2");
+
+        onSnapshot(pollDocRef, (snap) => {
+            if (snap.exists()) {
+                updatePollUI(snap.data());
+            } else {
+                setDoc(pollDocRef, { yes: 0, no: 0 });
+            }
+        }, (err) => {
+            console.error("Poll read error: ", err);
+        });
+
+        function updatePollUI(data) {
+            const yesVotes = Number(data?.yes) || 0;
+            const noVotes = Number(data?.no) || 0;
+            const total = yesVotes + noVotes;
+
+            const yesPct = total > 0 ? Math.round((yesVotes / total) * 100) : 0;
+            const noPct = total > 0 ? (100 - yesPct) : 0;
+
+            document.getElementById('poll-yes-pct').innerText = `${yesPct}%`;
+            document.getElementById('poll-no-pct').innerText = `${noPct}%`;
+            document.getElementById('poll-yes-bar').style.width = `${yesPct}%`;
+            document.getElementById('poll-no-bar').style.width = `${noPct}%`;
+            document.getElementById('total-votes').innerText = total.toLocaleString('hi-IN');
+        }
+
+        window.votePoll = async function(choice) {
+            if (localStorage.getItem('newsarrow_has_voted_v2') === 'true') {
+                alert('आप पहले ही अपना मत दर्ज कर चुके हैं!');
+                return;
+            }
+
+            const btnYes = document.getElementById('btn-vote-yes');
+            const btnNo = document.getElementById('btn-vote-no');
+            if (btnYes) btnYes.disabled = true;
+            if (btnNo) btnNo.disabled = true;
+
+            try {
+                if (choice === 'yes') {
+                    await updateDoc(pollDocRef, { yes: increment(1) });
+                } else {
+                    await updateDoc(pollDocRef, { no: increment(1) });
+                }
+
+                localStorage.setItem('newsarrow_has_voted_v2', 'true');
+                document.getElementById('poll-actions').classList.add('hidden');
+                document.getElementById('poll-result').classList.remove('hidden');
+                alert('धन्यवाद! आपका मत दर्ज हो गया है।');
+            } catch (err) {
+                console.error("Poll vote error:", err);
+                await setDoc(pollDocRef, {
+                    yes: choice === 'yes' ? 1 : 0,
+                    no: choice === 'no' ? 1 : 0
+                }, { merge: true });
+                localStorage.setItem('newsarrow_has_voted_v2', 'true');
+                document.getElementById('poll-actions').classList.add('hidden');
+                document.getElementById('poll-result').classList.remove('hidden');
+            }
+        };
+
+        if (localStorage.getItem('newsarrow_has_voted_v2') === 'true') {
+            const actions = document.getElementById('poll-actions');
+            const result = document.getElementById('poll-result');
+            if (actions && result) {
+                actions.classList.add('hidden');
+                result.classList.remove('hidden');
+            }
+        }
+
+        function getYouTubeEmbedUrl(url) {
+            if (!url) return null;
+            const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=|shorts\/)|youtu\.be\/)([^"&?\/\s]{11})/;
+            const match = url.match(regExp);
+            return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+        }
+
+        function formatNewsContent(text) {
+            if (!text) return '';
+            const cleanText = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            const lines = cleanText.split('\n');
+            let formattedHtml = '';
+
+            lines.forEach(line => {
+                let trimmed = line.trim();
+                if (!trimmed) {
+                    formattedHtml += '<div class="h-2"></div>';
+                    return;
+                }
+
+                let isBullet = false;
+                if (/^[\*\-•]\s+/.test(trimmed)) {
+                    isBullet = true;
+                    trimmed = trimmed.replace(/^[\*\-•]\s+/, '');
+                } else if (trimmed.startsWith('*') && !trimmed.startsWith('**')) {
+                    isBullet = true;
+                    trimmed = trimmed.substring(1).trim();
+                } else if (trimmed.startsWith('**') && trimmed.includes(':**')) {
+                    isBullet = true;
+                }
+
+                trimmed = trimmed.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+                if (isBullet) {
+                    formattedHtml += `
+                        <div class="bullet-point-line">
+                            <span class="bullet-point-dot">★</span>
+                            <div>${trimmed}</div>
+                        </div>
+                    `;
+                } else {
+                    formattedHtml += `<p class="mb-3 leading-relaxed">${trimmed}</p>`;
+                }
+            });
+
+            return formattedHtml;
+        }
+
+        window.handlePublish = async function(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            const pubBtn = document.getElementById('publish-btn');
+            pubBtn.disabled = true;
+
+            const editId = document.getElementById('edit-news-id').value.trim();
+            pubBtn.innerText = editId ? 'Updating...' : 'Publishing...';
+
+            const titleVal = document.getElementById('news-title').value.trim();
+            const catVal = document.getElementById('news-category').value;
+            const reporterVal = document.getElementById('news-reporter').value.trim() || 'News Arrow';
+            const videoVal = document.getElementById('news-video').value.trim();
+            const contentVal = document.getElementById('news-content').value.trim();
+            let imgVal = document.getElementById('news-image').value;
+            const isBreakingVal = document.getElementById('news-breaking').checked;
+            
+            if (!imgVal && !editId) {
+                imgVal = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
+            }
+
+            try {
+                if (editId) {
+                    const updateData = {
+                        title: titleVal,
+                        category: catVal,
+                        reporter: reporterVal,
+                        video: videoVal,
+                        content: contentVal,
+                        isBreaking: isBreakingVal
+                    };
+                    if (imgVal) {
+                        updateData.image = imgVal;
+                    }
+                    await updateDoc(doc(db, "news", editId), updateData);
+                    alert('Story updated successfully!');
+                } else {
+                    const newItem = {
+                        title: titleVal,
+                        category: catVal,
+                        reporter: reporterVal,
+                        video: videoVal,
+                        image: imgVal,
+                        content: contentVal,
+                        isBreaking: isBreakingVal,
+                        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        timestamp: serverTimestamp()
+                    };
+                    await addDoc(collection(db, "news"), newItem);
+                    alert('Story published successfully!');
+                }
+                
+                cancelEditMode();
+                closeAdminPanel();
+            } catch (err) {
+                alert('Error: ' + err.message);
+            } finally {
+                pubBtn.disabled = false;
+            }
+        };
+
+        window.startEditNews = function(id) {
+            const item = newsData.find(n => String(n.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('edit-news-id').value = item.id;
+            document.getElementById('news-title').value = item.title || '';
+            document.getElementById('news-reporter').value = item.reporter || '';
+            
+            let categoryToSet = item.category || 'Varanasi';
+            for (const [engCat, aliases] of Object.entries(categoryMap)) {
+                if (aliases.includes(item.category)) {
+                    categoryToSet = engCat;
+                    break;
+                }
+            }
+            document.getElementById('news-category').value = categoryToSet;
+            document.getElementById('news-video').value = item.video || '';
+            document.getElementById('news-content').value = item.content || '';
+            document.getElementById('news-breaking').checked = !!item.isBreaking;
+            
+            document.getElementById('news-image').value = '';
+            const existingNote = document.getElementById('existing-img-note');
+            if (existingNote) existingNote.classList.remove('hidden');
+
+            document.getElementById('admin-panel-title').innerText = 'Edit News Story';
+            document.getElementById('publish-btn').innerText = 'Update Story';
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+
+            calculateLiveSEO();
+
+            const modal = document.getElementById('admin-panel');
+            if (modal) modal.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.cancelEditMode = function() {
+            document.getElementById('edit-news-id').value = '';
+            document.getElementById('news-title').value = '';
+            document.getElementById('news-reporter').value = '';
+            document.getElementById('news-video').value = '';
+            document.getElementById('news-content').value = '';
+            document.getElementById('news-image').value = '';
+            const fileBox = document.getElementById('news-image-file');
+            if (fileBox) fileBox.value = '';
+            document.getElementById('news-breaking').checked = false;
+
+            const existingNote = document.getElementById('existing-img-note');
+            if (existingNote) existingNote.classList.add('hidden');
+
+            document.getElementById('admin-panel-title').innerText = 'Content Management Dashboard';
+            document.getElementById('publish-btn').innerText = 'Publish News';
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+
+            calculateLiveSEO();
+        };
+
+        window.deleteNews = async function(id) {
+            if (confirm('Are you sure you want to delete this story?')) {
+                try {
+                    await deleteDoc(doc(db, "news", id));
+                } catch (err) {
+                    alert('Delete Error: ' + err.message);
+                }
+            }
+        };
+
+        window.renderVideoFeed = function() {
+            const feedSection = document.getElementById('video-feed-section');
+            const feedContainer = document.getElementById('video-feed-container');
+            if (!feedSection || !feedContainer) return;
+
+            const videoNews = newsData.filter(item => item.video && getYouTubeEmbedUrl(item.video));
+            
+            if (videoNews.length === 0) {
+                feedSection.classList.add('hidden');
+                return;
+            }
+
+            feedSection.classList.remove('hidden');
+            feedContainer.innerHTML = '';
+
+            videoNews.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "flex-shrink-0 w-44 sm:w-52 bg-[#181a1f] border border-amber-500/30 rounded-xl overflow-hidden cursor-pointer shadow-lg hover:border-amber-500 transition group";
+                card.onclick = () => readFullArticle(item.id);
+                
+                card.innerHTML = `
+                    <div class="relative w-full aspect-[9/14] bg-black overflow-hidden">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+                        <div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow">
+                            <i class="fa-solid fa-play text-[8px]"></i>
+                            <span>REELS</span>
+                        </div>
+                        <div class="absolute bottom-2 left-2 right-2 text-white">
+                            <span class="text-[10px] text-amber-400 font-bold block mb-1 uppercase">${item.reporter || 'Ground Bureau'}</span>
+                            <p class="text-xs font-bold line-clamp-2 leading-tight">${item.title}</p>
+                        </div>
+                    </div>
+                `;
+                feedContainer.appendChild(card);
+            });
+        };
+
+        window.renderNews = function(filteredData = null) {
+            const container = document.getElementById('news-container');
+            const noNews = document.getElementById('no-news-message');
+            const countLabel = document.getElementById('news-count');
+            
+            if (!container) return;
+
+            let data;
+            if (filteredData) {
+                data = filteredData;
+            } else if (currentFilter === 'All') {
+                data = newsData;
+            } else {
+                const validAliases = categoryMap[currentFilter] || [currentFilter];
+                data = newsData.filter(item => validAliases.includes(item.category));
+            }
+            
+            container.innerHTML = '';
+            if (countLabel) countLabel.innerText = `${data.length} stories`;
+
+            if (!data || data.length === 0) {
+                if (noNews) noNews.classList.remove('hidden');
+                return;
+            }
+
+            noNews.classList.add('hidden');
+
+            data.forEach(item => {
+                const card = document.createElement('article');
+                card.className = "bg-white dark:bg-[#181a1f] text-gray-900 dark:text-white rounded-xl overflow-hidden shadow-sm dark:shadow-lg hover:shadow-md dark:hover:shadow-2xl hover:border-amber-500/50 transition duration-200 flex flex-col border border-gray-200 dark:border-[#2d3239] cursor-pointer mb-2";
+                
+                card.onclick = (e) => {
+                    if (e.target.closest('.share-btn-action') || e.target.closest('.bookmark-btn-action')) return;
+                    readFullArticle(item.id);
+                };
+
+                const hasVideo = getYouTubeEmbedUrl(item.video);
+
+                card.innerHTML = `
+                    <div class="relative w-full aspect-video bg-black overflow-hidden">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
+                        ${hasVideo ? '<span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
+                    </div>
+
+                    <div class="p-3.5 sm:p-4 flex flex-col justify-between flex-grow">
+                        <div>
+                            <div class="mb-2">
+                                <span class="bg-gradient-to-r from-amber-500 to-amber-600 text-black text-[10px] font-black px-2.5 py-0.5 rounded-[4px] uppercase tracking-wider inline-block shadow">
+                                    ${item.category || 'News'}
+                                </span>
+                            </div>
+
+                            <h3 class="font-extrabold text-base sm:text-lg mb-2 leading-snug text-gray-900 dark:text-gray-100 hover:text-amber-500 transition line-clamp-3">
+                                ${item.title || ''}
+                            </h3>
+                        </div>
+
+                        <div class="pt-2.5 border-t border-gray-100 dark:border-[#282d36] flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
+                            <div class="flex items-center space-x-1.5 truncate max-w-[70%]">
+                                <span class="w-6 h-6 rounded-full bg-gray-100 dark:bg-[#252830] border border-gray-300 dark:border-amber-500/40 flex items-center justify-center text-amber-500 shrink-0">
+                                    <i class="fa-solid fa-user text-[10px]"></i>
+                                </span>
+                                <span class="font-semibold text-gray-800 dark:text-gray-200 text-xs truncate">${item.reporter || 'News Arrow'}</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-sm shrink-0">
+                                <button type="button" onclick="shareArticle('${item.title ? item.title.replace(/'/g, "\\'") : ''}')" class="share-btn-action text-gray-400 hover:text-amber-500 transition p-1" title="Share">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                                <button type="button" onclick="toggleBookmark('${item.id}', this)" class="bookmark-btn-action text-gray-400 hover:text-amber-500 p-1" title="Save">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            if (typeof updateMarquee === 'function') {
+                updateMarquee();
+            }
+        };
+
+        window.renderAdminNewsList = function() {
+            const list = document.getElementById('admin-news-list');
+            if (!list) return;
+            list.innerHTML = '';
+            if (newsData.length === 0) {
+                list.innerHTML = '<p class="text-xs text-gray-500">No stories available.</p>';
+                return;
+            }
+            newsData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center bg-gray-50 dark:bg-[#23272e] border border-gray-200 dark:border-[#343a46] p-2.5 rounded text-xs";
+                row.innerHTML = `
+                    <div class="truncate max-w-[65%] sm:max-w-[70%]">
+                        <span class="text-amber-500 font-bold block text-[10px]">${item.category} • ${item.reporter || 'News Arrow'}</span>
+                        <span class="truncate text-gray-800 dark:text-gray-200 font-medium block">${item.title}</span>
+                    </div>
+                    <div class="flex items-center space-x-2 shrink-0">
+                        <button onclick="startEditNews('${item.id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded font-bold text-[11px] flex items-center space-x-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>Edit</span>
+                        </button>
+                        <button onclick="deleteNews('${item.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded font-bold text-[11px] flex items-center space-x-1">
+                            <i class="fa-solid fa-trash"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+        };
+
+        window.updateMarquee = function() {
+            const marquee = document.getElementById('marquee-text');
+            if (!marquee) return;
+
+            let tickerItems = newsData.filter(item => item.isBreaking);
+            if (tickerItems.length === 0) {
+                tickerItems = newsData.slice(0, 5);
+            }
+
+            if (tickerItems.length > 0) {
+                marquee.innerHTML = tickerItems.map(item => {
+                    const safeTitle = item.title.replace(/"/g, '&quot;');
+                    return `<span onclick="readFullArticle('${item.id}')" class="cursor-pointer hover:underline mx-4 text-black font-extrabold hover:text-gray-900 inline-block transition">${safeTitle}</span> ★`;
+                }).join(' ');
+            } else {
+                marquee.innerText = "Welcome to News Arrow! Real-time verified stories.";
+            }
+        };
+
+        window.filterCategory = function(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.innerText.trim() === cat) {
+                    btn.className = "category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow";
+                } else {
+                    btn.className = "category-btn px-3.5 py-1 rounded hover:bg-gray-200 dark:hover:bg-[#252830] text-gray-700 dark:text-gray-300";
+                }
+            });
+            const catHeader = document.getElementById('current-category-title');
+            if (catHeader && catHeader.children[1]) {
+                catHeader.children[1].innerText = cat === 'All' ? 'Latest News' : `${cat} News`;
+            }
+            renderNews();
+        };
+
+        window.handleSearch = function() {
+            const q = document.getElementById('search-input').value.toLowerCase();
+            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || (item.content && item.content.toLowerCase().includes(q)));
+            renderNews(matched);
+        };
+
+        window.toggleBookmark = function(id, btn) {
+            let bookmarks = JSON.parse(localStorage.getItem('news_bookmarks') || '[]');
+            const icon = btn.querySelector('i');
+            if (bookmarks.includes(id)) {
+                bookmarks = bookmarks.filter(bId => bId !== id);
+                icon.className = 'fa-regular fa-bookmark text-gray-400';
+            } else {
+                bookmarks.push(id);
+                icon.className = 'fa-solid fa-bookmark text-amber-500';
+                alert('Saved to your bookmarks!');
+            }
+            localStorage.setItem('news_bookmarks', JSON.stringify(bookmarks));
+        };
+
+        window.toggleAudioNews = function() {
+            if (!('speechSynthesis' in window)) {
+                alert('Speech synthesis is not supported on this browser.');
+                return;
+            }
+
+            const icon = document.getElementById('tts-icon');
+            const text = document.getElementById('tts-text');
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                icon.className = 'fa-solid fa-volume-high';
+                text.innerText = 'Listen Story';
+                return;
+            }
+
+            const title = document.getElementById('read-title').innerText;
+            const content = document.getElementById('read-content').innerText;
+            const fullStory = `${title}. ${content}`;
+
+            const utterance = new SpeechSynthesisUtterance(fullStory);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 0.95;
+
+            utterance.onend = function() {
+                icon.className = 'fa-solid fa-volume-high';
+                text.innerText = 'Listen Story';
+            };
+
+            window.speechSynthesis.speak(utterance);
+            icon.className = 'fa-solid fa-stop';
+            text.innerText = 'Stop';
+        };
+
+        window.readFullArticle = function(id) {
+            const item = newsData.find(n => String(n.id) === String(id) || String(n.title).trim() === String(id).trim());
+            if (!item) return;
+
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            document.getElementById('tts-icon').className = 'fa-solid fa-volume-high';
+            document.getElementById('tts-text').innerText = 'Listen Story';
+
+            document.getElementById('read-title').innerText = item.title || '';
+            document.getElementById('read-category').innerText = `${item.category || 'News'} NEWS`;
+            document.getElementById('read-date').innerHTML = `<span class="font-semibold text-gray-800 dark:text-gray-200"><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter || 'News Arrow'}</span> <span>•</span> <span>${item.date || ''}</span>`;
+            document.getElementById('read-image').src = item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800';
+            
+            const videoContainer = document.getElementById('read-video-container');
+            const videoIframe = document.getElementById('read-video-iframe');
+            const embedUrl = getYouTubeEmbedUrl(item.video);
+
+            if (embedUrl) {
+                videoIframe.src = embedUrl;
+                videoContainer.classList.remove('hidden');
+            } else {
+                videoIframe.src = '';
+                videoContainer.classList.add('hidden');
+            }
+
+            document.getElementById('read-content').innerHTML = formatNewsContent(item.content);
+
+            const modal = document.getElementById('full-news-modal');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            const card = document.getElementById('news-popup-card');
+            if (card) card.scrollTop = 0;
+        };
+
+        window.closeFullNews = function() {
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            const videoIframe = document.getElementById('read-video-iframe');
+            if (videoIframe) videoIframe.src = '';
+            
+            const modal = document.getElementById('full-news-modal');
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        };
+
+        window.shareArticle = async function(title) {
+            const item = newsData.find(n => n.title === title);
+            if (!item) return;
+            const newsIdentifier = item.id !== undefined ? item.id : item.title;
+            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(newsIdentifier)}`;
+            const shareText = `🔴 *${item.title}*\n\n👉 Read full story here:\n${shareUrl}`;
+
+            try {
+                if (item.image && navigator.canShare) {
+                    const blob = await (await fetch(item.image)).blob();
+                    const file = new File([blob], 'news.jpg', { type: blob.type || 'image/jpeg' });
+                    
+                    const shareDataWithFile = {
+                        files: [file],
+                        title: item.title,
+                        text: shareText
+                    };
+
+                    if (navigator.canShare(shareDataWithFile)) {
+                        await navigator.share(shareDataWithFile);
+                        return;
+                    }
+                }
+
+                if (navigator.share) {
+                    await navigator.share({
+                        title: item.title,
+                        text: shareText,
+                        url: shareUrl
+                    });
+                    return;
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+            }
+
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+        };
+
+        window.openAdminModal = function() { 
+            const m = document.getElementById('login-modal');
+            m.style.display = 'flex';
+            m.classList.remove('hidden'); 
+        };
+        window.closeAdminModal = function() { 
+            const m = document.getElementById('login-modal');
+            m.style.display = 'none';
+            m.classList.add('hidden'); 
+        };
+        window.openAdminPanel = function() { 
+            closeAdminModal(); 
+            const p = document.getElementById('admin-panel');
+            p.style.display = 'flex';
+            p.classList.remove('hidden'); 
+            calculateLiveSEO();
+            renderAdminNewsList();
+        };
+        window.closeAdminPanel = function() { 
+            cancelEditMode();
+            const p = document.getElementById('admin-panel');
+            p.style.display = 'none';
+            p.classList.add('hidden'); 
+        };
+
+        window.verifyAdmin = function() {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === 'admin123') {
+                document.getElementById('admin-pass').value = '';
+                openAdminPanel();
+            } else {
+                alert('Invalid password!');
+            }
+        };
+
+        window.toggleThemeMode = function() {
+            const html = document.documentElement;
+            const toggleInput = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-sun-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                toggleInput.checked = false;
+                sunIcon.className = "fa-solid fa-sun text-amber-500 text-sm";
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                toggleInput.checked = true;
+                sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
+                localStorage.setItem('theme', 'dark');
+            }
+        };
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const toggleInput = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('theme-sun-icon');
+        if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            if (toggleInput) toggleInput.checked = false;
+            if (sunIcon) sunIcon.className = "fa-solid fa-sun text-amber-500 text-sm";
+        } else {
+            document.documentElement.classList.add('dark');
+            if (toggleInput) toggleInput.checked = true;
+            if (sunIcon) sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
+        }
+
+        async function fetchLiveWeather() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
+                const data = await res.json();
+                
+                if (data && data.current) {
+                    const temp = Math.round(data.current.temperature_2m);
+                    const humidity = data.current.relative_humidity_2m;
+                    const wind = Math.round(data.current.wind_speed_10m);
+                    const maxT = Math.round(data.daily.temperature_2m_max[0]);
+                    const minT = Math.round(data.daily.temperature_2m_min[0]);
+                    
+                    document.getElementById('weather-temp').innerText = `${temp}°C`;
+                    document.getElementById('weather-humidity').innerText = `${humidity}%`;
+                    document.getElementById('weather-wind').innerText = `${wind} km/h`;
+                    document.getElementById('weather-range').innerText = `${maxT}° / ${minT}°`;
+                    
+                    const code = data.current.weather_code;
+                    let desc = "Clear Sky";
+                    let iconClass = "fa-solid fa-sun text-amber-500";
+                    if (code > 2 && code <= 48) {
+                        desc = "Partly Cloudy";
+                        iconClass = "fa-solid fa-cloud-sun text-gray-400";
+                    } else if (code > 48) {
+                        desc = "Rainy / Showers";
+                        iconClass = "fa-solid fa-cloud-rain text-blue-400";
+                    }
+                    document.getElementById('weather-desc').innerText = desc;
+                    document.getElementById('weather-icon').className = `${iconClass} text-4xl`;
+                }
+            } catch (e) {
+                console.log("Weather error: ", e);
+            }
+        }
+
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', options);
+        fetchLiveWeather();
+
+        setTimeout(() => {
+            const fileInput = document.getElementById('news-image-file');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            let curW = img.width;
+                            let curH = img.height;
+                            const targetWidth = 1200;
+
+                            let oc = document.createElement('canvas');
+                            let octx = oc.getContext('2d');
+                            oc.width = curW;
+                            oc.height = curH;
+                            octx.drawImage(img, 0, 0);
+
+                            while (curW * 0.5 > targetWidth) {
+                                curW = Math.round(curW * 0.5);
+                                curH = Math.round(curH * 0.5);
+                                const canvasStep = document.createElement('canvas');
+                                canvasStep.width = curW;
+                                canvasStep.height = curH;
+                                const stepCtx = canvasStep.getContext('2d');
+                                stepCtx.imageSmoothingEnabled = true;
+                                stepCtx.imageSmoothingQuality = 'high';
+                                stepCtx.drawImage(oc, 0, 0, curW, curH);
+                                oc = canvasStep;
+                            }
+
+                            const finalCanvas = document.createElement('canvas');
+                            const targetHeight = Math.round((img.height * targetWidth) / img.width);
+                            finalCanvas.width = targetWidth;
+                            finalCanvas.height = targetHeight;
+                            const finalCtx = finalCanvas.getContext('2d');
+                            finalCtx.imageSmoothingEnabled = true;
+                            finalCtx.imageSmoothingQuality = 'high';
+                            finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
+
+                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
+                            document.getElementById('news-image').value = ultraHdData;
+                            
+                            if (typeof calculateLiveSEO === 'function') calculateLiveSEO();
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }, 500);
+    </script>
 </body>
 </html>
