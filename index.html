@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="hi" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Arrow - Latest and Unbiased News</title>
+    <meta name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
+    <meta name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="News Arrow">
     <meta property="og:title" content="News Arrow - Latest and Unbiased News">
@@ -269,32 +271,32 @@
                 </div>
             </div>
 
-            <!-- Opinion Poll -->
+            <!-- Opinion Poll (Shuddh Hindi Version) -->
             <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
                 <div>
                     <div class="mb-3 flex justify-between items-center">
-                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">Opinion Poll</span>
-                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>Live Poll</span>
+                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">जनमत सर्वेक्षण</span>
+                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>लाइव पोल</span>
                     </div>
                     <h4 class="text-sm font-extrabold text-gray-900 dark:text-white mb-4 leading-snug">
-                        Has recent infrastructure and development in Varanasi significantly boosted local tourism and employment?
+                        क्या वाराणसी में हाल के विकास कार्यों और इंफ्रास्ट्रक्चर से स्थानीय पर्यटन और रोजगार में बड़ा सुधार हुआ है?
                     </h4>
                     
                     <div id="poll-actions" class="space-y-2">
                         <button onclick="votePoll('yes')" id="btn-vote-yes" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
-                            <span>👍 Yes, major improvement</span>
-                            <span class="text-amber-500 font-black">Vote</span>
+                            <span>👍 हाँ, काफी सुधार हुआ</span>
+                            <span class="text-amber-500 font-black">वोट दें</span>
                         </button>
                         <button onclick="votePoll('no')" id="btn-vote-no" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
-                            <span>👎 No, more work needed</span>
-                            <span class="text-amber-500 font-black">Vote</span>
+                            <span>👎 नहीं, अभी और काम की ज़रूरत है</span>
+                            <span class="text-amber-500 font-black">वोट दें</span>
                         </button>
                     </div>
 
                     <div id="poll-result" class="hidden space-y-3 mt-2 text-xs">
                         <div>
                             <div class="flex justify-between font-bold mb-1">
-                                <span>Yes</span>
+                                <span>हाँ</span>
                                 <span id="poll-yes-pct">0%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
@@ -303,7 +305,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between font-bold mb-1">
-                                <span>No</span>
+                                <span>नहीं</span>
                                 <span id="poll-no-pct">0%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
@@ -313,7 +315,7 @@
                     </div>
                 </div>
                 <p class="text-[10px] text-gray-400 mt-4 pt-2 border-t border-gray-100 dark:border-[#282d36] text-center">
-                    Total Votes: <span id="total-votes" class="font-bold text-amber-500">0</span>
+                    कुल वोट: <span id="total-votes" class="font-bold text-amber-500">0</span>
                 </p>
             </div>
 
@@ -485,6 +487,21 @@
                     </div>
                 </div>
 
+                <!-- Meta Description (SEO) -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block font-medium text-gray-700 dark:text-gray-300">Meta Description (SEO & Google Snippet)</label>
+                        <span id="meta-desc-char-count" class="text-xs text-gray-400">0 / 160 chars</span>
+                    </div>
+                    <textarea id="news-meta-desc" oninput="calculateLiveSEO()" rows="2" maxlength="160" placeholder="Google Search के लिए 140-160 अक्षरों की संक्षिप्त समरी..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
+                </div>
+
+                <!-- Keywords / Tags -->
+                <div>
+                    <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Keywords & Tags (Comma separated)</label>
+                    <input type="text" id="news-keywords" oninput="calculateLiveSEO()" placeholder="e.g. BHU Andolan, Varanasi Court, News Arrow" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                </div>
+
                 <!-- Details -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
@@ -514,19 +531,19 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
                         <div id="check-title" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Headline Length (40–75 chars)</span>
+                            <span>Headline Length (35–75 chars)</span>
                         </div>
                         <div id="check-content" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Content Length (100+ words)</span>
+                            <span>Content Length (90+ words)</span>
                         </div>
                         <div id="check-image" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
                             <span>Featured HD Image Uploaded</span>
                         </div>
-                        <div id="check-focus" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
+                        <div id="check-meta" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Focus Keywords in First Para</span>
+                            <span>Meta Description & Keywords</span>
                         </div>
                     </div>
                 </div>
@@ -620,6 +637,8 @@
         window.calculateLiveSEO = function() {
             const title = (document.getElementById('news-title').value || '').trim();
             const content = (document.getElementById('news-content').value || '').trim();
+            const metaDesc = (document.getElementById('news-meta-desc').value || '').trim();
+            const keywords = (document.getElementById('news-keywords').value || '').trim();
             const imageVal = (document.getElementById('news-image').value || '');
             const hasExistingImg = !document.getElementById('existing-img-note').classList.contains('hidden');
 
@@ -637,19 +656,16 @@
             const hasImage = (imageVal.length > 50 || hasExistingImg);
             updateCheckUI('check-image', hasImage);
 
-            let isFocusGood = false;
-            if (titleLen > 10 && wordCount > 20) {
-                const titleWords = title.split(/\s+/).filter(w => w.length > 3);
-                const firstPara = content.substring(0, 300).toLowerCase();
-                isFocusGood = titleWords.some(w => firstPara.includes(w.toLowerCase()));
-            }
-            updateCheckUI('check-focus', isFocusGood);
+            document.getElementById('meta-desc-char-count').innerText = `${metaDesc.length} / 160 chars`;
+            const isMetaGood = (metaDesc.length >= 50 || keywords.length >= 5);
+            updateCheckUI('check-meta', isMetaGood);
 
             let score = 0;
-            if (isTitleGood) score += 30; else if (titleLen > 15) score += 15;
-            if (isContentGood) score += 30; else if (wordCount > 35) score += 15;
+            if (isTitleGood) score += 25; else if (titleLen > 15) score += 15;
+            if (isContentGood) score += 25; else if (wordCount > 35) score += 15;
             if (hasImage) score += 25;
-            if (isFocusGood) score += 15;
+            if (metaDesc.length >= 60) score += 15; else if (metaDesc.length > 0) score += 8;
+            if (keywords.length >= 5) score += 10;
 
             const badge = document.getElementById('seo-score-badge');
             const status = document.getElementById('seo-status-text');
@@ -829,6 +845,30 @@
             return formattedHtml;
         }
 
+        function updateMetaTagsForArticle(article) {
+            if (!article) return;
+            document.title = `${article.title || 'News'} - News Arrow`;
+
+            function setMetaTag(attrName, attrVal, content) {
+                let tag = document.querySelector(`meta[${attrName}="${attrVal}"]`);
+                if (!tag) {
+                    tag = document.createElement('meta');
+                    tag.setAttribute(attrName, attrVal);
+                    document.head.appendChild(tag);
+                }
+                tag.setAttribute('content', content || '');
+            }
+
+            const snippet = article.metaDescription || (article.content ? article.content.substring(0, 155) : '');
+            setMetaTag('name', 'description', snippet);
+            setMetaTag('name', 'keywords', article.keywords || 'News Arrow, Varanasi News');
+            setMetaTag('property', 'og:title', article.title || 'News Arrow');
+            setMetaTag('property', 'og:description', snippet);
+            if (article.image) {
+                setMetaTag('property', 'og:image', article.image);
+            }
+        }
+
         window.handlePublish = async function(e) {
             if (e && e.preventDefault) e.preventDefault();
             const pubBtn = document.getElementById('publish-btn');
@@ -842,6 +882,8 @@
             const reporterVal = document.getElementById('news-reporter').value.trim() || 'News Arrow';
             const videoVal = document.getElementById('news-video').value.trim();
             const contentVal = document.getElementById('news-content').value.trim();
+            const metaDescVal = document.getElementById('news-meta-desc').value.trim();
+            const keywordsVal = document.getElementById('news-keywords').value.trim();
             let imgVal = document.getElementById('news-image').value;
             const isBreakingVal = document.getElementById('news-breaking').checked;
             
@@ -857,6 +899,8 @@
                         reporter: reporterVal,
                         video: videoVal,
                         content: contentVal,
+                        metaDescription: metaDescVal || contentVal.substring(0, 155),
+                        keywords: keywordsVal,
                         isBreaking: isBreakingVal
                     };
                     if (imgVal) {
@@ -872,6 +916,8 @@
                         video: videoVal,
                         image: imgVal,
                         content: contentVal,
+                        metaDescription: metaDescVal || contentVal.substring(0, 155),
+                        keywords: keywordsVal,
                         isBreaking: isBreakingVal,
                         date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
                         timestamp: serverTimestamp()
@@ -907,6 +953,8 @@
             document.getElementById('news-category').value = categoryToSet;
             document.getElementById('news-video').value = item.video || '';
             document.getElementById('news-content').value = item.content || '';
+            document.getElementById('news-meta-desc').value = item.metaDescription || '';
+            document.getElementById('news-keywords').value = item.keywords || '';
             document.getElementById('news-breaking').checked = !!item.isBreaking;
             
             document.getElementById('news-image').value = '';
@@ -929,6 +977,8 @@
             document.getElementById('news-reporter').value = '';
             document.getElementById('news-video').value = '';
             document.getElementById('news-content').value = '';
+            document.getElementById('news-meta-desc').value = '';
+            document.getElementById('news-keywords').value = '';
             document.getElementById('news-image').value = '';
             const fileBox = document.getElementById('news-image-file');
             if (fileBox) fileBox.value = '';
@@ -1143,7 +1193,11 @@
 
         window.handleSearch = function() {
             const q = document.getElementById('search-input').value.toLowerCase();
-            const matched = newsData.filter(item => item.title.toLowerCase().includes(q) || (item.content && item.content.toLowerCase().includes(q)));
+            const matched = newsData.filter(item => 
+                item.title.toLowerCase().includes(q) || 
+                (item.content && item.content.toLowerCase().includes(q)) ||
+                (item.keywords && item.keywords.toLowerCase().includes(q))
+            );
             renderNews(matched);
         };
 
@@ -1198,6 +1252,8 @@
         window.readFullArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id) || String(n.title).trim() === String(id).trim());
             if (!item) return;
+
+            updateMetaTagsForArticle(item);
 
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             document.getElementById('tts-icon').className = 'fa-solid fa-volume-high';
@@ -1383,7 +1439,7 @@
         }
 
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', options);
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
         fetchLiveWeather();
 
         setTimeout(() => {
