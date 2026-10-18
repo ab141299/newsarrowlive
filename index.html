@@ -136,7 +136,7 @@
             </div>
         </div>
 
-        <!-- Main Branding Bar (Triple tap on logo opens admin modal) -->
+        <!-- Main Branding Bar -->
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer select-none" onclick="handleSecretLogoClick()">
                 <img src="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png" alt="News Arrow Logo" class="h-10 sm:h-12 w-auto object-contain transition-all duration-300 hover:scale-105 drop-shadow">
@@ -156,7 +156,7 @@
             </div>
         </div>
 
-        <!-- Breaking News Marquee (Clickable & Slow) -->
+        <!-- Breaking News Marquee -->
         <div class="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-black text-xs sm:text-sm py-1.5 px-4 flex items-center shadow-inner overflow-hidden font-bold">
             <div class="max-w-7xl mx-auto w-full flex items-center">
                 <span class="flex items-center space-x-1 pr-3 bg-amber-500 z-10 whitespace-nowrap shrink-0">
@@ -169,7 +169,7 @@
             </div>
         </div>
 
-        <!-- Category Navigation (Pure English, No Hindi Brackets) -->
+        <!-- Category Navigation -->
         <nav class="bg-gray-50 dark:bg-[#14161a] border-b border-gray-200 dark:border-[#252830] overflow-x-auto whitespace-nowrap scrollbar-none">
             <div class="max-w-7xl mx-auto px-4 flex space-x-1 sm:space-x-2 py-2 text-xs sm:text-sm font-semibold">
                 <button onclick="filterCategory('All')" class="category-btn active-category px-3.5 py-1 rounded bg-gradient-to-r from-amber-500 to-amber-600 text-black font-extrabold shadow">All</button>
@@ -274,32 +274,32 @@
                 </div>
             </div>
 
-            <!-- 2. Janta Ki Aawaz (Real Live Poll) -->
+            <!-- 2. Janta Ki Aawaz (Real Live Clean Poll) -->
             <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
                 <div>
                     <div class="mb-3 flex justify-between items-center">
-                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">Opinion Poll</span>
-                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>Live Poll</span>
+                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">जनता की आवाज़</span>
+                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>लाइव पोल</span>
                     </div>
                     <h4 class="text-sm font-extrabold text-gray-900 dark:text-white mb-4 leading-snug">
-                        Has recent infrastructure and development in Varanasi significantly boosted local tourism and employment?
+                        क्या वाराणसी में हालिया विकास कार्यों और सुंदरीकरण से पर्यटन और रोज़गार बढ़ा है?
                     </h4>
                     
                     <div id="poll-actions" class="space-y-2">
                         <button onclick="votePoll('yes')" id="btn-vote-yes" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
-                            <span>👍 Yes, major improvement</span>
-                            <span class="text-amber-500 font-black">Vote</span>
+                            <span>👍 हाँ, काफ़ी सुधार हुआ है</span>
+                            <span class="text-amber-500 font-black">वोट दें</span>
                         </button>
                         <button onclick="votePoll('no')" id="btn-vote-no" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
-                            <span>👎 No, more work needed</span>
-                            <span class="text-amber-500 font-black">Vote</span>
+                            <span>👎 नहीं, अभी और काम बाकी है</span>
+                            <span class="text-amber-500 font-black">वोट दें</span>
                         </button>
                     </div>
 
                     <div id="poll-result" class="hidden space-y-3 mt-2 text-xs">
                         <div>
                             <div class="flex justify-between font-bold mb-1">
-                                <span>Yes</span>
+                                <span>हाँ (सहमति)</span>
                                 <span id="poll-yes-pct">0%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
@@ -308,7 +308,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between font-bold mb-1">
-                                <span>No</span>
+                                <span>नहीं (असहमत)</span>
                                 <span id="poll-no-pct">0%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <p class="text-[10px] text-gray-400 mt-4 pt-2 border-t border-gray-100 dark:border-[#282d36] text-center">
-                    Total Votes: <span id="total-votes" class="font-bold text-amber-500">0</span>
+                    कुल मत: <span id="total-votes" class="font-bold text-amber-500">0</span>
                 </p>
             </div>
 
@@ -391,7 +391,7 @@
         </div>
     </div>
 
-    <!-- Full News Modal (Full Viewport on Mobile, Wide on Desktop) -->
+    <!-- Full News Modal -->
     <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-[100] hidden items-center justify-center p-0 md:p-6" onclick="if(event.target===this) closeFullNews()">
         <div id="news-popup-card" class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] overflow-y-auto p-4 sm:p-8 shadow-2xl flex flex-col justify-between">
             <div>
@@ -598,23 +598,22 @@
             console.error("Firebase read error: ", err);
         });
 
+        // Genuine Live Poll Setup
         const pollDocRef = doc(db, "polls", "current_poll");
-        let pollData = { yes: 0, no: 0 };
 
         onSnapshot(pollDocRef, (snap) => {
             if (snap.exists()) {
-                pollData = snap.data();
-                updatePollUI(pollData);
+                updatePollUI(snap.data());
             } else {
-                setDoc(pollDocRef, { yes: 0, no: 0, question: "Development and Jobs" });
+                setDoc(pollDocRef, { yes: 0, no: 0 });
             }
         }, (err) => {
             console.error("Poll read error: ", err);
         });
 
         function updatePollUI(data) {
-            const yesVotes = data.yes || 0;
-            const noVotes = data.no || 0;
+            const yesVotes = Number(data?.yes) || 0;
+            const noVotes = Number(data?.no) || 0;
             const total = yesVotes + noVotes;
 
             const yesPct = total > 0 ? Math.round((yesVotes / total) * 100) : 0;
@@ -624,12 +623,12 @@
             document.getElementById('poll-no-pct').innerText = `${noPct}%`;
             document.getElementById('poll-yes-bar').style.width = `${yesPct}%`;
             document.getElementById('poll-no-bar').style.width = `${noPct}%`;
-            document.getElementById('total-votes').innerText = total.toLocaleString('en-IN');
+            document.getElementById('total-votes').innerText = total.toLocaleString('hi-IN');
         }
 
         window.votePoll = async function(choice) {
             if (localStorage.getItem('newsarrow_has_voted') === 'true') {
-                alert('You have already submitted your vote!');
+                alert('आप पहले ही अपना मत दर्ज कर चुके हैं!');
                 return;
             }
 
@@ -648,7 +647,7 @@
                 localStorage.setItem('newsarrow_has_voted', 'true');
                 document.getElementById('poll-actions').classList.add('hidden');
                 document.getElementById('poll-result').classList.remove('hidden');
-                alert('Thank you! Your vote has been recorded.');
+                alert('धन्यवाद! आपका मत सफलतापूर्वक दर्ज हो गया है।');
             } catch (err) {
                 console.error("Poll vote error:", err);
                 await setDoc(pollDocRef, {
