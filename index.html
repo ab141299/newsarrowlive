@@ -1507,6 +1507,31 @@
                 });
             }
         }, 500);
+        // Facebook और YouTube दोनों लिंक को चलाने का नया कोड
+function handleUniversalVideo(url) {
+    if (!url || url.trim() === '') return;
+    
+    const contentBox = document.querySelector('#read-content') || document.querySelector('.news-content');
+    if (!contentBox) return;
+
+    // अगर फेसबुक का लिंक है
+    if (url.includes('facebook.com') || url.includes('fb.watch') || url.includes('fb.me')) {
+        const fbCard = document.createElement('div');
+        fbCard.className = "my-4 p-3 bg-blue-50 dark:bg-[#1a2332] border border-blue-200 dark:border-blue-900/50 rounded-xl flex items-center justify-between";
+        fbCard.innerHTML = `
+            <div class="flex items-center space-x-3">
+                <i class="fa-brands fa-facebook text-2xl text-blue-600"></i>
+                <div>
+                    <span class="block text-xs font-bold text-gray-900 dark:text-white">फेसबुक पर वीडियो / रील देखें</span>
+                    <span class="block text-[11px] text-gray-500 dark:text-gray-400">News Arrow Ground Report</span>
+                </div>
+            </div>
+            <a href="${url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow">देखें &rarr;</a>
+        `;
+        contentBox.prepend(fbCard);
+    }
+}
+        
     </script>
 </body>
 </html>
