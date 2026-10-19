@@ -1507,30 +1507,63 @@
                 });
             }
         }, 500);
-        // Facebook और YouTube दोनों लिंक को चलाने का नया कोड
-function handleUniversalVideo(url) {
-    if (!url || url.trim() === '') return;
-    
-    const contentBox = document.querySelector('#read-content') || document.querySelector('.news-content');
-    if (!contentBox) return;
+        // ====== Facebook & Video Auto-Display Engine ======
+(function() {
+    function injectFacebookMedia() {
+        const headlineElem = document.getElementById('read-headline');
+        const contentBox = document.getElementById('read-content') || document.querySelector('.news-content');
+        
+        if (!headlineElem || !contentBox) return;
 
-    // अगर फेसबुक का लिंक है
-    if (url.includes('facebook.com') || url.includes('fb.watch') || url.includes('fb.me')) {
-        const fbCard = document.createElement('div');
-        fbCard.className = "my-4 p-3 bg-blue-50 dark:bg-[#1a2332] border border-blue-200 dark:border-blue-900/50 rounded-xl flex items-center justify-between";
-        fbCard.innerHTML = `
-            <div class="flex items-center space-x-3">
-                <i class="fa-brands fa-facebook text-2xl text-blue-600"></i>
-                <div>
-                    <span class="block text-xs font-bold text-gray-900 dark:text-white">फेसबुक पर वीडियो / रील देखें</span>
-                    <span class="block text-[11px] text-gray-500 dark:text-gray-400">News Arrow Ground Report</span>
+        const headlineText = headlineElem.innerText.trim();
+        if (!headlineText) return;
+
+        // पहले से अगर कार्ड मौजूद है तो दोबारा न बने
+        if (document.getElementById('auto-fb-video-card')) return;
+
+        // वर्तमान खुली हुई न्यूज़ को खोजना
+        let currentItem = null;
+        if (typeof newsData !== 'undefined' && Array.isArray(newsData)) {
+            currentItem = newsData.find(item => item.headline && item.headline.trim() === headlineText);
+        }
+
+        if (!currentItem || !currentItem.video) return;
+        const url = currentItem.video.trim();
+
+        // अगर लिंक फेसबुक का है
+        if (url.includes('facebook.com') || url.includes('fb.watch') || url.includes('fb.me')) {
+            const fbCard = document.createElement('div');
+            fbCard.id = 'auto-fb-video-card';
+            fbCard.className = "my-4 p-3.5 bg-blue-50 dark:bg-[#1a2332] border border-blue-200 dark:border-blue-900/50 rounded-xl flex items-center justify-between gap-3 shadow-md";
+            fbCard.innerHTML = `
+                <div class="flex items-center space-x-3 truncate">
+                    <i class="fa-brands fa-facebook text-3xl text-blue-600 shrink-0"></i>
+                    <div class="truncate">
+                        <span class="block text-xs sm:text-sm font-bold text-gray-900 dark:text-white">फेसबुक पर पूरा वीडियो / रील देखें</span>
+                        <span class="block text-[11px] text-gray-500 dark:text-gray-400 truncate">News Arrow ग्राउंड रिपोर्ट</span>
+                    </div>
                 </div>
-            </div>
-            <a href="${url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg shadow">देखें &rarr;</a>
-        `;
-        contentBox.prepend(fbCard);
+                <a href="${url}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg shadow shrink-0 flex items-center space-x-1 transition">
+                    <span>देखें</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+            `;
+            // आर्टिकल के सबसे ऊपर कार्ड को चिपका देना
+            contentBox.insertBefore(fbCard, contentBox.firstChild);
+        }
     }
-}
+
+    // जब भी कोई पाठक किसी भी खबर पर क्लिक करेगा, यह तुरंत डिटेक्ट करेगा
+    const observer = new MutationObserver(function() {
+        injectFacebookMedia();
+    });
+
+    const targetNode = document.getElementById('read-headline');
+    if (targetNode) {
+        observer.observe(targetNode, { childList: true, characterData: true, subtree: true });
+    }
+})();
+        
         
     </script>
 </body>
