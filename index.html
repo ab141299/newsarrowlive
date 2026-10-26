@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="HLgx_TLyAN1NJK1BuDJUQ8uARkhpwRGnMSLJWU-KCHk" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
         <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RKDM3CW2V"></script>
     <script>
@@ -536,7 +539,69 @@
                 <!-- News Body -->
                 <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg font-normal space-y-3"></div>
             </div>
-
+<!-- Hidden Mid-Article Ad Template Start -->
+<div id="hidden-praful-ad" style="display: none;">
+  <div style="margin: 18px 0; padding: 0; text-align: center; perspective: 1000px; width: 100%;">
+    <style>
+      @keyframes pureMidUnfold {
+        0% { transform: rotateX(-85deg) scaleY(0.1); transform-origin: top center; opacity: 0.3; }
+        40% { transform: rotateX(45deg) scaleY(0.6); transform-origin: top center; opacity: 0.8; }
+        70% { transform: rotateX(-20deg) scaleY(1.02); transform-origin: center center; opacity: 1; }
+        100% { transform: rotateX(0deg) scaleY(1); opacity: 1; }
+      }
+      @keyframes pureMidShine {
+        0% { left: -100%; }
+        25% { left: 100%; }
+        100% { left: 100%; }
+      }
+      .pure-mid-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        display: block;
+        border: 1px solid rgba(212, 175, 55, 0.45);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        background: #000;
+        transform-style: preserve-3d;
+        animation: pureMidUnfold 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .pure-mid-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%);
+        transform: skewX(-25deg);
+        animation: pureMidShine 4s infinite 2s;
+        pointer-events: none;
+      }
+      .pure-mid-tag {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background: #e50914;
+        color: #ffffff;
+        font-size: 9px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 10px;
+        z-index: 2;
+      }
+    </style>
+    <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="pure-mid-card">
+      <span class="pure-mid-tag">🔥 SPECIAL OFFER</span>
+      <img src="https://i.postimg.cc/tT7vhpHB/1793037565377.png" alt="Praful Parlour Special Offer" style="width: 100%; height: auto; display: block; border-radius: 7px;">
+    </a>
+    <div style="margin-top: 6px; display: flex; justify-content: center; gap: 8px;">
+      <a href="tel:+919140810378" style="background: #5c1418; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600;">📞 91408 10378</a>
+      <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" style="background: #25D366; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600;">💬 WhatsApp Offer</a>
+    </div>
+  </div>
+</div>
+<!-- Hidden Mid-Article Ad Template End -->
+            
             <!-- Footer Close -->
             <div class="mt-8 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
                 <button onclick="closeFullNews()" class="px-6 py-2.5 bg-gray-200 dark:bg-[#252830] hover:bg-gray-300 dark:hover:bg-[#323642] text-gray-800 dark:text-amber-400 rounded-lg text-sm font-bold border border-gray-300 dark:border-[#3a404e] cursor-pointer">Close</button>
@@ -818,7 +883,17 @@
                 el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
             }
         }
-
+const cached = localStorage.getItem("cached_news");
+if (cached) {
+  try {
+    newsData = JSON.parse(cached);
+    if (typeof renderNews === "function") {
+      renderNews();
+    }
+  } catch(e) {}
+}
+        
+        
         const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
             newsData = [];
@@ -826,6 +901,7 @@
                 newsData.push({ id: d.id, ...d.data() });
             });
             renderNews();
+              localStorage.setItem("cached_news", JSON.stringify(newsData));
             renderVideoFeed();
             renderAdminNewsList();
 
@@ -1669,5 +1745,33 @@
         
         
     </script>
+ <script>
+  window.addEventListener('click', function(e) {
+    if (e.target.closest('[onclick*="News"], [onclick*="open"], article, .cursor-pointer')) {
+      setTimeout(function() {
+        const content = document.getElementById("read-content");
+        const adTemplate = document.getElementById("hidden-praful-ad");
+        
+        if (!content || !adTemplate) return;
+        if (content.querySelector('.pure-mid-card')) return;
+
+        const paragraphs = content.querySelectorAll("p");
+        if (paragraphs.length >= 2) {
+          paragraphs[0].insertAdjacentHTML('afterend', adTemplate.innerHTML);
+        } else {
+          const html = content.innerHTML;
+          const mid = Math.floor(html.length / 2);
+          const pos = html.indexOf(" ", mid);
+          if (pos !== -1) {
+            content.innerHTML = html.slice(0, pos) + adTemplate.innerHTML + html.slice(pos);
+          } else {
+            content.insertAdjacentHTML('beforeend', adTemplate.innerHTML);
+          }
+        }
+      }, 300);
+    }
+  });
+ </script>
+    
 </body>
 </html>
