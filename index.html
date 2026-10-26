@@ -897,7 +897,8 @@
                 el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
             }
         }
-        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+        const q = query(collection(db, "news"), orderBy("timestamp", "desc"), limit(15));
+        
         onSnapshot(q, (snapshot) => {
             newsData = [];
             snapshot.forEach((d) => {
