@@ -825,7 +825,8 @@ if (cached) {
     renderNews();
   } catch(e) {}
 }
-        const q = query(collection(db, "news"), orderBy("timestamp", "desc"), limit(15));
+        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+        
         onSnapshot(q, (snapshot) => {
             newsData = [];
             snapshot.forEach((d) => {
