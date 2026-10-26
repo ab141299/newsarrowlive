@@ -818,14 +818,21 @@
                 el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
             }
         }
-
-        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+const cached = localStorage.getItem("cached_news");
+if (cached) {
+  try {
+    newsData = JSON.parse(cached);
+    renderNews();
+  } catch(e) {}
+}
+        const q = query(collection(db, "news"), orderBy("timestamp", "desc"), limit(15));
         onSnapshot(q, (snapshot) => {
             newsData = [];
             snapshot.forEach((d) => {
                 newsData.push({ id: d.id, ...d.data() });
             });
             renderNews();
+            localStorage.setItem("cached_news", JSON.stringify(newsData));
             renderVideoFeed();
             renderAdminNewsList();
 
