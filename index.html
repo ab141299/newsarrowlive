@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="HLgx_TLyAN1NJK1BuDJUQ8uARkhpwRGnMSLJWU-KCHk" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
         <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RKDM3CW2V"></script>
     <script>
@@ -880,7 +883,14 @@
                 el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
             }
         }
-
+const cached = localStorage.getItem("cached_news");
+if (cached) {
+  try {
+    newsData = JSON.parse(cached);
+    renderNews();
+  } catch(e) {}
+}
+        
         const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
             newsData = [];
@@ -888,6 +898,7 @@
                 newsData.push({ id: d.id, ...d.data() });
             });
             renderNews();
+              localStorage.setItem("cached_news", JSON.stringify(newsData));
             renderVideoFeed();
             renderAdminNewsList();
 
