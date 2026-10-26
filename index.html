@@ -206,78 +206,77 @@
             </a>
         </div>
     </div>
-<!-- Praful Parlour 3D Fold & Unfold Animated Ad Start -->
-<div style="max-width: 1200px; margin: 6px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1200px;">
+<!-- Praful Parlour Real Paper Unfold Animation Start -->
+<div style="max-width: 1200px; margin: 8px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1000px;">
   <style>
-    /* 3D Fold & Unfold Keyframes */
-    @keyframes bannerUnfold {
+    /* Asli kagaz khulne ka slow 3D animation */
+    @keyframes realPaperUnfold {
       0% {
-        transform: rotateX(-90deg) scale(0.85);
-        opacity: 0;
+        transform: rotateX(-85deg) scaleY(0.1);
+        transform-origin: top center;
+        opacity: 0.3;
+        filter: brightness(0.6);
       }
-      50% {
-        transform: rotateX(20deg) scale(1.02);
-        opacity: 0.9;
+      40% {
+        transform: rotateX(45deg) scaleY(0.6);
+        transform-origin: top center;
+        opacity: 0.8;
+        filter: brightness(0.85);
       }
       70% {
-        transform: rotateX(-10deg) scale(0.99);
+        transform: rotateX(-20deg) scaleY(1.02);
+        transform-origin: center center;
+        opacity: 1;
+        filter: brightness(1.05);
+      }
+      85% {
+        transform: rotateX(8deg) scaleY(0.99);
       }
       100% {
-        transform: rotateX(0deg) scale(1);
+        transform: rotateX(0deg) scaleY(1);
         opacity: 1;
-      }
-    }
-
-    /* Periodic gentle paper fold reminder effect */
-    @keyframes periodicFoldPulse {
-      0%, 85%, 100% {
-        transform: rotateX(0deg);
-      }
-      90% {
-        transform: rotateX(15deg);
-      }
-      95% {
-        transform: rotateX(-8deg);
+        filter: brightness(1);
       }
     }
 
     @keyframes adShine {
       0% { left: -100%; }
-      20% { left: 100%; }
+      25% { left: 100%; }
       100% { left: 100%; }
     }
 
-    @keyframes badgeBounce {
+    @keyframes badgePulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.08); }
     }
 
-    .fold-ad-box {
+    .paper-fold-container {
       position: relative;
       overflow: hidden;
       border-radius: 8px;
       display: block;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.55);
       background: #000;
-      transform-origin: top center;
-      animation: bannerUnfold 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, periodicFoldPulse 8s infinite 2s;
+      transform-style: preserve-3d;
+      /* 2.2 second ka aaram se dikhne wala smooth transition */
+      animation: realPaperUnfold 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .fold-ad-box::after {
+    .paper-fold-container::after {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
       width: 50%;
       height: 100%;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%);
       transform: skewX(-25deg);
-      animation: adShine 4s infinite 1.2s;
+      animation: adShine 4s infinite 2.3s;
       pointer-events: none;
     }
 
-    .ad-fold-badge {
+    .ad-live-tag {
       position: absolute;
       top: 6px;
       right: 6px;
@@ -289,14 +288,14 @@
       border-radius: 10px;
       letter-spacing: 0.5px;
       z-index: 2;
-      animation: badgeBounce 1.5s infinite;
+      animation: badgePulse 1.5s infinite;
       box-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
   </style>
 
-  <!-- 3D Folding Banner Link -->
-  <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="fold-ad-box">
-    <span class="ad-fold-badge">🔥 SPECIAL OFFER</span>
+  <!-- Banner Link -->
+  <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="paper-fold-container">
+    <span class="ad-live-tag">🔥 SPECIAL OFFER</span>
     <img src="https://i.postimg.cc/tT7vhpHB/1793037565377.png" alt="Praful Parlour Festive Offer" style="width: 100%; height: auto; display: block; border-radius: 7px;">
   </a>
 
@@ -306,7 +305,8 @@
     <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" style="background: #25D366; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center;">💬 WhatsApp Offer</a>
   </div>
 </div>
-<!-- Praful Parlour 3D Fold & Unfold Animated Ad End -->
+<!-- Praful Parlour Real Paper Unfold Animation End -->
+    
     
     
     
