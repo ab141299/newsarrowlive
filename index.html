@@ -45,6 +45,20 @@
             }
         }
     </script>
+    <script>
+  (function() {
+    try {
+      const saved = localStorage.getItem("cached_news");
+      if (saved) {
+        window.newsData = JSON.parse(saved);
+        document.addEventListener("DOMContentLoaded", function() {
+          if (typeof renderNews === "function") renderNews();
+        });
+      }
+    } catch(e) {}
+  })();
+    </script>
+    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -883,17 +897,6 @@
                 el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
             }
         }
-const cached = localStorage.getItem("cached_news");
-if (cached) {
-  try {
-    newsData = JSON.parse(cached);
-    if (typeof renderNews === "function") {
-      renderNews();
-    }
-  } catch(e) {}
-}
-        
-        
         const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
             newsData = [];
