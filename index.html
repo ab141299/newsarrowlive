@@ -887,9 +887,12 @@ const cached = localStorage.getItem("cached_news");
 if (cached) {
   try {
     newsData = JSON.parse(cached);
-    renderNews();
+    if (typeof renderNews === "function") {
+      renderNews();
+    }
   } catch(e) {}
 }
+        
         
         const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
