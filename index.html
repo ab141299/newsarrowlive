@@ -536,50 +536,21 @@
                 <!-- News Body -->
                 <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg font-normal space-y-3"></div>
             </div>
-<!-- In-Article Modal Fold Animated Ad Start -->
-<div style="margin: 16px 0; padding: 0; text-align: center; perspective: 1000px;">
+<!-- News Ke Beech Me Ad (Auto Shift) Start -->
+<div id="in-article-ad-box" style="margin: 16px 0; padding: 0; text-align: center; perspective: 1000px;">
   <style>
-    @keyframes modalAdPaperUnfold {
-      0% {
-        transform: rotateX(-85deg) scaleY(0.1);
-        transform-origin: top center;
-        opacity: 0.3;
-        filter: brightness(0.6);
-      }
-      40% {
-        transform: rotateX(45deg) scaleY(0.6);
-        transform-origin: top center;
-        opacity: 0.8;
-        filter: brightness(0.85);
-      }
-      70% {
-        transform: rotateX(-20deg) scaleY(1.02);
-        transform-origin: center center;
-        opacity: 1;
-        filter: brightness(1.05);
-      }
-      85% {
-        transform: rotateX(8deg) scaleY(0.99);
-      }
-      100% {
-        transform: rotateX(0deg) scaleY(1);
-        opacity: 1;
-        filter: brightness(1);
-      }
+    @keyframes midAdUnfold {
+      0% { transform: rotateX(-85deg) scaleY(0.1); transform-origin: top center; opacity: 0.3; }
+      40% { transform: rotateX(45deg) scaleY(0.6); transform-origin: top center; opacity: 0.8; }
+      70% { transform: rotateX(-20deg) scaleY(1.02); transform-origin: center center; opacity: 1; }
+      100% { transform: rotateX(0deg) scaleY(1); opacity: 1; }
     }
-
-    @keyframes modalAdShine {
+    @keyframes midAdShine {
       0% { left: -100%; }
       25% { left: 100%; }
       100% { left: 100%; }
     }
-
-    @keyframes modalBadgePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
-
-    .modal-paper-fold {
+    .mid-paper-fold {
       position: relative;
       overflow: hidden;
       border-radius: 8px;
@@ -588,10 +559,9 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
       background: #000;
       transform-style: preserve-3d;
-      animation: modalAdPaperUnfold 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: midAdUnfold 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-
-    .modal-paper-fold::after {
+    .mid-paper-fold::after {
       content: '';
       position: absolute;
       top: 0;
@@ -600,11 +570,10 @@
       height: 100%;
       background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 100%);
       transform: skewX(-25deg);
-      animation: modalAdShine 4s infinite 2.1s;
+      animation: midAdShine 4s infinite 2s;
       pointer-events: none;
     }
-
-    .modal-ad-tag {
+    .mid-ad-tag {
       position: absolute;
       top: 6px;
       right: 6px;
@@ -614,24 +583,52 @@
       font-weight: 800;
       padding: 2px 8px;
       border-radius: 10px;
-      letter-spacing: 0.5px;
       z-index: 2;
-      animation: modalBadgePulse 1.5s infinite;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
   </style>
 
-  <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="modal-paper-fold">
-    <span class="modal-ad-tag">🔥 SPECIAL OFFER</span>
-    <img src="https://i.postimg.cc/tT7vhpHB/1793037565377.png" alt="Praful Parlour Festive Offer" style="width: 100%; height: auto; display: block; border-radius: 7px;">
+  <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="mid-paper-fold">
+    <span class="mid-ad-tag">🔥 SPECIAL OFFER</span>
+    <img src="https://i.postimg.cc/tT7vhpHB/1793037565377.png" alt="Praful Parlour Special Offer" style="width: 100%; height: auto; display: block; border-radius: 7px;">
   </a>
 
   <div style="margin-top: 6px; display: flex; justify-content: center; gap: 8px;">
-    <a href="tel:+919140810378" style="background: #5c1418; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center;">📞 91408 10378</a>
-    <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" style="background: #25D366; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center;">💬 WhatsApp Offer</a>
+    <a href="tel:+919140810378" style="background: #5c1418; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600;">📞 91408 10378</a>
+    <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" style="background: #25D366; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600;">💬 WhatsApp Offer</a>
   </div>
 </div>
-<!-- In-Article Modal Fold Animated Ad End -->
+
+<script>
+  // Yeh script bina kisi setting ke ad ko apne aap khabar ke beech me le jayegi
+  const adObserver = new MutationObserver(() => {
+    const content = document.getElementById("read-content");
+    const ad = document.getElementById("in-article-ad-box");
+    if (content && ad && content.innerText.trim().length > 0) {
+      const ps = content.getElementsByTagName("p");
+      if (ps.length >= 2) {
+        ps[0].after(ad);
+      } else {
+        const text = content.innerHTML;
+        if (!text.includes("in-article-ad-box")) {
+          const mid = Math.floor(text.length / 2);
+          const space = text.indexOf(" ", mid);
+          if (space !== -1) {
+            content.innerHTML = text.slice(0, space) + ad.outerHTML + text.slice(space);
+            ad.remove();
+          }
+        }
+      }
+    }
+  });
+
+  const targetBox = document.getElementById("read-content");
+  if (targetBox) {
+    adObserver.observe(targetBox, { childList: true, subtree: true });
+  }
+</script>
+<!-- News Ke Beech Me Ad (Auto Shift) End -->
+            
+      
             
             <!-- Footer Close -->
             <div class="mt-8 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
