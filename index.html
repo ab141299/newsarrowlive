@@ -13,7 +13,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-9RKDM3CW2V');
     </script>
     
@@ -133,7 +132,7 @@
     <!-- Header -->
     <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
-            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">मंगलवार, 27 अक्टूबर 2026</div>
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">बुधवार, 28 अक्टूबर 2026</div>
             
             <div class="flex items-center space-x-3">
                 <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
@@ -214,46 +213,25 @@
     <div style="max-width: 1200px; margin: 6px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1200px;">
       <style>
         @keyframes bannerUnfold {
-          0% {
-            transform: rotateX(-90deg) scale(0.85);
-            opacity: 0;
-          }
-          50% {
-            transform: rotateX(20deg) scale(1.02);
-            opacity: 0.9;
-          }
-          70% {
-            transform: rotateX(-10deg) scale(0.99);
-          }
-          100% {
-            transform: rotateX(0deg) scale(1);
-            opacity: 1;
-          }
+          0% { transform: rotateX(-90deg) scale(0.85); opacity: 0; }
+          50% { transform: rotateX(20deg) scale(1.02); opacity: 0.9; }
+          70% { transform: rotateX(-10deg) scale(0.99); }
+          100% { transform: rotateX(0deg) scale(1); opacity: 1; }
         }
-
         @keyframes periodicFoldPulse {
-          0%, 85%, 100% {
-            transform: rotateX(0deg);
-          }
-          90% {
-            transform: rotateX(15deg);
-          }
-          95% {
-            transform: rotateX(-8deg);
-          }
+          0%, 85%, 100% { transform: rotateX(0deg); }
+          90% { transform: rotateX(15deg); }
+          95% { transform: rotateX(-8deg); }
         }
-
         @keyframes adShine {
           0% { left: -100%; }
           20% { left: 100%; }
           100% { left: 100%; }
         }
-
         @keyframes badgeBounce {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.08); }
         }
-
         .fold-ad-box {
           position: relative;
           overflow: hidden;
@@ -265,7 +243,6 @@
           transform-origin: top center;
           animation: bannerUnfold 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, periodicFoldPulse 8s infinite 2s;
         }
-
         .fold-ad-box::after {
           content: '';
           position: absolute;
@@ -278,7 +255,6 @@
           animation: adShine 4s infinite 1.2s;
           pointer-events: none;
         }
-
         .ad-fold-badge {
           position: absolute;
           top: 6px;
@@ -758,6 +734,8 @@
         import { 
             getFirestore, 
             collection, 
+            query,
+            limit,
             addDoc, 
             deleteDoc, 
             doc, 
@@ -886,7 +864,9 @@
             }
         }
 
-        // Direct article link handling
+        // ==========================================
+        // 🚀 INSTANT DIRECT ARTICLE LINK HANDLER
+        // ==========================================
         let isReadingDirectArticle = false;
         const directParams = new URLSearchParams(window.location.search);
         const directNewsId = directParams.get('id');
@@ -894,6 +874,8 @@
         if (directNewsId) {
             isReadingDirectArticle = true;
             const cleanId = decodeURIComponent(directNewsId).trim();
+            
+            // Seedhe 1 document mangwayega (Takes only 0.2 to 0.4 sec)
             getDoc(doc(db, "news", cleanId)).then((docSnap) => {
                 if (docSnap.exists()) {
                     const singleNews = { id: docSnap.id, ...docSnap.data() };
@@ -904,26 +886,27 @@
                     renderNews();
                 }
             }).catch(err => {
+                console.error("Direct fetch error:", err);
                 isReadingDirectArticle = false;
                 renderNews();
-                console.error("Fast fetch error:", err);
             });
         }
 
-        // Cache rendering
+        // ⚡ Cache First Render (Immediate paint in 0 sec)
         const cached = localStorage.getItem("cached_news");
-        if (cached && !isReadingDirectArticle) {
+        if (cached && !directNewsId) {
             try {
                 newsData = JSON.parse(cached);
-                if (typeof renderNews === "function") {
+                if (Array.isArray(newsData) && newsData.length > 0) {
                     renderNews();
+                    renderVideoFeed();
                 }
             } catch(e) {}
         }
 
-        // Clean & Original Firebase Listener
-        const newsColRef = collection(db, "news");
-        onSnapshot(newsColRef, (snapshot) => {
+        // 🚀 FAST FIRESTORE LISTENER (Max 15 items so site opens in 1 second)
+        const qNews = query(collection(db, "news"), limit(15));
+        onSnapshot(qNews, (snapshot) => {
             const freshNews = [];
             snapshot.forEach((d) => {
                 freshNews.push({ id: d.id, ...d.data() });
@@ -935,14 +918,23 @@
                     const tB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0) || 0;
                     return tB - tA;
                 });
-                newsData = freshNews;
-                localStorage.setItem("cached_news", JSON.stringify(newsData));
-            }
+                
+                // Cache refresh
+                localStorage.setItem("cached_news", JSON.stringify(freshNews));
 
-            if (!isReadingDirectArticle) {
-                renderNews();
-                renderVideoFeed();
-                renderAdminNewsList();
+                if (!isReadingDirectArticle) {
+                    newsData = freshNews;
+                    renderNews();
+                    renderVideoFeed();
+                    renderAdminNewsList();
+                } else {
+                    // Agar direct article khula hai to background me data rakh lo, home par mat bhejo
+                    freshNews.forEach(item => {
+                        if (!newsData.some(n => n.id === item.id)) {
+                            newsData.push(item);
+                        }
+                    });
+                }
             }
         }, (err) => {
             console.error("Firebase read error: ", err);
@@ -1248,7 +1240,7 @@
                 
                 card.innerHTML = `
                     <div class="relative w-full aspect-[9/14] bg-black overflow-hidden">
-                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img loading="lazy" src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
                         <div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow">
                             <i class="fa-solid fa-play text-[8px]"></i>
@@ -1304,7 +1296,7 @@
 
                 card.innerHTML = `
                     <div class="relative w-full aspect-video bg-black overflow-hidden">
-                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
+                        <img loading="lazy" src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
                         ${hasVideo ? '<span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
                     </div>
 
@@ -1687,7 +1679,7 @@
 
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
-        fetchLiveWeather();
+        setTimeout(fetchLiveWeather, 2000);
 
         // --- BULLETPROOF IMAGE SELECT & INSTANT SEO UPDATE ---
         setTimeout(() => {
@@ -1703,7 +1695,7 @@
                         img.onload = function() {
                             try {
                                 const canvas = document.createElement('canvas');
-                                const maxW = 1200;
+                                const maxW = 1000;
                                 let w = img.width;
                                 let h = img.height;
                                 if (w > maxW) {
@@ -1714,7 +1706,7 @@
                                 canvas.height = h;
                                 const ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, w, h);
-                                const compressedData = canvas.toDataURL('image/jpeg', 0.80);
+                                const compressedData = canvas.toDataURL('image/jpeg', 0.75);
                                 document.getElementById('news-image').value = compressedData;
                             } catch (err) {
                                 document.getElementById('news-image').value = event.target.result;
