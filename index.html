@@ -758,6 +758,8 @@
         import { 
             getFirestore, 
             collection, 
+            query,
+            limit,
             addDoc, 
             deleteDoc, 
             doc, 
@@ -912,35 +914,38 @@
         const cached = localStorage.getItem("cached_news");
         if (cached && !isReadingDirectArticle) {
             try {
-                newsData = JSON.parse(cached);
-                if (typeof renderNews === "function") {
-                    renderNews();
+                const parsed = JSON.parse(cached);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    newsData = parsed;
+                    if (typeof renderNews === "function") {
+                        renderNews();
+                    }
                 }
             } catch(e) {}
         }
 
-        // Firebase Query bina kisi Index error ke (Fast & Reliable)
-        const q = collection(db, "news");
+        // Fast & Ultra-Light Firestore Query (Instant 1-2 sec loading)
+        const q = query(collection(db, "news"), limit(20));
         onSnapshot(q, (snapshot) => {
             const freshNews = [];
             snapshot.forEach((d) => {
                 freshNews.push({ id: d.id, ...d.data() });
             });
 
-            // Date ke hisab se latest news sabse upar
-            freshNews.sort((a, b) => {
-                const timeA = a.timestamp?.seconds || (a.date ? new Date(a.date).getTime() : 0);
-                const timeB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0);
-                return timeB - timeA;
-            });
+            if (freshNews.length > 0) {
+                freshNews.sort((a, b) => {
+                    const tA = a.timestamp?.seconds || (a.date ? new Date(a.date).getTime() : 0) || 0;
+                    const tB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0) || 0;
+                    return tB - tA;
+                });
+                newsData = freshNews;
+                localStorage.setItem("cached_news", JSON.stringify(newsData));
+            }
 
-            newsData = freshNews;
-            localStorage.setItem("cached_news", JSON.stringify(newsData));
-            
             if (!isReadingDirectArticle) {
                 renderNews();
-                renderVideoFeed();
-                renderAdminNewsList();
+                if (typeof renderVideoFeed === "function") renderVideoFeed();
+                if (typeof renderAdminNewsList === "function") renderAdminNewsList();
             }
         }, (err) => {
             console.error("Firebase read error: ", err);
@@ -1718,7 +1723,7 @@
                             const targetHeight = Math.round((img.height * targetWidth) / img.width);
                             finalCanvas.width = targetWidth;
                             finalCanvas.height = targetHeight;
-                            const finalCtx = finalCanvas.getContext('2d');
+                            finalCtx = finalCanvas.getContext('2d');
                             finalCtx.imageSmoothingEnabled = true;
                             finalCtx.imageSmoothingQuality = 'high';
                             finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
