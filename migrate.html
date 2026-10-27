@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase to GitHub News Migrator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6 flex flex-col items-center justify-center font-sans">
+    <div class="max-w-xl w-full bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-2xl">
+        <h2 class="text-2xl font-black text-amber-500 mb-2">News Arrow: डेटा माइग्रेशन टूल</h2>
+        <p class="text-xs text-gray-400 mb-6">यह टूल Firebase से आपकी सभी 22 खबरें खींचकर सीधे GitHub के news.json में सेव कर देगा।</p>
+
+        <div class="space-y-4 text-sm">
+            <div>
+                <label class="block font-bold text-gray-300 mb-1">GitHub Personal Access Token (ghp_...)</label>
+                <input type="password" id="gh-token" placeholder="अपना टोकन यहाँ डालें..." class="w-full p-2.5 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-amber-500">
+            </div>
+
+            <button id="start-btn" onclick="startMigration()" class="w-full bg-amber-500 hover:bg-amber-600 text-black font-extrabold py-3 rounded-lg shadow-lg text-base transition">
+                🚀 22 खबरें Firebase से निकाल कर GitHub में ट्रांसफर करें
+            </button>
+
+            <div id="status-box" class="hidden mt-4 p-4 rounded-lg bg-gray-900 border border-gray-700 text-xs font-mono">
+                <p id="status-text" class="text-amber-400">प्रतीक्षा की जा रही है...</p>
+                <div id="log-list" class="mt-2 space-y-1 text-gray-300 max-h-48 overflow-y-auto"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKL_XkMlp74NcMKHJmzL-9xTqQjF3k6A0",
+            authDomain: "newsarrow-199cf.firebaseapp.com",
+            projectId: "newsarrow-199cf",
+            storageBucket: "newsarrow-199cf.firebasestorage.app",
+            messagingSenderId: "545957236502",
+            appId: "1:545957236502:web:5df6cc317042a6c8916327",
+            measurementId: "G-9RKDM3CW2V"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const OWNER = "ab141299";
+        const REPO = "newsarrowlive";
+
+        window.startMigration = async function() {
+            const tokenInput = document.getElementById('gh-token').value.trim() || localStorage.getItem('na_gh_token');
+            if (!tokenInput) {
+                alert('कृपया अपना GitHub Token डालें!');
+                return;
+            }
+
+            const btn = document.getElementById('start-btn');
+            const statusBox = document.getElementById('status-box');
+            const statusText = document.getElementById('status-text');
+            const logList = document.getElementById('log-list');
+
+            btn.disabled = true;
+            statusBox.classList.remove('hidden');
+            statusText.innerText = "⏳ Firebase से खबरें निकाली जा रही हैं...";
+
+            try {
+                // 1. Fetch all news from Firebase
+                const snap = await getDocs(collection(db, "news"));
+                const oldNews = [];
+                snap.forEach(d => {
+                    const data = d.data();
+                    oldNews.push({
+                        id: d.id,
+                        title: data.title || '',
+                        category: data.category || 'Varanasi',
+                        reporter: data.reporter || 'News Arrow',
+                        date: data.date || new Date().toLocaleDateString('hi-IN'),
+                        image: data.image || '',
+                        video: data.video || '',
+                        isBreaking: !!data.isBreaking,
+                        metaDescription: data.metaDescription || '',
+                        keywords: data.keywords || '',
+                        content: data.content || ''
+                    });
+                });
+
+                statusText.innerText = `✅ Firebase से ${oldNews.length} खबरें मिल गईं! अब GitHub में अपलोड हो रही हैं...`;
+                logList.innerHTML = `<p class="text-green-400">कुल खबरें: ${oldNews.length}</p>`;
+
+                // 2. Fetch existing news.json and SHA from GitHub
+                const ghRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/news.json`, {
+                    headers: { 'Authorization': `token ${tokenInput}` }
+                });
+
+                let sha = null;
+                let finalData = oldNews;
+
+                if (ghRes.ok) {
+                    const fileObj = await ghRes.json();
+                    sha = fileObj.sha;
+                    try {
+                        const existing = JSON.parse(decodeURIComponent(escape(atob(fileObj.content))));
+                        if (Array.isArray(existing) && existing.length > 0) {
+                            // Merge without duplicate IDs
+                            const ids = new Set(existing.map(x => String(x.id)));
+                            const newUnique = oldNews.filter(x => !ids.has(String(x.id)));
+                            finalData = [...existing, ...newUnique];
+                        }
+                    } catch(e) {}
+                }
+
+                // 3. Commit updated JSON to GitHub
+                const base64Content = btoa(unescape(encodeURIComponent(JSON.stringify(finalData, null, 2))));
+                const putRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/news.json`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${tokenInput}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Migrated ${oldNews.length} articles from Firebase to news.json`,
+                        content: base64Content,
+                        sha: sha
+                    })
+                });
+
+                if (!putRes.ok) {
+                    throw new Error('GitHub पर अपलोड विफल रहा। कृपया टोकन की वैधता जांचें।');
+                }
+
+                statusText.innerText = "🎉 बधाई! सभी 22 खबरें सफलतापूर्वक GitHub के news.json में ट्रांसफर हो गईं!";
+                statusText.className = "text-green-400 font-bold text-sm";
+                logList.innerHTML += `<p class="text-green-400">काम पूरा हो गया! अब आप अपनी वेबसाइट खोलकर देख सकते हैं।</p>`;
+            } catch (err) {
+                statusText.innerText = "❌ एरर: " + err.message;
+                statusText.className = "text-red-400 font-bold";
+            } finally {
+                btn.disabled = false;
+            }
+        };
+    </script>
+</body>
+</html>
