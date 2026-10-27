@@ -19,16 +19,22 @@
     <title id="meta-doc-title">News Arrow - Latest and Unbiased News</title>
     <meta id="meta-doc-desc" name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
     <meta id="meta-doc-keywords" name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
-    <meta property="og:type" content="article">
+    
+    <!-- Open Graph / WhatsApp Preview -->
+    <meta property="og:type" content="website">
     <meta property="og:site_name" content="News Arrow">
     <meta id="og-doc-title" property="og:title" content="News Arrow - Latest and Unbiased News">
-    <meta id="og-doc-desc" property="og:description" content="Read latest national, international and local news">
-    <meta id="og-doc-image" property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
+    <meta id="og-doc-desc" property="og:description" content="ताज़ा, सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
+    <meta id="og-doc-image" property="og:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta id="og-doc-url" property="og:url" content="https://newsarrow.in">
+    
+    <!-- Twitter Preview -->
     <meta name="twitter:card" content="summary_large_image">
     <meta id="tw-doc-title" name="twitter:title" content="News Arrow - Latest and Unbiased News">
-    <meta id="tw-doc-desc" name="twitter:description" content="Read latest national, international and local news">
-    <meta id="tw-doc-image" name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
+    <meta id="tw-doc-desc" name="twitter:description" content="ताज़ा, सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
+    <meta id="tw-doc-image" name="twitter:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -495,7 +501,7 @@
         </div>
     </div>
 
-    <!-- Admin Panel Modal (File Upload + 1-Click Auto Publisher) -->
+    <!-- Admin Panel Modal -->
     <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminPanel()">
         <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
@@ -506,10 +512,10 @@
                 <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-black dark:hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- GitHub Settings (Saved Locally) -->
+            <!-- GitHub Settings -->
             <div class="bg-gray-50 dark:bg-[#20242c] p-3 rounded-xl border border-gray-200 dark:border-[#343a46] mb-4 text-xs space-y-2">
                 <div class="flex justify-between items-center">
-                    <span class="font-bold text-amber-500 flex items-center"><i class="fa-brands fa-github text-base mr-1.5"></i>GitHub Repository Settings (Only 1st Time)</span>
+                    <span class="font-bold text-amber-500 flex items-center"><i class="fa-brands fa-github text-base mr-1.5"></i>GitHub Repository Settings</span>
                     <button type="button" onclick="document.getElementById('gh-setup-box').classList.toggle('hidden')" class="text-gray-400 underline">Edit</button>
                 </div>
                 <div id="gh-setup-box" class="space-y-2 hidden pt-2 border-t border-gray-200 dark:border-[#2e333d]">
@@ -553,7 +559,7 @@
                     </div>
                 </div>
 
-                <!-- DIRECT FILE UPLOAD (No Link Needed) -->
+                <!-- DIRECT FILE UPLOAD -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">गैलरी से फोटो चुनें (Upload Photo)</label>
@@ -763,7 +769,6 @@
             btn.innerText = 'पब्लिश हो रहा है... कृपया 2 सेकंड रुकें...';
 
             try {
-                // 1. Fetch existing news.json & SHA
                 const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
                     headers: { 'Authorization': `token ${token}` }
                 });
@@ -776,7 +781,6 @@
                     currentPosts = JSON.parse(decodeURIComponent(escape(atob(fileObj.content))));
                 }
 
-                // 2. Prepare new news object
                 const newPost = {
                     id: Date.now().toString(),
                     title: document.getElementById('news-title').value.trim(),
@@ -793,7 +797,6 @@
 
                 currentPosts.unshift(newPost);
 
-                // 3. Commit to GitHub
                 const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentPosts, null, 2))));
                 const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
                     method: 'PUT',
@@ -895,7 +898,7 @@
             }
         }
 
-        // Fast JSON Fetch (0.2s Loading Time)
+        // Fast JSON Fetch
         async function fetchFastNews() {
             try {
                 const res = await fetch('news.json?t=' + Date.now());
@@ -972,7 +975,9 @@
                         </div>
                         <div class="pt-2.5 border-t border-gray-100 dark:border-[#282d36] flex justify-between items-center text-xs text-gray-400">
                             <span class="font-semibold text-gray-200 truncate">${item.reporter || 'News Arrow'}</span>
-                            <button onclick="shareArticle('${item.id}')" class="share-btn-action text-gray-400 hover:text-emerald-500 p-1 text-sm"><i class="fa-brands fa-whatsapp text-emerald-500 mr-1"></i>Share</button>
+                            <button onclick="shareArticle('${item.id}')" class="share-btn-action text-gray-400 hover:text-emerald-500 p-1 text-xs font-bold flex items-center">
+                                <i class="fa-brands fa-whatsapp text-emerald-500 text-base mr-1"></i>Share
+                            </button>
                         </div>
                     </div>
                 `;
@@ -1019,16 +1024,15 @@
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
-            // Dynamically update head meta tags for browser / web crawlers
             document.title = `${item.title} - News Arrow`;
             const ogTitle = document.getElementById('og-doc-title');
             if (ogTitle) ogTitle.content = item.title;
             const ogDesc = document.getElementById('og-doc-desc');
             if (ogDesc) ogDesc.content = item.metaDescription || item.title;
             const ogImg = document.getElementById('og-doc-image');
-            if (ogImg && item.image) ogImg.content = item.image;
+            if (ogImg && item.image && item.image.startsWith('http')) ogImg.content = item.image;
             const ogUrl = document.getElementById('og-doc-url');
-            if (ogUrl) ogUrl.content = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(item.id)}`;
+            if (ogUrl) ogUrl.content = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
 
             document.getElementById('read-title').innerText = item.title;
             document.getElementById('read-category').innerText = `${item.category} NEWS`;
@@ -1068,14 +1072,16 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // WhatsApp Direct Share Engine (Opens WhatsApp Directly with Preview Link)
+        // WhatsApp Direct Share Engine
         window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
-            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(item.id)}`;
-            const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
+            const shareUrl = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
+            const isDirectImg = item.image && item.image.startsWith('http');
+            const imgPart = isDirectImg ? `\n🖼️ फोटो देखें: ${item.image}\n` : '';
 
+            const shareText = `🔴 *${item.title}*\n${imgPart}\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
             const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
             window.open(waUrl, '_blank');
         };
