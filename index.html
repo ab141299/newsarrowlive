@@ -16,15 +16,19 @@
       gtag('config', 'G-9RKDM3CW2V');
     </script>
     
-    <title>News Arrow - Latest and Unbiased News</title>
-    <meta name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
-    <meta name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
-    <meta property="og:type" content="website">
+    <title id="meta-doc-title">News Arrow - Latest and Unbiased News</title>
+    <meta id="meta-doc-desc" name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
+    <meta id="meta-doc-keywords" name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="News Arrow">
-    <meta property="og:title" content="News Arrow - Latest and Unbiased News">
-    <meta property="og:description" content="Read latest national, international and local news">
-    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
+    <meta id="og-doc-title" property="og:title" content="News Arrow - Latest and Unbiased News">
+    <meta id="og-doc-desc" property="og:description" content="Read latest national, international and local news">
+    <meta id="og-doc-image" property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
+    <meta id="og-doc-url" property="og:url" content="https://newsarrow.in">
     <meta name="twitter:card" content="summary_large_image">
+    <meta id="tw-doc-title" name="twitter:title" content="News Arrow - Latest and Unbiased News">
+    <meta id="tw-doc-desc" name="twitter:description" content="Read latest national, international and local news">
+    <meta id="tw-doc-image" name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -196,7 +200,7 @@
         </nav>
     </header>
 
-    <!-- WhatsApp Banner -->
+    <!-- WhatsApp Join Banner -->
     <div class="bg-white dark:bg-[#1c2026] border-b border-gray-200 dark:border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="flex items-center space-x-2 font-medium truncate text-gray-700 dark:text-gray-300">
@@ -464,10 +468,16 @@
                 
                 <div class="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-gray-200 dark:border-[#282d36] mb-5 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     <div id="read-date" class="flex items-center space-x-2 font-medium"></div>
-                    <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
-                        <i id="tts-icon" class="fa-solid fa-volume-high"></i>
-                        <span id="tts-text">Listen Story</span>
-                    </button>
+                    <div class="flex items-center space-x-2">
+                        <button id="modal-share-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                            <span>Share</span>
+                        </button>
+                        <button id="tts-play-btn" onclick="toggleAudioNews()" class="bg-amber-500 hover:bg-amber-600 text-black px-4 py-1.5 rounded-full text-xs font-extrabold flex items-center space-x-1.5 shadow transition">
+                            <i id="tts-icon" class="fa-solid fa-volume-high"></i>
+                            <span id="tts-text">Listen Story</span>
+                        </button>
+                    </div>
                 </div>
 
                 <img id="read-image" src="" alt="News Image" class="w-full max-h-[460px] object-cover rounded-xl mb-6 border border-gray-200 dark:border-[#2b3038] shadow">
@@ -962,7 +972,7 @@
                         </div>
                         <div class="pt-2.5 border-t border-gray-100 dark:border-[#282d36] flex justify-between items-center text-xs text-gray-400">
                             <span class="font-semibold text-gray-200 truncate">${item.reporter || 'News Arrow'}</span>
-                            <button onclick="shareArticle('${item.id}')" class="share-btn-action text-gray-400 hover:text-amber-500 p-1"><i class="fa-solid fa-share-nodes"></i></button>
+                            <button onclick="shareArticle('${item.id}')" class="share-btn-action text-gray-400 hover:text-emerald-500 p-1 text-sm"><i class="fa-brands fa-whatsapp text-emerald-500 mr-1"></i>Share</button>
                         </div>
                     </div>
                 `;
@@ -1009,10 +1019,26 @@
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
+            // Dynamically update head meta tags for browser / web crawlers
+            document.title = `${item.title} - News Arrow`;
+            const ogTitle = document.getElementById('og-doc-title');
+            if (ogTitle) ogTitle.content = item.title;
+            const ogDesc = document.getElementById('og-doc-desc');
+            if (ogDesc) ogDesc.content = item.metaDescription || item.title;
+            const ogImg = document.getElementById('og-doc-image');
+            if (ogImg && item.image) ogImg.content = item.image;
+            const ogUrl = document.getElementById('og-doc-url');
+            if (ogUrl) ogUrl.content = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(item.id)}`;
+
             document.getElementById('read-title').innerText = item.title;
             document.getElementById('read-category').innerText = `${item.category} NEWS`;
             document.getElementById('read-date').innerHTML = `<span><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter}</span> <span>•</span> <span>${item.date || ''}</span>`;
             document.getElementById('read-image').src = item.image;
+
+            const modalShareBtn = document.getElementById('modal-share-btn');
+            if (modalShareBtn) {
+                modalShareBtn.onclick = () => shareArticle(item.id);
+            }
 
             const vIframe = document.getElementById('read-video-iframe');
             const vCont = document.getElementById('read-video-container');
@@ -1030,6 +1056,7 @@
             modal.style.display = 'flex';
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+            window.history.replaceState({}, item.title, `?id=${encodeURIComponent(item.id)}`);
         };
 
         window.closeFullNews = function() {
@@ -1041,20 +1068,16 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        window.shareArticle = async function(id) {
+        // WhatsApp Direct Share Engine (Opens WhatsApp Directly with Preview Link)
+        window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
             const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(item.id)}`;
             const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
 
-            if (navigator.share) {
-                try {
-                    await navigator.share({ title: item.title, text: shareText, url: shareUrl });
-                    return;
-                } catch(e) {}
-            }
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`, '_blank');
+            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+            window.open(waUrl, '_blank');
         };
 
         window.filterCategory = function(cat) {
