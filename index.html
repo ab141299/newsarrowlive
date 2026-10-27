@@ -1477,8 +1477,18 @@ if (newsId) {
                 videoContainer.classList.add('hidden');
             }
 
-            document.getElementById('read-content').innerHTML = formatNewsContent(item.content);
-
+            const prafulAdHtml = document.getElementById('hidden-praful-ad') ? document.getElementById('hidden-praful-ad').innerHTML : '';
+let formattedText = formatNewsContent(item.content);
+if (prafulAdHtml) {
+    const paras = formattedText.split('</p>');
+    if (paras.length > 2) {
+        paras.splice(2, 0, prafulAdHtml);
+        formattedText = paras.join('</p>');
+    } else {
+        formattedText += prafulAdHtml;
+    }
+}
+document.getElementById('read-content').innerHTML = formattedText;
             const modal = document.getElementById('full-news-modal');
             modal.style.display = 'flex';
             modal.classList.remove('hidden');
