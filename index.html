@@ -13,6 +13,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+
       gtag('config', 'G-9RKDM3CW2V');
     </script>
     
@@ -124,13 +125,6 @@
                 border-radius: 1rem !important;
                 max-width: 54rem !important;
             }
-        }
-        @keyframes pulseSkeleton {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-        .skeleton-box {
-            animation: pulseSkeleton 1.2s ease-in-out infinite;
         }
     </style>
 </head>
@@ -312,16 +306,11 @@
                 <span class="w-2 h-6 bg-amber-500 rounded inline-block shadow-[0_0_10px_#f59e0b]"></span>
                 <span>Latest News</span>
             </h2>
-            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">Loading...</span>
+            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">Stories</span>
         </div>
 
-        <!-- News Cards Grid (Instant Skeleton Pre-rendered) -->
-        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
-            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
-            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
-            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
-        </div>
+        <!-- News Cards Grid -->
+        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
 
         <!-- No News Found -->
         <div id="no-news-message" class="hidden text-center py-16">
@@ -740,15 +729,12 @@
         </div>
     </div>
 
-    <!-- Scripts (Immediate Execution) -->
+    <!-- Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getFirestore, 
             collection, 
-            query,
-            limit,
-            getDocs,
             addDoc, 
             deleteDoc, 
             doc, 
@@ -877,105 +863,67 @@
             }
         }
 
-        // --- INSTANT 0-SECOND CACHE RENDER ---
+        // Direct article link handling
         let isReadingDirectArticle = false;
         const directParams = new URLSearchParams(window.location.search);
         const directNewsId = directParams.get('id');
 
-        const cached = localStorage.getItem("cached_news");
-        if (cached && !directNewsId) {
-            try {
-                const parsed = JSON.parse(cached);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    newsData = parsed;
-                    renderNews();
-                    renderVideoFeed();
-                }
-            } catch(e) {}
-        }
-
-        // --- DIRECT ARTICLE LINK HANDLER ---
         if (directNewsId) {
             isReadingDirectArticle = true;
             const cleanId = decodeURIComponent(directNewsId).trim();
             getDoc(doc(db, "news", cleanId)).then((docSnap) => {
                 if (docSnap.exists()) {
                     const singleNews = { id: docSnap.id, ...docSnap.data() };
-                    const existingIdx = newsData.findIndex(n => n.id === singleNews.id);
-                    if (existingIdx >= 0) {
-                        newsData[existingIdx] = singleNews;
-                    } else {
-                        newsData.unshift(singleNews);
-                    }
+                    newsData = [singleNews];
                     readFullArticle(singleNews.id);
                 } else {
                     isReadingDirectArticle = false;
                     renderNews();
                 }
             }).catch(err => {
-                console.error("Direct fetch error:", err);
                 isReadingDirectArticle = false;
                 renderNews();
+                console.error("Fast fetch error:", err);
             });
         }
 
-        // --- ULTRA-FAST LIGHT FETCH (Limit to 15 items for 0.5s speed) ---
-        async function loadFastInitialNews() {
+        // Cache rendering
+        const cached = localStorage.getItem("cached_news");
+        if (cached && !isReadingDirectArticle) {
             try {
-                const q = query(collection(db, "news"), limit(15));
-                const snap = await getDocs(q);
-                const freshNews = [];
-                snap.forEach(d => freshNews.push({ id: d.id, ...d.data() }));
-
-                if (freshNews.length > 0) {
-                    freshNews.sort((a, b) => {
-                        const tA = a.timestamp?.seconds || (a.date ? new Date(a.date).getTime() : 0) || 0;
-                        const tB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0) || 0;
-                        return tB - tA;
-                    });
-                    newsData = freshNews;
-                    localStorage.setItem("cached_news", JSON.stringify(newsData));
-                    if (!isReadingDirectArticle) {
-                        renderNews();
-                        renderVideoFeed();
-                        renderAdminNewsList();
-                    }
-                }
-            } catch(e) {
-                console.log("Fast fetch:", e);
-            }
-        }
-        loadFastInitialNews();
-
-        // --- PASSIVE BACKGROUND SYNC ---
-        setTimeout(() => {
-            const q = query(collection(db, "news"), limit(20));
-            onSnapshot(q, (snapshot) => {
-                const freshNews = [];
-                snapshot.forEach((d) => {
-                    freshNews.push({ id: d.id, ...d.data() });
-                });
-
-                if (freshNews.length > 0) {
-                    freshNews.sort((a, b) => {
-                        const tA = a.timestamp?.seconds || (a.date ? new Date(a.date).getTime() : 0) || 0;
-                        const tB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0) || 0;
-                        return tB - tA;
-                    });
-                    
-                    newsData = freshNews;
-                    localStorage.setItem("cached_news", JSON.stringify(newsData));
-                }
-
-                if (!isReadingDirectArticle) {
+                newsData = JSON.parse(cached);
+                if (typeof renderNews === "function") {
                     renderNews();
-                    renderVideoFeed();
-                    renderAdminNewsList();
                 }
-            }, (err) => {
-                console.error("Firebase read error: ", err);
+            } catch(e) {}
+        }
+
+        // Clean & Original Firebase Listener
+        const newsColRef = collection(db, "news");
+        onSnapshot(newsColRef, (snapshot) => {
+            const freshNews = [];
+            snapshot.forEach((d) => {
+                freshNews.push({ id: d.id, ...d.data() });
             });
-        }, 2000);
+
+            if (freshNews.length > 0) {
+                freshNews.sort((a, b) => {
+                    const tA = a.timestamp?.seconds || (a.date ? new Date(a.date).getTime() : 0) || 0;
+                    const tB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0) || 0;
+                    return tB - tA;
+                });
+                newsData = freshNews;
+                localStorage.setItem("cached_news", JSON.stringify(newsData));
+            }
+
+            if (!isReadingDirectArticle) {
+                renderNews();
+                renderVideoFeed();
+                renderAdminNewsList();
+            }
+        }, (err) => {
+            console.error("Firebase read error: ", err);
+        });
 
         // 0% Clean Poll
         const pollDocRef = doc(db, "polls", "current_poll_v2");
@@ -1277,7 +1225,7 @@
                 
                 card.innerHTML = `
                     <div class="relative w-full aspect-[9/14] bg-black overflow-hidden">
-                        <img loading="lazy" src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
                         <div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow">
                             <i class="fa-solid fa-play text-[8px]"></i>
@@ -1333,7 +1281,7 @@
 
                 card.innerHTML = `
                     <div class="relative w-full aspect-video bg-black overflow-hidden">
-                        <img loading="lazy" decoding="async" src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
                         ${hasVideo ? '<span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
                     </div>
 
@@ -1567,7 +1515,7 @@
             }
         };
 
-        // --- WHATSAPP & MOBILE SHARE ENGINE (PHOTO + HEADLINE + LINK) ---
+        // WhatsApp Native Share Engine
         window.shareArticle = async function(id) {
             const item = newsData.find(n => String(n.id) === String(id) || n.title === id);
             if (!item) return;
@@ -1679,7 +1627,6 @@
             if (sunIcon) sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
         }
 
-        // --- SILENT BACKGROUND WEATHER ---
         async function fetchLiveWeather() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
@@ -1717,7 +1664,7 @@
 
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
-        setTimeout(fetchLiveWeather, 3000);
+        fetchLiveWeather();
 
         setTimeout(() => {
             const fileInput = document.getElementById('news-image-file');
@@ -1732,7 +1679,7 @@
                         img.onload = function() {
                             let curW = img.width;
                             let curH = img.height;
-                            const targetWidth = 1000;
+                            const targetWidth = 1200;
 
                             let oc = document.createElement('canvas');
                             let octx = oc.getContext('2d');
@@ -1762,7 +1709,7 @@
                             finalCtx.imageSmoothingQuality = 'high';
                             finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
 
-                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.70);
+                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
                             document.getElementById('news-image').value = ultraHdData;
                             
                             if (typeof calculateLiveSEO === 'function') calculateLiveSEO();
