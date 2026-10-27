@@ -329,7 +329,7 @@
                 <span class="w-2 h-6 bg-amber-500 rounded inline-block shadow-[0_0_10px_#f59e0b]"></span>
                 <span>Latest News</span>
             </h2>
-            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">0 stories</span>
+            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">Loading...</span>
         </div>
 
         <!-- News Cards Grid -->
@@ -888,44 +888,51 @@
             }
         }
 
+        // --- INSTANT CACHE RENDER (0-Second Load) ---
         let isReadingDirectArticle = false;
         const directParams = new URLSearchParams(window.location.search);
         const directNewsId = directParams.get('id');
 
+        const cached = localStorage.getItem("cached_news");
+        if (cached && !directNewsId) {
+            try {
+                const parsed = JSON.parse(cached);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    newsData = parsed;
+                    renderNews();
+                    renderVideoFeed();
+                    renderAdminNewsList();
+                }
+            } catch(e) {}
+        }
+
+        // --- DIRECT LINK HANDLER (Instant fetch single article) ---
         if (directNewsId) {
             isReadingDirectArticle = true;
             const cleanId = decodeURIComponent(directNewsId).trim();
             getDoc(doc(db, "news", cleanId)).then((docSnap) => {
                 if (docSnap.exists()) {
                     const singleNews = { id: docSnap.id, ...docSnap.data() };
-                    newsData = [singleNews];
+                    const existingIdx = newsData.findIndex(n => n.id === singleNews.id);
+                    if (existingIdx >= 0) {
+                        newsData[existingIdx] = singleNews;
+                    } else {
+                        newsData.unshift(singleNews);
+                    }
                     readFullArticle(singleNews.id);
                 } else {
                     isReadingDirectArticle = false;
                     renderNews();
                 }
             }).catch(err => {
+                console.error("Direct fetch error:", err);
                 isReadingDirectArticle = false;
                 renderNews();
-                console.error("Fast fetch error:", err);
             });
         }
 
-        const cached = localStorage.getItem("cached_news");
-        if (cached && !isReadingDirectArticle) {
-            try {
-                const parsed = JSON.parse(cached);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    newsData = parsed;
-                    if (typeof renderNews === "function") {
-                        renderNews();
-                    }
-                }
-            } catch(e) {}
-        }
-
-        // Fast & Ultra-Light Firestore Query (Instant 1-2 sec loading)
-        const q = query(collection(db, "news"), limit(20));
+        // --- BACKGROUND FIRESTORE SYNC ---
+        const q = query(collection(db, "news"), limit(25));
         onSnapshot(q, (snapshot) => {
             const freshNews = [];
             snapshot.forEach((d) => {
@@ -938,14 +945,15 @@
                     const tB = b.timestamp?.seconds || (b.date ? new Date(b.date).getTime() : 0) || 0;
                     return tB - tA;
                 });
+                
                 newsData = freshNews;
                 localStorage.setItem("cached_news", JSON.stringify(newsData));
             }
 
             if (!isReadingDirectArticle) {
                 renderNews();
-                if (typeof renderVideoFeed === "function") renderVideoFeed();
-                if (typeof renderAdminNewsList === "function") renderAdminNewsList();
+                renderVideoFeed();
+                renderAdminNewsList();
             }
         }, (err) => {
             console.error("Firebase read error: ", err);
@@ -1534,6 +1542,7 @@
 
             if (isReadingDirectArticle) {
                 isReadingDirectArticle = false;
+                window.history.replaceState({}, document.title, window.location.pathname);
                 renderNews();
                 renderVideoFeed();
                 renderAdminNewsList();
@@ -1544,27 +1553,11 @@
             const item = newsData.find(n => String(n.id) === String(id) || n.title === id);
             if (!item) return;
 
-            const newsIdentifier = item.id !== undefined ? item.id : item.title;
-            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(newsIdentifier)}`;
-            const shareText = `🔴 *${item.title}*\n\n👉 Read full story here:\n${shareUrl}`;
+            const newsId = item.id;
+            const shareUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(newsId)}`;
+            const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
 
             try {
-                if (item.image && navigator.canShare) {
-                    const blob = await (await fetch(item.image)).blob();
-                    const file = new File([blob], 'news.jpg', { type: blob.type || 'image/jpeg' });
-                    
-                    const shareDataWithFile = {
-                        files: [file],
-                        title: item.title,
-                        text: shareText
-                    };
-
-                    if (navigator.canShare(shareDataWithFile)) {
-                        await navigator.share(shareDataWithFile);
-                        return;
-                    }
-                }
-
                 if (navigator.share) {
                     await navigator.share({
                         title: item.title,
@@ -1723,7 +1716,7 @@
                             const targetHeight = Math.round((img.height * targetWidth) / img.width);
                             finalCanvas.width = targetWidth;
                             finalCanvas.height = targetHeight;
-                            finalCtx = finalCanvas.getContext('2d');
+                            const finalCtx = finalCanvas.getContext('2d');
                             finalCtx.imageSmoothingEnabled = true;
                             finalCtx.imageSmoothingQuality = 'high';
                             finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
