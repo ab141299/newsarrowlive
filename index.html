@@ -196,6 +196,19 @@
         </nav>
     </header>
 
+    <!-- WhatsApp Banner -->
+    <div class="bg-white dark:bg-[#1c2026] border-b border-gray-200 dark:border-[#2e3440] text-xs sm:text-sm py-2 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="flex items-center space-x-2 font-medium truncate text-gray-700 dark:text-gray-300">
+                <i class="fa-brands fa-whatsapp text-lg text-emerald-500"></i>
+                <span class="truncate">Join our official <b>WhatsApp Channel</b> for ground reports and instant updates</span>
+            </span>
+            <a href="https://whatsapp.com/channel/" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-black font-extrabold px-3 py-1 rounded-full text-xs shadow transition shrink-0 ml-2">
+                Join &rarr;
+            </a>
+        </div>
+    </div>
+
     <!-- Praful Parlour 3D Fold & Unfold Animated Ad Start -->
     <div style="max-width: 1200px; margin: 6px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1200px;">
       <style>
@@ -472,7 +485,7 @@
         </div>
     </div>
 
-    <!-- Admin Panel Modal (GitHub API 1-Click Auto Publisher) -->
+    <!-- Admin Panel Modal (File Upload + 1-Click Auto Publisher) -->
     <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminPanel()">
         <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
@@ -490,8 +503,8 @@
                     <button type="button" onclick="document.getElementById('gh-setup-box').classList.toggle('hidden')" class="text-gray-400 underline">Edit</button>
                 </div>
                 <div id="gh-setup-box" class="space-y-2 hidden pt-2 border-t border-gray-200 dark:border-[#2e333d]">
-                    <input type="text" id="gh-owner" placeholder="GitHub Username (e.g. your-github-name)" class="w-full border p-2 rounded bg-white dark:bg-[#23272e] text-gray-900 dark:text-white border-gray-300 dark:border-[#343a46]">
-                    <input type="text" id="gh-repo" placeholder="Repository Name (e.g. newsarrow)" class="w-full border p-2 rounded bg-white dark:bg-[#23272e] text-gray-900 dark:text-white border-gray-300 dark:border-[#343a46]">
+                    <input type="text" id="gh-owner" placeholder="GitHub Username (e.g. ab141299)" class="w-full border p-2 rounded bg-white dark:bg-[#23272e] text-gray-900 dark:text-white border-gray-300 dark:border-[#343a46]">
+                    <input type="text" id="gh-repo" placeholder="Repository Name (e.g. newsarrowlive)" class="w-full border p-2 rounded bg-white dark:bg-[#23272e] text-gray-900 dark:text-white border-gray-300 dark:border-[#343a46]">
                     <input type="password" id="gh-token" placeholder="Personal Access Token (ghp_...)" class="w-full border p-2 rounded bg-white dark:bg-[#23272e] text-gray-900 dark:text-white border-gray-300 dark:border-[#343a46]">
                     <button type="button" onclick="saveGithubSettings()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded shadow">Save GitHub Settings</button>
                 </div>
@@ -530,10 +543,12 @@
                     </div>
                 </div>
 
+                <!-- DIRECT FILE UPLOAD (No Link Needed) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Photo Link (Direct Image URL)</label>
-                        <input type="url" id="news-image-url" oninput="calculateLiveSEO()" required placeholder="https://images.unsplash.com/... or PostImage link" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">गैलरी से फोटो चुनें (Upload Photo)</label>
+                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-xs text-gray-400 file:mr-2 file:py-2 file:px-3 file:rounded file:border-0 file:bg-amber-500 file:text-black file:font-bold hover:file:bg-amber-600 cursor-pointer">
+                        <input type="hidden" id="news-image-url">
                     </div>
                     <div>
                         <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">YouTube Video / Shorts Link</label>
@@ -593,7 +608,7 @@
                         </div>
                         <div id="check-image" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Featured HD Image Provided</span>
+                            <span>Featured HD Image Uploaded</span>
                         </div>
                         <div id="check-meta" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
@@ -614,7 +629,7 @@
         </div>
     </div>
 
-    <!-- ZERO-LATENCY GITHUB NATIVE SCRIPT -->
+    <!-- ZERO-LATENCY SCRIPT ENGINE -->
     <script>
         let newsData = [];
         let currentFilter = 'All';
@@ -645,8 +660,8 @@
         };
 
         window.openAdminPanel = function() {
-            document.getElementById('gh-owner').value = localStorage.getItem('na_gh_owner') || '';
-            document.getElementById('gh-repo').value = localStorage.getItem('na_gh_repo') || '';
+            document.getElementById('gh-owner').value = localStorage.getItem('na_gh_owner') || 'ab141299';
+            document.getElementById('gh-repo').value = localStorage.getItem('na_gh_repo') || 'newsarrowlive';
             document.getElementById('gh-token').value = localStorage.getItem('na_gh_token') || '';
             if (!localStorage.getItem('na_gh_token')) {
                 document.getElementById('gh-setup-box').classList.remove('hidden');
@@ -669,19 +684,69 @@
             document.getElementById('gh-setup-box').classList.add('hidden');
         };
 
+        // Image Reader & Instant SEO Fix
+        setTimeout(() => {
+            const fileInput = document.getElementById('news-image-file');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    updateCheckUI('check-image', true);
+                    calculateLiveSEO();
+
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            try {
+                                const canvas = document.createElement('canvas');
+                                const maxW = 900;
+                                let w = img.width;
+                                let h = img.height;
+                                if (w > maxW) {
+                                    h = Math.round((h * maxW) / w);
+                                    w = maxW;
+                                }
+                                canvas.width = w;
+                                canvas.height = h;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, w, h);
+                                document.getElementById('news-image-url').value = canvas.toDataURL('image/jpeg', 0.70);
+                            } catch(err) {
+                                document.getElementById('news-image-url').value = event.target.result;
+                            }
+                            calculateLiveSEO();
+                        };
+                        img.onerror = function() {
+                            document.getElementById('news-image-url').value = event.target.result;
+                            calculateLiveSEO();
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        }, 300);
+
         // 1-Click Publisher Engine
         window.handlePublishToGitHub = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('publish-btn');
             
-            const owner = localStorage.getItem('na_gh_owner');
-            const repo = localStorage.getItem('na_gh_repo');
+            const owner = localStorage.getItem('na_gh_owner') || 'ab141299';
+            const repo = localStorage.getItem('na_gh_repo') || 'newsarrowlive';
             const token = localStorage.getItem('na_gh_token');
 
-            if (!owner || !repo || !token) {
-                alert('कृपया पहले GitHub Settings में Username, Repo Name और Token भरें!');
+            if (!token) {
+                alert('कृपया पहले GitHub Settings में अपना Personal Access Token (ghp_...) भरें!');
                 document.getElementById('gh-setup-box').classList.remove('hidden');
                 return;
+            }
+
+            let imageVal = document.getElementById('news-image-url').value;
+            if (!imageVal) {
+                imageVal = 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=800';
             }
 
             btn.disabled = true;
@@ -708,7 +773,7 @@
                     category: document.getElementById('news-category').value,
                     reporter: document.getElementById('news-reporter').value.trim(),
                     date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-                    image: document.getElementById('news-image-url').value.trim(),
+                    image: imageVal,
                     video: document.getElementById('news-video').value.trim(),
                     metaDescription: document.getElementById('news-meta-desc').value.trim(),
                     keywords: document.getElementById('news-keywords').value.trim(),
@@ -733,7 +798,7 @@
                     })
                 });
 
-                if (!putRes.ok) throw new Error('GitHub पर कमिट नहीं हो सका। टोकन और रिपो का नाम चेक करें।');
+                if (!putRes.ok) throw new Error('GitHub पर कमिट नहीं हो सका। टोकन चेक करें।');
 
                 alert('🎉 खबर 1-Click में लाइव हो गई!');
                 closeAdminPanel();
@@ -755,6 +820,7 @@
             const metaDesc = (document.getElementById('news-meta-desc').value || '').trim();
             const keywords = (document.getElementById('news-keywords').value || '').trim();
             const imgUrl = (document.getElementById('news-image-url').value || '').trim();
+            const fileBox = document.getElementById('news-image-file');
 
             const titleLen = title.length;
             document.getElementById('title-char-count').innerText = `${titleLen} / 70 chars`;
@@ -767,7 +833,7 @@
             const isContentGood = (wordCount >= 90);
             updateCheckUI('check-content', isContentGood);
 
-            const hasImg = (imgUrl.length > 10);
+            const hasImg = (imgUrl.length > 10 || (fileBox && fileBox.files && fileBox.files.length > 0));
             updateCheckUI('check-image', hasImg);
 
             document.getElementById('meta-desc-char-count').innerText = `${metaDesc.length} / 160 chars`;
