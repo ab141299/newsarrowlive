@@ -1549,6 +1549,7 @@
             }
         };
 
+        // --- WHATSAPP & MOBILE SHARE ENGINE (PHOTO + HEADLINE + LINK) ---
         window.shareArticle = async function(id) {
             const item = newsData.find(n => String(n.id) === String(id) || n.title === id);
             if (!item) return;
@@ -1558,6 +1559,27 @@
             const shareText = `🔴 *${item.title}*\n\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
 
             try {
+                if (item.image && navigator.canShare) {
+                    try {
+                        const response = await fetch(item.image);
+                        const blob = await response.blob();
+                        const file = new File([blob], 'news-arrow.jpg', { type: blob.type || 'image/jpeg' });
+                        
+                        const shareDataWithFile = {
+                            files: [file],
+                            title: item.title,
+                            text: shareText
+                        };
+
+                        if (navigator.canShare(shareDataWithFile)) {
+                            await navigator.share(shareDataWithFile);
+                            return;
+                        }
+                    } catch (e) {
+                        console.log("Photo fetch share error, falling back to direct share");
+                    }
+                }
+
                 if (navigator.share) {
                     await navigator.share({
                         title: item.title,
@@ -1716,7 +1738,7 @@
                             const targetHeight = Math.round((img.height * targetWidth) / img.width);
                             finalCanvas.width = targetWidth;
                             finalCanvas.height = targetHeight;
-                            const finalCtx = finalCanvas.getContext('2d');
+                            finalCtx = finalCanvas.getContext('2d');
                             finalCtx.imageSmoothingEnabled = true;
                             finalCtx.imageSmoothingQuality = 'high';
                             finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
