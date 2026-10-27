@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firebase to GitHub News Migrator</title>
+    <title>News Arrow Data Migrator</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen p-6 flex flex-col items-center justify-center font-sans">
+<body class="bg-gray-900 text-white min-h-screen p-4 flex flex-col items-center justify-center font-sans">
     <div class="max-w-xl w-full bg-gray-800 border border-gray-700 rounded-2xl p-6 shadow-2xl">
-        <h2 class="text-2xl font-black text-amber-500 mb-2">News Arrow: डेटा माइग्रेशन टूल</h2>
-        <p class="text-xs text-gray-400 mb-6">यह टूल Firebase से आपकी सभी 22 खबरें खींचकर सीधे GitHub के news.json में सेव कर देगा।</p>
+        <h2 class="text-xl sm:text-2xl font-black text-amber-500 mb-2">News Arrow: 19 न्यूज़ ट्रांसफर टूल</h2>
+        <p class="text-xs text-gray-400 mb-5">Firebase से आपकी 19 खबरें निकाल कर सीधे GitHub news.json में सेव करेगा।</p>
 
         <div class="space-y-4 text-sm">
             <div>
                 <label class="block font-bold text-gray-300 mb-1">GitHub Personal Access Token (ghp_...)</label>
-                <input type="password" id="gh-token" placeholder="अपना टोकन यहाँ डालें..." class="w-full p-2.5 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-amber-500">
+                <input type="password" id="gh-token" placeholder="टोकन यहाँ डालें..." class="w-full p-2.5 rounded-lg bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-amber-500 text-xs">
             </div>
 
-            <button id="start-btn" onclick="startMigration()" class="w-full bg-amber-500 hover:bg-amber-600 text-black font-extrabold py-3 rounded-lg shadow-lg text-base transition">
-                🚀 22 खबरें Firebase से निकाल कर GitHub में ट्रांसफर करें
+            <button id="start-btn" onclick="startMigration()" class="w-full bg-amber-500 hover:bg-amber-600 text-black font-extrabold py-3 rounded-lg shadow-lg text-sm sm:text-base transition">
+                🚀 19 खबरें GitHub में ट्रांसफर करें
             </button>
 
             <div id="status-box" class="hidden mt-4 p-4 rounded-lg bg-gray-900 border border-gray-700 text-xs font-mono">
-                <p id="status-text" class="text-amber-400">प्रतीक्षा की जा रही है...</p>
-                <div id="log-list" class="mt-2 space-y-1 text-gray-300 max-h-48 overflow-y-auto"></div>
+                <p id="status-text" class="text-amber-400 font-bold mb-2">प्रतीक्षा की जा रही है...</p>
+                <div id="log-list" class="space-y-1 text-gray-300 max-h-48 overflow-y-auto"></div>
             </div>
         </div>
     </div>
@@ -62,20 +62,30 @@
 
             btn.disabled = true;
             statusBox.classList.remove('hidden');
-            statusText.innerText = "⏳ Firebase से खबरें निकाली जा रही हैं...";
+            logList.innerHTML = '';
+            statusText.innerText = "⏳ Firebase से खबरें लोड की जा रही हैं...";
 
             try {
-                // 1. Fetch all news from Firebase
-                const snap = await getDocs(collection(db, "news"));
+                const querySnapshot = await getDocs(collection(db, "news"));
                 const oldNews = [];
-                snap.forEach(d => {
-                    const data = d.data();
+
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    let postDate = data.date;
+                    if (!postDate && data.timestamp) {
+                        try {
+                            postDate = new Date(data.timestamp.seconds * 1000).toLocaleDateString('hi-IN');
+                        } catch(e) {
+                            postDate = '22 Oct 2026';
+                        }
+                    }
+
                     oldNews.push({
-                        id: d.id,
-                        title: data.title || '',
+                        id: docSnap.id,
+                        title: data.title || 'शीर्षक उपलब्ध नहीं',
                         category: data.category || 'Varanasi',
-                        reporter: data.reporter || 'News Arrow',
-                        date: data.date || new Date().toLocaleDateString('hi-IN'),
+                        reporter: data.reporter || 'अभय श्रीवास्तव / News Arrow Bureau',
+                        date: postDate || '22 Oct 2026',
                         image: data.image || '',
                         video: data.video || '',
                         isBreaking: !!data.isBreaking,
@@ -83,35 +93,34 @@
                         keywords: data.keywords || '',
                         content: data.content || ''
                     });
+
+                    const p = document.createElement('p');
+                    p.className = "text-emerald-400";
+                    p.innerText = `✔ प्राप्त: ${data.title ? data.title.substring(0, 35) : docSnap.id}...`;
+                    logList.appendChild(p);
                 });
 
-                statusText.innerText = `✅ Firebase से ${oldNews.length} खबरें मिल गईं! अब GitHub में अपलोड हो रही हैं...`;
-                logList.innerHTML = `<p class="text-green-400">कुल खबरें: ${oldNews.length}</p>`;
+                if (oldNews.length === 0) {
+                    throw new Error("Firebase से कोई खबर नहीं मिली। कृपया कनेक्शन जांचें।");
+                }
 
-                // 2. Fetch existing news.json and SHA from GitHub
+                statusText.innerText = `कुल ${oldNews.length} खबरें मिल गईं! अब GitHub में सेव हो रही हैं...`;
+
+                // Fetch news.json sha
                 const ghRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/news.json`, {
                     headers: { 'Authorization': `token ${tokenInput}` }
                 });
 
                 let sha = null;
-                let finalData = oldNews;
-
                 if (ghRes.ok) {
                     const fileObj = await ghRes.json();
                     sha = fileObj.sha;
-                    try {
-                        const existing = JSON.parse(decodeURIComponent(escape(atob(fileObj.content))));
-                        if (Array.isArray(existing) && existing.length > 0) {
-                            // Merge without duplicate IDs
-                            const ids = new Set(existing.map(x => String(x.id)));
-                            const newUnique = oldNews.filter(x => !ids.has(String(x.id)));
-                            finalData = [...existing, ...newUnique];
-                        }
-                    } catch(e) {}
                 }
 
-                // 3. Commit updated JSON to GitHub
-                const base64Content = btoa(unescape(encodeURIComponent(JSON.stringify(finalData, null, 2))));
+                // UTF-8 to Base64
+                const jsonString = JSON.stringify(oldNews, null, 2);
+                const base64Content = btoa(unescape(encodeURIComponent(jsonString)));
+
                 const putRes = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/news.json`, {
                     method: 'PUT',
                     headers: {
@@ -126,15 +135,21 @@
                 });
 
                 if (!putRes.ok) {
-                    throw new Error('GitHub पर अपलोड विफल रहा। कृपया टोकन की वैधता जांचें।');
+                    const errDetail = await putRes.json();
+                    throw new Error(`GitHub एरर: ${errDetail.message || 'टोकन की अनुमति जांचें'}`);
                 }
 
-                statusText.innerText = "🎉 बधाई! सभी 22 खबरें सफलतापूर्वक GitHub के news.json में ट्रांसफर हो गईं!";
-                statusText.className = "text-green-400 font-bold text-sm";
-                logList.innerHTML += `<p class="text-green-400">काम पूरा हो गया! अब आप अपनी वेबसाइट खोलकर देख सकते हैं।</p>`;
+                statusText.innerText = `🎉 पूरी ${oldNews.length} खबरें सफलतापूर्वक news.json में सेव हो गईं!`;
+                statusText.className = "text-emerald-400 font-bold text-sm";
+                
+                const doneP = document.createElement('p');
+                doneP.className = "text-amber-400 font-bold mt-2";
+                doneP.innerText = "काम पूरा हुआ! अब newsarrow.in खोलकर अपनी सारी खबरें देख सकते हैं।";
+                logList.appendChild(doneP);
+
             } catch (err) {
                 statusText.innerText = "❌ एरर: " + err.message;
-                statusText.className = "text-red-400 font-bold";
+                statusText.className = "text-red-400 font-bold text-sm";
             } finally {
                 btn.disabled = false;
             }
