@@ -834,7 +834,7 @@
             const isContentGood = (wordCount >= 90);
             updateCheckUI('check-content', isContentGood);
 
-            const hasImage = (imageVal.length > 50 || hasExistingImg);
+            const hasImage = (imageVal.length > 30 || hasExistingImg);
             updateCheckUI('check-image', hasImage);
 
             document.getElementById('meta-desc-char-count').innerText = `${metaDesc.length} / 160 chars`;
@@ -1689,6 +1689,7 @@
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
         fetchLiveWeather();
 
+        // --- BULLETPROOF IMAGE SELECT & INSTANT SEO UPDATE ---
         setTimeout(() => {
             const fileInput = document.getElementById('news-image-file');
             if (fileInput) {
@@ -1700,49 +1701,41 @@
                     reader.onload = function(event) {
                         const img = new Image();
                         img.onload = function() {
-                            let curW = img.width;
-                            let curH = img.height;
-                            const targetWidth = 1200;
-
-                            let oc = document.createElement('canvas');
-                            let octx = oc.getContext('2d');
-                            oc.width = curW;
-                            oc.height = curH;
-                            octx.drawImage(img, 0, 0);
-
-                            while (curW * 0.5 > targetWidth) {
-                                curW = Math.round(curW * 0.5);
-                                curH = Math.round(curH * 0.5);
-                                const canvasStep = document.createElement('canvas');
-                                canvasStep.width = curW;
-                                canvasStep.height = curH;
-                                const stepCtx = canvasStep.getContext('2d');
-                                stepCtx.imageSmoothingEnabled = true;
-                                stepCtx.imageSmoothingQuality = 'high';
-                                stepCtx.drawImage(oc, 0, 0, curW, curH);
-                                oc = canvasStep;
+                            try {
+                                const canvas = document.createElement('canvas');
+                                const maxW = 1200;
+                                let w = img.width;
+                                let h = img.height;
+                                if (w > maxW) {
+                                    h = Math.round((h * maxW) / w);
+                                    w = maxW;
+                                }
+                                canvas.width = w;
+                                canvas.height = h;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, w, h);
+                                const compressedData = canvas.toDataURL('image/jpeg', 0.80);
+                                document.getElementById('news-image').value = compressedData;
+                            } catch (err) {
+                                document.getElementById('news-image').value = event.target.result;
                             }
-
-                            const finalCanvas = document.createElement('canvas');
-                            const targetHeight = Math.round((img.height * targetWidth) / img.width);
-                            finalCanvas.width = targetWidth;
-                            finalCanvas.height = targetHeight;
-                            finalCtx = finalCanvas.getContext('2d');
-                            finalCtx.imageSmoothingEnabled = true;
-                            finalCtx.imageSmoothingQuality = 'high';
-                            finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
-
-                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
-                            document.getElementById('news-image').value = ultraHdData;
                             
-                            if (typeof calculateLiveSEO === 'function') calculateLiveSEO();
+                            if (typeof calculateLiveSEO === 'function') {
+                                calculateLiveSEO();
+                            }
+                        };
+                        img.onerror = function() {
+                            document.getElementById('news-image').value = event.target.result;
+                            if (typeof calculateLiveSEO === 'function') {
+                                calculateLiveSEO();
+                            }
                         };
                         img.src = event.target.result;
                     };
                     reader.readAsDataURL(file);
                 });
             }
-        }, 500);
+        }, 300);
 
         // ====== Facebook & Video Auto-Display Engine ======
         (function() {
