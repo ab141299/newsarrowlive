@@ -13,7 +13,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-9RKDM3CW2V');
     </script>
     
@@ -126,6 +125,13 @@
                 max-width: 54rem !important;
             }
         }
+        @keyframes pulseSkeleton {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+        .skeleton-box {
+            animation: pulseSkeleton 1.2s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900 dark:bg-[#121316] dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
@@ -133,7 +139,7 @@
     <!-- Header -->
     <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
-            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">मंगलवार, 27 अक्टूबर 2026</div>
             
             <div class="flex items-center space-x-3">
                 <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
@@ -214,46 +220,25 @@
     <div style="max-width: 1200px; margin: 6px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1200px;">
       <style>
         @keyframes bannerUnfold {
-          0% {
-            transform: rotateX(-90deg) scale(0.85);
-            opacity: 0;
-          }
-          50% {
-            transform: rotateX(20deg) scale(1.02);
-            opacity: 0.9;
-          }
-          70% {
-            transform: rotateX(-10deg) scale(0.99);
-          }
-          100% {
-            transform: rotateX(0deg) scale(1);
-            opacity: 1;
-          }
+          0% { transform: rotateX(-90deg) scale(0.85); opacity: 0; }
+          50% { transform: rotateX(20deg) scale(1.02); opacity: 0.9; }
+          70% { transform: rotateX(-10deg) scale(0.99); }
+          100% { transform: rotateX(0deg) scale(1); opacity: 1; }
         }
-
         @keyframes periodicFoldPulse {
-          0%, 85%, 100% {
-            transform: rotateX(0deg);
-          }
-          90% {
-            transform: rotateX(15deg);
-          }
-          95% {
-            transform: rotateX(-8deg);
-          }
+          0%, 85%, 100% { transform: rotateX(0deg); }
+          90% { transform: rotateX(15deg); }
+          95% { transform: rotateX(-8deg); }
         }
-
         @keyframes adShine {
           0% { left: -100%; }
           20% { left: 100%; }
           100% { left: 100%; }
         }
-
         @keyframes badgeBounce {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.08); }
         }
-
         .fold-ad-box {
           position: relative;
           overflow: hidden;
@@ -265,7 +250,6 @@
           transform-origin: top center;
           animation: bannerUnfold 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, periodicFoldPulse 8s infinite 2s;
         }
-
         .fold-ad-box::after {
           content: '';
           position: absolute;
@@ -278,7 +262,6 @@
           animation: adShine 4s infinite 1.2s;
           pointer-events: none;
         }
-
         .ad-fold-badge {
           position: absolute;
           top: 6px;
@@ -329,11 +312,16 @@
                 <span class="w-2 h-6 bg-amber-500 rounded inline-block shadow-[0_0_10px_#f59e0b]"></span>
                 <span>Latest News</span>
             </h2>
-            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">Stories</span>
+            <span id="news-count" class="text-xs text-gray-500 dark:text-gray-400 font-medium">Loading...</span>
         </div>
 
-        <!-- News Cards Grid -->
-        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+        <!-- News Cards Grid (Instant Skeleton Pre-rendered) -->
+        <div id="news-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
+            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
+            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
+            <div class="skeleton-box bg-[#1a1d21] rounded-xl h-64 border border-[#2d3239]"></div>
+        </div>
 
         <!-- No News Found -->
         <div id="no-news-message" class="hidden text-center py-16">
@@ -383,7 +371,7 @@
                 </div>
             </div>
 
-            <!-- Opinion Poll (Shuddh Hindi Version) -->
+            <!-- Opinion Poll -->
             <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
                 <div>
                     <div class="mb-3 flex justify-between items-center">
@@ -752,7 +740,7 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts (Immediate Execution) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
@@ -889,7 +877,7 @@
             }
         }
 
-        // --- INSTANT CACHE RENDER (0-Second Load) ---
+        // --- INSTANT 0-SECOND CACHE RENDER ---
         let isReadingDirectArticle = false;
         const directParams = new URLSearchParams(window.location.search);
         const directNewsId = directParams.get('id');
@@ -906,7 +894,7 @@
             } catch(e) {}
         }
 
-        // --- DIRECT LINK HANDLER ---
+        // --- DIRECT ARTICLE LINK HANDLER ---
         if (directNewsId) {
             isReadingDirectArticle = true;
             const cleanId = decodeURIComponent(directNewsId).trim();
@@ -931,10 +919,10 @@
             });
         }
 
-        // --- FAST INITIAL GETDOCS FETCH ---
+        // --- ULTRA-FAST LIGHT FETCH (Limit to 15 items for 0.5s speed) ---
         async function loadFastInitialNews() {
             try {
-                const q = query(collection(db, "news"), limit(20));
+                const q = query(collection(db, "news"), limit(15));
                 const snap = await getDocs(q);
                 const freshNews = [];
                 snap.forEach(d => freshNews.push({ id: d.id, ...d.data() }));
@@ -959,9 +947,9 @@
         }
         loadFastInitialNews();
 
-        // --- BACKGROUND FIRESTORE SYNC ---
+        // --- PASSIVE BACKGROUND SYNC ---
         setTimeout(() => {
-            const q = query(collection(db, "news"), limit(25));
+            const q = query(collection(db, "news"), limit(20));
             onSnapshot(q, (snapshot) => {
                 const freshNews = [];
                 snapshot.forEach((d) => {
@@ -987,7 +975,7 @@
             }, (err) => {
                 console.error("Firebase read error: ", err);
             });
-        }, 1500);
+        }, 2000);
 
         // 0% Clean Poll
         const pollDocRef = doc(db, "polls", "current_poll_v2");
@@ -1345,7 +1333,7 @@
 
                 card.innerHTML = `
                     <div class="relative w-full aspect-video bg-black overflow-hidden">
-                        <img loading="lazy" src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
+                        <img loading="lazy" decoding="async" src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800'}" alt="${item.title}" class="w-full h-full object-cover">
                         ${hasVideo ? '<span class="absolute top-2 right-2 bg-amber-500 text-black text-[10px] font-black px-2 py-0.5 rounded flex items-center space-x-1 shadow"><i class="fa-solid fa-play text-[8px]"></i><span>VIDEO</span></span>' : ''}
                     </div>
 
@@ -1606,7 +1594,7 @@
                             return;
                         }
                     } catch (e) {
-                        console.log("Photo fetch share fallback");
+                        console.log("Photo fetch fallback");
                     }
                 }
 
@@ -1691,7 +1679,7 @@
             if (sunIcon) sunIcon.className = "fa-regular fa-sun text-amber-400 text-sm";
         }
 
-        // --- NON-BLOCKING WEATHER (Loads silently after 2.5s) ---
+        // --- SILENT BACKGROUND WEATHER ---
         async function fetchLiveWeather() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
@@ -1729,7 +1717,7 @@
 
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('hi-IN', options);
-        setTimeout(fetchLiveWeather, 2500);
+        setTimeout(fetchLiveWeather, 3000);
 
         setTimeout(() => {
             const fileInput = document.getElementById('news-image-file');
@@ -1744,7 +1732,7 @@
                         img.onload = function() {
                             let curW = img.width;
                             let curH = img.height;
-                            const targetWidth = 1200;
+                            const targetWidth = 1000;
 
                             let oc = document.createElement('canvas');
                             let octx = oc.getContext('2d');
@@ -1769,12 +1757,12 @@
                             const targetHeight = Math.round((img.height * targetWidth) / img.width);
                             finalCanvas.width = targetWidth;
                             finalCanvas.height = targetHeight;
-                            finalCtx = finalCanvas.getContext('2d');
+                            const finalCtx = finalCanvas.getContext('2d');
                             finalCtx.imageSmoothingEnabled = true;
                             finalCtx.imageSmoothingQuality = 'high';
                             finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
 
-                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.82);
+                            const ultraHdData = finalCanvas.toDataURL('image/jpeg', 0.70);
                             document.getElementById('news-image').value = ultraHdData;
                             
                             if (typeof calculateLiveSEO === 'function') calculateLiveSEO();
