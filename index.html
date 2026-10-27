@@ -758,6 +758,7 @@
             addDoc, 
             deleteDoc, 
             doc, 
+            getDoc,
             setDoc, 
             updateDoc, 
             increment, 
@@ -904,14 +905,24 @@ if (cached) {
               localStorage.setItem("cached_news", JSON.stringify(newsData));
             renderVideoFeed();
             renderAdminNewsList();
-
             const params = new URLSearchParams(window.location.search);
-            const newsId = params.get('id');
-            if (newsId) {
-                const decoded = decodeURIComponent(newsId).trim();
-                const item = newsData.find(n => (n.id && n.id.toString() === decoded) || (n.title && n.title.trim() === decoded));
-                if (item) readFullArticle(item.id);
+const newsId = params.get('id');
+if (newsId) {
+    const decoded = decodeURIComponent(newsId).trim();
+    const item = newsData.find(n => (n.id && n.id.toString() === decoded));
+    if (item) {
+        readFullArticle(item.id);
+    } else {
+        getDoc(doc(db, "news", decoded)).then((docSnap) => {
+            if (docSnap.exists()) {
+                const singleNews = { id: docSnap.id, ...docSnap.data() };
+                newsData.push(singleNews);
+                readFullArticle(singleNews.id);
             }
+        }).catch(err => console.error("Direct fetch error:", err));
+    }
+    }
+            
         }, (err) => {
             console.error("Firebase read error: ", err);
         });
