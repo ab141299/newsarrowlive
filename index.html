@@ -884,18 +884,11 @@
                 el.className = "flex items-center space-x-2 text-gray-500 dark:text-gray-400";
             }
         }
-const cached = localStorage.getItem("cached_news");
-if (cached) {
-  try {
-    newsData = JSON.parse(cached);
-    if (typeof renderNews === "function") {
-      renderNews();
-    }
-  } catch(e) {}
-}
+let isReadingDirectArticle = false;
 const directParams = new URLSearchParams(window.location.search);
 const directNewsId = directParams.get('id');
 if (directNewsId) {
+    isReadingDirectArticle = true;
     const cleanId = decodeURIComponent(directNewsId).trim();
     getDoc(doc(db, "news", cleanId)).then((docSnap) => {
         if (docSnap.exists()) {
@@ -904,14 +897,26 @@ if (directNewsId) {
             readFullArticle(singleNews.id);
         }
     }).catch(err => console.error("Fast link open error:", err));
-}                
+}
+
+const cached = localStorage.getItem("cached_news");
+if (cached) {
+    try {
+        newsData = JSON.parse(cached);
+        if (typeof renderNews === "function" && !isReadingDirectArticle) {
+            renderNews();
+        }
+    } catch(e) {}
+}
         const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
             newsData = [];
             snapshot.forEach((d) => {
                 newsData.push({ id: d.id, ...d.data() });
             });
+                    if (!isReadingDirectArticle) {
             renderNews();
+                    }
               localStorage.setItem("cached_news", JSON.stringify(newsData));
             renderVideoFeed();
             renderAdminNewsList();
