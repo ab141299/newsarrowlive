@@ -887,45 +887,46 @@
 let isReadingDirectArticle = false;
 const directParams = new URLSearchParams(window.location.search);
 const directNewsId = directParams.get('id');
+
 if (directNewsId) {
     isReadingDirectArticle = true;
     const cleanId = decodeURIComponent(directNewsId).trim();
     getDoc(doc(db, "news", cleanId)).then((docSnap) => {
         if (docSnap.exists()) {
             const singleNews = { id: docSnap.id, ...docSnap.data() };
-            newsData.push(singleNews);
+            newsData = [singleNews];
             readFullArticle(singleNews.id);
         }
-    }).catch(err => console.error("Fast link open error:", err));
+    }).catch(err => console.error("Fast fetch error:", err));
 }
 
 const cached = localStorage.getItem("cached_news");
-if (cached) {
+if (cached && !isReadingDirectArticle) {
     try {
         newsData = JSON.parse(cached);
-        if (typeof renderNews === "function" && !isReadingDirectArticle) {
+        if (typeof renderNews === "function") {
             renderNews();
         }
     } catch(e) {}
 }
-        const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
-        onSnapshot(q, (snapshot) => {
-            newsData = [];
-            snapshot.forEach((d) => {
-                newsData.push({ id: d.id, ...d.data() });
-            });
-                    if (!isReadingDirectArticle) {
-            renderNews();
-                    }
-              localStorage.setItem("cached_news", JSON.stringify(newsData));
-            renderVideoFeed();
-            renderAdminNewsList();
-            
-            
-        }, (err) => {
-            console.error("Firebase read error: ", err);
-        });
 
+const q = query(collection(db, "news"), orderBy("timestamp", "desc"));
+onSnapshot(q, (snapshot) => {
+    const freshNews = [];
+    snapshot.forEach((d) => {
+        freshNews.push({ id: d.id, ...d.data() });
+    });
+    newsData = freshNews;
+    localStorage.setItem("cached_news", JSON.stringify(newsData));
+    
+    if (!isReadingDirectArticle) {
+        renderNews();
+        renderVideoFeed();
+        renderAdminNewsList();
+    }
+}, (err) => {
+    console.error("Firebase read error: ", err);
+});
         // 0% Clean Poll
         const pollDocRef = doc(db, "polls", "current_poll_v2");
 
