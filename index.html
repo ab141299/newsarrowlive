@@ -897,9 +897,11 @@ if (directNewsId) {
             newsData = [singleNews];
             readFullArticle(singleNews.id);
         }
+             else {
+            isReadingDirectArticle = false;
+            renderNews();
     }).catch(err => console.error("Fast fetch error:", err));
-}
-
+}              
 const cached = localStorage.getItem("cached_news");
 if (cached && !isReadingDirectArticle) {
     try {
