@@ -214,25 +214,46 @@
     <div style="max-width: 1200px; margin: 6px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1200px;">
       <style>
         @keyframes bannerUnfold {
-          0% { transform: rotateX(-90deg) scale(0.85); opacity: 0; }
-          50% { transform: rotateX(20deg) scale(1.02); opacity: 0.9; }
-          70% { transform: rotateX(-10deg) scale(0.99); }
-          100% { transform: rotateX(0deg) scale(1); opacity: 1; }
+          0% {
+            transform: rotateX(-90deg) scale(0.85);
+            opacity: 0;
+          }
+          50% {
+            transform: rotateX(20deg) scale(1.02);
+            opacity: 0.9;
+          }
+          70% {
+            transform: rotateX(-10deg) scale(0.99);
+          }
+          100% {
+            transform: rotateX(0deg) scale(1);
+            opacity: 1;
+          }
         }
+
         @keyframes periodicFoldPulse {
-          0%, 85%, 100% { transform: rotateX(0deg); }
-          90% { transform: rotateX(15deg); }
-          95% { transform: rotateX(-8deg); }
+          0%, 85%, 100% {
+            transform: rotateX(0deg);
+          }
+          90% {
+            transform: rotateX(15deg);
+          }
+          95% {
+            transform: rotateX(-8deg);
+          }
         }
+
         @keyframes adShine {
           0% { left: -100%; }
           20% { left: 100%; }
           100% { left: 100%; }
         }
+
         @keyframes badgeBounce {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.08); }
         }
+
         .fold-ad-box {
           position: relative;
           overflow: hidden;
@@ -244,6 +265,7 @@
           transform-origin: top center;
           animation: bannerUnfold 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, periodicFoldPulse 8s infinite 2s;
         }
+
         .fold-ad-box::after {
           content: '';
           position: absolute;
@@ -256,6 +278,7 @@
           animation: adShine 4s infinite 1.2s;
           pointer-events: none;
         }
+
         .ad-fold-badge {
           position: absolute;
           top: 6px;
@@ -1704,7 +1727,7 @@
                             const targetHeight = Math.round((img.height * targetWidth) / img.width);
                             finalCanvas.width = targetWidth;
                             finalCanvas.height = targetHeight;
-                            const finalCtx = finalCanvas.getContext('2d');
+                            finalCtx = finalCanvas.getContext('2d');
                             finalCtx.imageSmoothingEnabled = true;
                             finalCtx.imageSmoothingQuality = 'high';
                             finalCtx.drawImage(oc, 0, 0, targetWidth, targetHeight);
