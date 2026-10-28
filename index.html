@@ -20,7 +20,7 @@
     <meta id="meta-doc-desc" name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
     <meta id="meta-doc-keywords" name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
     
-    <!-- WhatsApp / Social Preview Meta Tags (Instant High-Speed CDN) -->
+    <!-- WhatsApp / Social Preview Meta Tags -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="News Arrow">
     <meta id="og-doc-title" property="og:title" content="News Arrow - ताज़ा और निष्पक्ष खबरें">
@@ -1057,6 +1057,8 @@
             if (ogTitle) ogTitle.content = item.title;
             const ogDesc = document.getElementById('og-doc-desc');
             if (ogDesc) ogDesc.content = item.metaDescription || item.title;
+            const ogImg = document.getElementById('og-doc-image');
+            if (ogImg && item.image && item.image.startsWith('http')) ogImg.content = item.image;
             const ogUrl = document.getElementById('og-doc-url');
             if (ogUrl) ogUrl.content = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
 
@@ -1098,12 +1100,13 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // WhatsApp Direct Share (Clean URL for Auto-Generated Card)
+        // Vercel Serverless Function से कनेक्टेड 100% वर्किंग शेयर इंजन (WhatsApp के लिए)
         window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
-            const shareUrl = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
+            // यह लिंक सीधे Serverless API को कॉल करेगा जो WhatsApp को HD फोटो और टाइटल देगा
+            const shareUrl = `https://newsarrow.in/api/share?id=${encodeURIComponent(item.id)}`;
             const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
             window.open(waUrl, '_blank');
         };
