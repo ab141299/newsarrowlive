@@ -8,8 +8,9 @@ export default async function handler(req) {
 
   let title = "News Arrow - ताज़ा और निष्पक्ष खबरें";
   let desc = "सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow";
-  // News Arrow का हल्का और 100% WhatsApp कम्पैटिबल JPG इमेज (साइज मात्र 45KB)
-  let image = "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=1200&h=630&fit=crop&q=80";
+  
+  // News Arrow की अपनी रिपॉजिटरी की फ़ोटो (WhatsApp इसे कभी ब्लॉक नहीं करेगा)
+  let image = "https://newsarrow.in/AD.png";
 
   try {
     const res = await fetch('https://newsarrow.in/news.json', { cache: 'no-store' });
@@ -19,6 +20,7 @@ export default async function handler(req) {
       if (newsItem) {
         title = newsItem.title || title;
         desc = newsItem.metaDescription || newsItem.title || desc;
+        // अगर खबर में असली https फ़ोटो लिंक है (Base64 नहीं) तो वही दिखे
         if (newsItem.image && newsItem.image.startsWith('http')) {
           image = newsItem.image;
         }
@@ -35,19 +37,19 @@ export default async function handler(req) {
   <title>${title}</title>
   <meta name="description" content="${desc}">
   
-  <!-- Open Graph / WhatsApp Engine -->
-  <meta property="og:type" content="website">
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="article">
   <meta property="og:site_name" content="News Arrow">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${desc}">
   <meta property="og:image" content="${image}">
   <meta property="og:image:secure_url" content="${image}">
-  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="${redirectUrl}">
 
-  <!-- Twitter -->
+  <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${desc}">
