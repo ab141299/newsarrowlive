@@ -204,7 +204,7 @@
     <!-- Header -->
     <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
-            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">Budhwar, 28 October 2026</div>
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">Guruwar, 29 October 2026</div>
             
             <div class="flex items-center space-x-3">
                 <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
@@ -561,14 +561,14 @@
                     </div>
                 </div>
 
-                <!-- DIRECT URL & GALLERY FILE UPLOAD WITH AUTO-EXTRACTOR -->
+                <!-- DIRECT URL & GALLERY FILE UPLOAD -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 dark:bg-[#20242c] p-3 rounded-lg border border-gray-200 dark:border-[#343a46]">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block font-medium text-gray-700 dark:text-gray-300">Photo Link (ImgBB / URL)</label>
+                            <label class="block font-medium text-gray-700 dark:text-gray-300">Photo Direct Link (ImgBB/Web)</label>
                         </div>
-                        <input type="text" id="news-image-url" oninput="cleanAndSetImageUrl(this.value)" placeholder="https://i.ibb.co/.../image.jpg ya HTML code" class="w-full border border-gray-300 dark:border-[#343a46] bg-white dark:bg-[#23272e] text-gray-900 dark:text-white px-2.5 py-1.5 rounded focus:outline-none focus:border-amber-500 text-xs">
-                        <p class="text-[10px] text-amber-500 mt-1">💡 ImgBB ka koi bhi link ya HTML code yahan daalein, ye apne aap direct photo link bana lega.</p>
+                        <input type="text" id="news-image-url" oninput="cleanAndSetImageUrl(this.value)" placeholder="https://i.ibb.co/.../image.jpg" class="w-full border border-gray-300 dark:border-[#343a46] bg-white dark:bg-[#23272e] text-gray-900 dark:text-white px-2.5 py-1.5 rounded focus:outline-none focus:border-amber-500 text-xs">
+                        <p class="text-[10px] text-amber-500 mt-1">💡 Open image in new tab se mila hua direct https link yahan paste karein[span_6](start_span)[span_6](end_span).</p>
                     </div>
                     <div>
                         <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Ya Gallery Se Chunein</label>
@@ -692,12 +692,10 @@
             'Tech': ['Tech', 'तकनीक']
         };
 
-        // Smart Image Cleaner (Extracts direct image from HTML or Viewer link)
+        // Smart Image URL Cleaner
         window.cleanAndSetImageUrl = function(val) {
             if (!val) return;
             val = val.trim();
-
-            // Agar user ne poora HTML code paste kiya ho (<img src="https://i.ibb.co/...">)
             const imgMatch = val.match(/<img[^>]+src=["']([^"']+)["']/i);
             if (imgMatch && imgMatch[1]) {
                 document.getElementById('news-image-url').value = imgMatch[1];
@@ -847,16 +845,17 @@
             }
 
             try {
+                let currentPosts = Array.isArray(newsData) ? [...newsData] : [];
+                currentPosts = currentPosts.filter(n => String(n.id) !== String(id));
+
+                let sha = null;
                 const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
                     headers: { 'Authorization': `token ${token}` }
                 });
-
-                if (!getRes.ok) throw new Error('GitHub se news.json nahi mili.');
-                const fileObj = await getRes.json();
-                const sha = fileObj.sha;
-                let currentPosts = JSON.parse(decodeURIComponent(escape(atob(fileObj.content.replace(/\s/g, '')))));
-
-                currentPosts = currentPosts.filter(n => String(n.id) !== String(id));
+                if (getRes.ok) {
+                    const fObj = await getRes.json();
+                    sha = fObj.sha;
+                }
 
                 const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentPosts, null, 2))));
                 const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
@@ -884,49 +883,7 @@
             }
         };
 
-        setTimeout(() => {
-            const fileInput = document.getElementById('news-image-file');
-            const statusLabel = document.getElementById('img-upload-status');
-            
-            if (fileInput) {
-                fileInput.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (!file) return;
-
-                    statusLabel.innerText = "⏳ Processing...";
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const img = new Image();
-                        img.onload = function() {
-                            try {
-                                const canvas = document.createElement('canvas');
-                                const maxW = 900;
-                                let w = img.width;
-                                let h = img.height;
-                                if (w > maxW) {
-                                    h = Math.round((h * maxW) / w);
-                                    w = maxW;
-                                }
-                                canvas.width = w;
-                                canvas.height = h;
-                                const ctx = canvas.getContext('2d');
-                                ctx.drawImage(img, 0, 0, w, h);
-                                document.getElementById('news-image-url').value = canvas.toDataURL('image/jpeg', 0.70);
-                                statusLabel.innerText = "✅ Local Photo Set";
-                            } catch(err) {
-                                document.getElementById('news-image-url').value = event.target.result;
-                                statusLabel.innerText = "✅ Photo Set";
-                            }
-                            updateCheckUI('check-image', true);
-                            calculateLiveSEO();
-                        };
-                        img.src = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        }, 300);
-
+        // Multi-Post Safe Publisher
         window.handlePublishToGitHub = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('publish-btn');
@@ -947,36 +904,30 @@
             }
 
             btn.disabled = true;
-            btn.innerText = 'Publish ho raha hai... Kripya 2 second rukein...';
+            btn.innerText = 'Publish ho raha hai...';
 
             try {
-                const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
-                    headers: { 
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                let currentPosts = [];
+                try {
+                    const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/news.json?t=${Date.now()}`);
+                    if (rawRes.ok) {
+                        currentPosts = await rawRes.json();
+                        if (!Array.isArray(currentPosts)) currentPosts = [];
                     }
-                });
+                } catch(err) {
+                    currentPosts = Array.isArray(newsData) ? [...newsData] : [];
+                }
 
                 let sha = null;
-                let currentPosts = [];
-
-                if (getRes.ok) {
-                    const fileObj = await getRes.json();
-                    sha = fileObj.sha;
-                    if (fileObj.content) {
-                        try {
-                            const decoded = decodeURIComponent(escape(atob(fileObj.content.replace(/\s/g, ''))));
-                            currentPosts = JSON.parse(decoded);
-                            if (!Array.isArray(currentPosts)) currentPosts = [];
-                        } catch(jsonErr) {
-                            currentPosts = [];
-                        }
+                try {
+                    const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (getRes.ok) {
+                        const fileObj = await getRes.json();
+                        sha = fileObj.sha;
                     }
-                } else if (getRes.status === 404) {
-                    currentPosts = [];
-                } else {
-                    throw new Error('GitHub se connect nahi ho saka. Token ya internet check karein.');
-                }
+                } catch(e) {}
 
                 const editId = document.getElementById('edit-news-id').value;
 
@@ -1029,9 +980,9 @@
                     body: JSON.stringify(putBody)
                 });
 
-                if (!putRes.ok) throw new Error('GitHub par commit fail hua. Token permissions check karein.');
+                if (!putRes.ok) throw new Error('GitHub par commit fail hua.');
 
-                alert(editId ? '🎉 Khabar safaltapoorvak UPDATE ho gayi!' : '🎉 Khabar 1-Click me LIVE ho gayi!');
+                alert(editId ? '🎉 Khabar safaltapoorvak UPDATE ho gayi!' : '🎉 Khabar judi! Pichli khabrein surakshit hain.');
                 closeAdminPanel();
                 newsData = currentPosts;
                 renderNews();
@@ -1044,6 +995,7 @@
             }
         };
 
+        // Live SEO Score Calculator
         window.calculateLiveSEO = function() {
             const title = (document.getElementById('news-title').value || '').trim();
             const content = (document.getElementById('news-content').value || '').trim();
@@ -1266,15 +1218,6 @@
             if (!item) return;
 
             document.title = `${item.title} - News Arrow`;
-            const ogTitle = document.getElementById('og-doc-title');
-            if (ogTitle) ogTitle.content = item.title;
-            const ogDesc = document.getElementById('og-doc-desc');
-            if (ogDesc) ogDesc.content = item.metaDescription || item.title;
-            const ogImg = document.getElementById('og-doc-image');
-            if (ogImg && item.image && item.image.startsWith('http')) ogImg.content = item.image;
-            const ogUrl = document.getElementById('og-doc-url');
-            if (ogUrl) ogUrl.content = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
-
             document.getElementById('read-title').innerText = item.title;
             document.getElementById('read-category').innerText = `${item.category} NEWS`;
             document.getElementById('read-date').innerHTML = `<span><i class="fa-solid fa-user-pen mr-1 text-amber-500"></i>${item.reporter}</span> <span>•</span> <span>${item.date || ''}</span>`;
@@ -1313,12 +1256,12 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // WhatsApp Clean Direct Share Engine
+        // WhatsApp Direct Share Engine (Direct Edge Proxy for Card Preview)
         window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
-            const shareUrl = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
+            const shareUrl = `https://newsarrow.in/api/share?id=${encodeURIComponent(item.id)}`;
             const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
             window.open(waUrl, '_blank');
         };
@@ -1355,7 +1298,6 @@
             document.getElementById('tts-text').innerText = 'Stop';
         };
 
-        // Live Weather
         async function fetchLiveWeather() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=25.3176&longitude=82.9739&current=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FKolkata');
@@ -1368,7 +1310,6 @@
         }
         setTimeout(fetchLiveWeather, 1200);
 
-        // Live Poll local vote
         window.votePoll = function(c) {
             alert('Dhanyawad! Aapka vote darj ho gaya hai.');
             document.getElementById('poll-actions').classList.add('hidden');
