@@ -1100,15 +1100,13 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // WhatsApp Share Engine (स्क्रीनशॉट के ऊपर वाले मैसेज जैसा सटीक कार्ड बनाने वाला)
+        // WhatsApp Direct Card Generator (सिर्फ साफ़ लिंक भेजता है ताकि WhatsApp ऊपर फ़ोटो और हेडलाइन का कार्ड लोड करे)
         window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
             const shareUrl = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
-            const shareText = `*${item.title}*\n${shareUrl}`;
-
-            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+            const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
             window.open(waUrl, '_blank');
         };
 
