@@ -561,14 +561,14 @@
                     </div>
                 </div>
 
-                <!-- DIRECT URL & GALLERY FILE UPLOAD -->
+                <!-- DIRECT URL & GALLERY FILE UPLOAD WITH AUTO-EXTRACTOR -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 dark:bg-[#20242c] p-3 rounded-lg border border-gray-200 dark:border-[#343a46]">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block font-medium text-gray-700 dark:text-gray-300">Photo Ka Direct Link (ImgBB/Web)</label>
+                            <label class="block font-medium text-gray-700 dark:text-gray-300">Photo Link (ImgBB / URL)</label>
                         </div>
-                        <input type="url" id="news-image-url" oninput="calculateLiveSEO()" placeholder="https://i.ibb.co/.../image.jpg" class="w-full border border-gray-300 dark:border-[#343a46] bg-white dark:bg-[#23272e] text-gray-900 dark:text-white px-2.5 py-1.5 rounded focus:outline-none focus:border-amber-500 text-xs">
-                        <p class="text-[10px] text-amber-500 mt-1">💡 <a href="https://imgbb.com" target="_blank" class="underline font-bold">imgbb.com</a> par upload karke direct link yahan daalein (Best for WhatsApp).</p>
+                        <input type="text" id="news-image-url" oninput="cleanAndSetImageUrl(this.value)" placeholder="https://i.ibb.co/.../image.jpg ya HTML code" class="w-full border border-gray-300 dark:border-[#343a46] bg-white dark:bg-[#23272e] text-gray-900 dark:text-white px-2.5 py-1.5 rounded focus:outline-none focus:border-amber-500 text-xs">
+                        <p class="text-[10px] text-amber-500 mt-1">💡 ImgBB ka koi bhi link ya HTML code yahan daalein, ye apne aap direct photo link bana lega.</p>
                     </div>
                     <div>
                         <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Ya Gallery Se Chunein</label>
@@ -603,10 +603,10 @@
                         <label class="block font-medium text-gray-700 dark:text-gray-300">News Details</label>
                         <span id="content-word-count" class="text-xs text-gray-400">0 words</span>
                     </div>
-                    <textarea id="news-content" oninput="calculateLiveSEO()" rows="6" required placeholder="Khabar ka poora vivran yahan likhein... Kam se kam 60-90 shabd." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
+                    <textarea id="news-content" oninput="calculateLiveSEO()" rows="6" required placeholder="Khabar ka poora vivran yahan likhein... Kam se kam 45-60 shabd." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
                 </div>
 
-                <!-- LIVE SEO CHECKLIST (100/100 ENGINE) -->
+                <!-- LIVE SEO CHECKLIST -->
                 <div class="bg-gray-50 dark:bg-[#20242c] p-4 rounded-xl border border-gray-200 dark:border-[#343a46] space-y-3">
                     <div class="flex items-center justify-between border-b border-gray-200 dark:border-[#2e333d] pb-2.5">
                         <div class="flex items-center space-x-2">
@@ -630,7 +630,7 @@
                         </div>
                         <div id="check-content" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Content Length (50+ words) [25 pts]</span>
+                            <span>Content Length (45+ words) [25 pts]</span>
                         </div>
                         <div id="check-image" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
@@ -692,6 +692,21 @@
             'Tech': ['Tech', 'तकनीक']
         };
 
+        // Smart Image Cleaner (Extracts direct image from HTML or Viewer link)
+        window.cleanAndSetImageUrl = function(val) {
+            if (!val) return;
+            val = val.trim();
+
+            // Agar user ne poora HTML code paste kiya ho (<img src="https://i.ibb.co/...">)
+            const imgMatch = val.match(/<img[^>]+src=["']([^"']+)["']/i);
+            if (imgMatch && imgMatch[1]) {
+                document.getElementById('news-image-url').value = imgMatch[1];
+            } else {
+                document.getElementById('news-image-url').value = val;
+            }
+            calculateLiveSEO();
+        };
+
         // 3 Clicks Secret Admin Panel Opener with Password Protection
         let logoClicks = 0;
         window.handleSecretLogoClick = function() {
@@ -736,7 +751,6 @@
             document.getElementById('gh-setup-box').classList.add('hidden');
         };
 
-        // Reset Form
         window.resetPublishForm = function() {
             document.getElementById('edit-news-id').value = '';
             document.getElementById('news-title').value = '';
@@ -756,7 +770,6 @@
             calculateLiveSEO();
         };
 
-        // Render Previous News in Admin
         window.renderAdminNewsList = function() {
             const listEl = document.getElementById('admin-news-list');
             const countEl = document.getElementById('manage-news-count');
@@ -795,7 +808,6 @@
             });
         };
 
-        // Edit Article
         window.editAdminArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
@@ -804,7 +816,7 @@
             document.getElementById('news-title').value = item.title || '';
             document.getElementById('news-category').value = item.category || 'Varanasi';
             document.getElementById('news-reporter').value = item.reporter || 'अभय श्रीवास्तव / News Arrow Bureau';
-            document.getElementById('news-image-url').value = (item.image && item.image.startsWith('http')) ? item.image : '';
+            document.getElementById('news-image-url').value = item.image || '';
             document.getElementById('news-video').value = item.video || '';
             document.getElementById('news-meta-desc').value = item.metaDescription || '';
             document.getElementById('news-keywords').value = item.keywords || '';
@@ -819,7 +831,6 @@
             calculateLiveSEO();
         };
 
-        // Delete Article
         window.deleteAdminArticle = async function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
@@ -873,7 +884,6 @@
             }
         };
 
-        // Image File Reader Fallback
         setTimeout(() => {
             const fileInput = document.getElementById('news-image-file');
             const statusLabel = document.getElementById('img-upload-status');
@@ -917,7 +927,6 @@
             }
         }, 300);
 
-        // Crash-Proof 1-Click Publisher & Update Engine
         window.handlePublishToGitHub = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('publish-btn');
@@ -972,7 +981,6 @@
                 const editId = document.getElementById('edit-news-id').value;
 
                 if (editId) {
-                    // Update Existing Post
                     const postIndex = currentPosts.findIndex(n => String(n.id) === String(editId));
                     if (postIndex !== -1) {
                         currentPosts[postIndex] = {
@@ -989,7 +997,6 @@
                         };
                     }
                 } else {
-                    // Create New Post
                     const newPost = {
                         id: Date.now().toString(),
                         title: document.getElementById('news-title').value.trim(),
@@ -1037,7 +1044,6 @@
             }
         };
 
-        // 100/100 Accurate Live SEO Score Calculator
         window.calculateLiveSEO = function() {
             const title = (document.getElementById('news-title').value || '').trim();
             const content = (document.getElementById('news-content').value || '').trim();
@@ -1046,24 +1052,20 @@
             const imgUrl = (document.getElementById('news-image-url').value || '').trim();
             const fileBox = document.getElementById('news-image-file');
 
-            // 1. Headline (25 pts)
             const titleLen = title.length;
             document.getElementById('title-char-count').innerText = `${titleLen} / 70 chars`;
             const isTitleGood = (titleLen >= 25 && titleLen <= 90);
             updateCheckUI('check-title', isTitleGood);
 
-            // 2. Content Length (25 pts)
             const words = content.split(/\s+/).filter(w => w.length > 0);
             const wordCount = words.length;
             document.getElementById('content-word-count').innerText = `${wordCount} words`;
             const isContentGood = (wordCount >= 45);
             updateCheckUI('check-content', isContentGood);
 
-            // 3. Featured Image (25 pts)
             const hasImg = (imgUrl.length > 10 || (fileBox && fileBox.files && fileBox.files.length > 0));
             updateCheckUI('check-image', hasImg);
 
-            // 4. Meta Description & Keywords (25 pts)
             document.getElementById('meta-desc-char-count').innerText = `${metaDesc.length} / 160 chars`;
             const isMetaGood = (metaDesc.length >= 25 && keywords.length >= 3);
             updateCheckUI('check-meta', isMetaGood);
@@ -1114,7 +1116,6 @@
             }
         }
 
-        // Fast JSON Fetch
         async function fetchFastNews() {
             try {
                 const res = await fetch('news.json?t=' + Date.now());
@@ -1141,7 +1142,6 @@
             return match ? `https://www.youtube.com/embed/${match[1]}` : null;
         }
 
-        // Paragraph ke Beech Me 3D Ad Inject Karne Ka Function
         function formatNewsContentWithMidAd(text) {
             if (!text) return '';
             const rawLines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
@@ -1163,7 +1163,6 @@
 
             if (validParagraphs.length === 0) return '';
 
-            // Mid Article 3D Ad HTML
             const midAdHtml = `
                 <div class="my-6 py-4 border-y border-gray-200 dark:border-[#282d36] text-center" style="perspective: 1200px;">
                     <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="fold-ad-box">
