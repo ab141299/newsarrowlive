@@ -20,13 +20,13 @@
     <meta id="meta-doc-desc" name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
     <meta id="meta-doc-keywords" name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
     
-    <!-- WhatsApp / Facebook Preview Card -->
+    <!-- WhatsApp / Social Preview Meta Tags -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="News Arrow">
     <meta id="og-doc-title" property="og:title" content="News Arrow - ताज़ा और निष्पक्ष खबरें">
     <meta id="og-doc-desc" property="og:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
-    <meta id="og-doc-image" property="og:image" content="https://newsarrowlive.vercel.app/AD.png">
-    <meta property="og:image:secure_url" content="https://newsarrowlive.vercel.app/AD.png">
+    <meta id="og-doc-image" property="og:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
+    <meta property="og:image:secure_url" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -36,7 +36,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta id="tw-doc-title" name="twitter:title" content="News Arrow - Latest and Unbiased News">
     <meta id="tw-doc-desc" name="twitter:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
-    <meta id="tw-doc-image" name="twitter:image" content="https://newsarrowlive.vercel.app/AD.png">
+    <meta id="tw-doc-image" name="twitter:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1057,6 +1057,8 @@
             if (ogTitle) ogTitle.content = item.title;
             const ogDesc = document.getElementById('og-doc-desc');
             if (ogDesc) ogDesc.content = item.metaDescription || item.title;
+            const ogImg = document.getElementById('og-doc-image');
+            if (ogImg && item.image && item.image.startsWith('http')) ogImg.content = item.image;
             const ogUrl = document.getElementById('og-doc-url');
             if (ogUrl) ogUrl.content = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
 
@@ -1098,16 +1100,14 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // WhatsApp Direct Share (Instant Native & Web Protocol)
+        // WhatsApp Share Engine (स्क्रीनशॉट के ऊपर वाले मैसेज जैसा सटीक कार्ड बनाने वाला)
         window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
             const shareUrl = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
-            const isDirectImg = item.image && item.image.startsWith('http');
-            const imgLine = isDirectImg ? `\n📸 *फोटो:* ${item.image}` : '';
+            const shareText = `*${item.title}*\n${shareUrl}`;
 
-            const shareText = `🔴 *${item.title}*\n${imgLine}\n\n👉 *पूरी खबर यहाँ पढ़ें:* ${shareUrl}\n\n📰 *News Arrow* | ताज़ा और निष्पक्ष पत्रकारिता`;
             const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
             window.open(waUrl, '_blank');
         };
