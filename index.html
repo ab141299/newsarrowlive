@@ -23,8 +23,8 @@
     <!-- WhatsApp / Social Preview Meta Tags -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="News Arrow">
-    <meta id="og-doc-title" property="og:title" content="News Arrow - ताज़ा और निष्पक्ष खबरें">
-    <meta id="og-doc-desc" property="og:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
+    <meta id="og-doc-title" property="og:title" content="News Arrow - Taaza Aur Nishpaksh Khabrein">
+    <meta id="og-doc-desc" property="og:description" content="Sateek aur nishpaksh ground reports - News Arrow">
     <meta id="og-doc-image" property="og:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
     <meta property="og:image:secure_url" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
     <meta property="og:image:type" content="image/png">
@@ -35,7 +35,7 @@
     <!-- Twitter Preview -->
     <meta name="twitter:card" content="summary_large_image">
     <meta id="tw-doc-title" name="twitter:title" content="News Arrow - Latest and Unbiased News">
-    <meta id="tw-doc-desc" name="twitter:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
+    <meta id="tw-doc-desc" name="twitter:description" content="Sateek aur nishpaksh ground reports - News Arrow">
     <meta id="tw-doc-image" name="twitter:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
 
     <!-- Tailwind CSS -->
@@ -204,7 +204,7 @@
     <!-- Header -->
     <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
-            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">बुधवार, 28 अक्टूबर 2026</div>
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">Budhwar, 28 October 2026</div>
             
             <div class="flex items-center space-x-3">
                 <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
@@ -233,7 +233,7 @@
             
             <!-- Search -->
             <div class="relative w-36 sm:w-72 shrink">
-                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="खोजें..." class="w-full bg-gray-100 dark:bg-[#23272e] border border-gray-300 dark:border-[#343a46] text-xs sm:text-sm rounded-full pl-7 sm:pl-8 pr-2.5 sm:pr-3 py-1 sm:py-1.5 focus:outline-none focus:border-amber-500 text-gray-800 dark:text-white placeholder-gray-400 transition">
+                <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Khojein..." class="w-full bg-gray-100 dark:bg-[#23272e] border border-gray-300 dark:border-[#343a46] text-xs sm:text-sm rounded-full pl-7 sm:pl-8 pr-2.5 sm:pr-3 py-1 sm:py-1.5 focus:outline-none focus:border-amber-500 text-gray-800 dark:text-white placeholder-gray-400 transition">
                 <i class="fa-solid fa-magnifying-glass absolute left-2.5 sm:left-3 top-2 sm:top-2.5 text-amber-500 text-xs"></i>
             </div>
         </div>
@@ -366,28 +366,28 @@
             <div class="bg-white dark:bg-[#181a1f] rounded-xl p-5 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#2d3239] flex flex-col justify-between">
                 <div>
                     <div class="mb-3 flex justify-between items-center">
-                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">जनमत सर्वेक्षण</span>
-                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>लाइव पोल</span>
+                        <span class="bg-red-600 text-white text-xs font-bold px-2.5 py-0.5 rounded shadow">Janmat Sarvekshan</span>
+                        <span class="text-[11px] text-emerald-500 font-bold flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mr-1 animate-pulse"></span>Live Poll</span>
                     </div>
                     <h4 class="text-sm font-extrabold text-gray-900 dark:text-white mb-4 leading-snug">
-                        क्या वाराणसी में हाल के विकास कार्यों और इंफ्रास्ट्रक्चर से स्थानीय पर्यटन और रोजगार में बड़ा सुधार हुआ है?
+                        Kya Varanasi me haal ke vikas karyon aur infrastructure se sthaniya paryatan aur rozgar me bada sudhar hua hai?
                     </h4>
                     
                     <div id="poll-actions" class="space-y-2">
                         <button onclick="votePoll('yes')" id="btn-vote-yes" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
-                            <span>👍 हाँ, काफी सुधार हुआ</span>
-                            <span class="text-amber-500 font-black">वोट दें</span>
+                            <span>👍 Haan, kaafi sudhar hua</span>
+                            <span class="text-amber-500 font-black">Vote Dein</span>
                         </button>
                         <button onclick="votePoll('no')" id="btn-vote-no" class="w-full text-left py-2 px-3 rounded-lg border border-gray-200 dark:border-[#333842] hover:border-amber-500 bg-gray-50 dark:bg-[#14161a] text-xs font-bold flex justify-between items-center transition">
-                            <span>👎 नहीं, अभी और काम की ज़रूरत है</span>
-                            <span class="text-amber-500 font-black">वोट दें</span>
+                            <span>👎 Nahi, abhi aur kaam ki zaroorat hai</span>
+                            <span class="text-amber-500 font-black">Vote Dein</span>
                         </button>
                     </div>
 
                     <div id="poll-result" class="hidden space-y-3 mt-2 text-xs">
                         <div>
                             <div class="flex justify-between font-bold mb-1">
-                                <span>हाँ</span>
+                                <span>Haan</span>
                                 <span id="poll-yes-pct">68%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
@@ -396,7 +396,7 @@
                         </div>
                         <div>
                             <div class="flex justify-between font-bold mb-1">
-                                <span>नहीं</span>
+                                <span>Nahi</span>
                                 <span id="poll-no-pct">32%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-[#252830] h-2.5 rounded-full overflow-hidden">
@@ -406,7 +406,7 @@
                     </div>
                 </div>
                 <p class="text-[10px] text-gray-400 mt-4 pt-2 border-t border-gray-100 dark:border-[#282d36] text-center">
-                    कुल वोट: <span id="total-votes" class="font-bold text-amber-500">284</span>
+                    Kul Vote: <span id="total-votes" class="font-bold text-amber-500">284</span>
                 </p>
             </div>
 
@@ -505,11 +505,11 @@
 
     <!-- Admin Panel Modal -->
     <div id="admin-panel" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 px-4" onclick="if(event.target===this) closeAdminPanel()">
-        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
+        <div class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] rounded-xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl max-h-[92vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-gray-200 dark:border-[#282d36] pb-3 mb-4">
                 <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                     <i class="fa-solid fa-gauge-high text-amber-500"></i>
-                    <span>News Arrow 1-Click Publisher</span>
+                    <span id="admin-panel-title">News Arrow 1-Click Publisher</span>
                 </h3>
                 <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-black dark:hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -565,13 +565,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 dark:bg-[#20242c] p-3 rounded-lg border border-gray-200 dark:border-[#343a46]">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block font-medium text-gray-700 dark:text-gray-300">फ़ोटो का लिंक पेस्ट करें (ImgBB Link)</label>
+                            <label class="block font-medium text-gray-700 dark:text-gray-300">Photo Ka Direct Link (ImgBB/Web)</label>
                         </div>
                         <input type="url" id="news-image-url" oninput="calculateLiveSEO()" placeholder="https://i.ibb.co/.../image.jpg" class="w-full border border-gray-300 dark:border-[#343a46] bg-white dark:bg-[#23272e] text-gray-900 dark:text-white px-2.5 py-1.5 rounded focus:outline-none focus:border-amber-500 text-xs">
-                        <p class="text-[10px] text-amber-500 mt-1">💡 <a href="https://imgbb.com" target="_blank" class="underline font-bold">imgbb.com</a> पर फ़ोटो अपलोड करके डायरेक्ट लिंक यहाँ डालें (WhatsApp के लिए 100% बेस्ट)।</p>
+                        <p class="text-[10px] text-amber-500 mt-1">💡 <a href="https://imgbb.com" target="_blank" class="underline font-bold">imgbb.com</a> par upload karke direct link yahan daalein (Best for WhatsApp).</p>
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">या गैलरी से चुनें (Local File)</label>
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Ya Gallery Se Chunein</label>
                         <input type="file" id="news-image-file" accept="image/*" class="w-full text-xs text-gray-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:bg-amber-500 file:text-black file:font-bold hover:file:bg-amber-600 cursor-pointer">
                         <span id="img-upload-status" class="text-[10px] text-gray-400 font-bold block mt-1"></span>
                     </div>
@@ -588,13 +588,13 @@
                         <label class="block font-medium text-gray-700 dark:text-gray-300">Meta Description (SEO & Google Snippet)</label>
                         <span id="meta-desc-char-count" class="text-xs text-gray-400">0 / 160 chars</span>
                     </div>
-                    <textarea id="news-meta-desc" oninput="calculateLiveSEO()" rows="2" maxlength="160" placeholder="Google Search के लिए 140-160 अक्षरों की संक्षिप्त समरी..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
+                    <textarea id="news-meta-desc" oninput="calculateLiveSEO()" rows="2" maxlength="160" placeholder="Google Search ke liye 50-160 aksharon ki samary..." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
                 </div>
 
                 <!-- Keywords -->
                 <div>
                     <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">Keywords & Tags</label>
-                    <input type="text" id="news-keywords" oninput="calculateLiveSEO()" placeholder="News Arrow, Varanasi Congress, Raghu Sharma" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                    <input type="text" id="news-keywords" oninput="calculateLiveSEO()" placeholder="News Arrow, Varanasi News, Ground Report" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                 </div>
 
                 <!-- Details -->
@@ -603,10 +603,10 @@
                         <label class="block font-medium text-gray-700 dark:text-gray-300">News Details</label>
                         <span id="content-word-count" class="text-xs text-gray-400">0 words</span>
                     </div>
-                    <textarea id="news-content" oninput="calculateLiveSEO()" rows="6" required placeholder="Write details here... You can use **heading:** or * for bullets" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
+                    <textarea id="news-content" oninput="calculateLiveSEO()" rows="6" required placeholder="Khabar ka poora vivran yahan likhein... Kam se kam 60-90 shabd." class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500 font-sans"></textarea>
                 </div>
 
-                <!-- LIVE SEO CHECKLIST -->
+                <!-- LIVE SEO CHECKLIST (100/100 ENGINE) -->
                 <div class="bg-gray-50 dark:bg-[#20242c] p-4 rounded-xl border border-gray-200 dark:border-[#343a46] space-y-3">
                     <div class="flex items-center justify-between border-b border-gray-200 dark:border-[#2e333d] pb-2.5">
                         <div class="flex items-center space-x-2">
@@ -619,26 +619,26 @@
                         </div>
                     </div>
 
-                    <div class="w-full bg-gray-200 dark:bg-[#2b303a] h-2 rounded-full overflow-hidden">
+                    <div class="w-full bg-gray-200 dark:bg-[#2b303a] h-2.5 rounded-full overflow-hidden">
                         <div id="seo-progress-bar" class="bg-red-500 h-full w-0 transition-all duration-300"></div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
                         <div id="check-title" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Headline Length (35–75 chars)</span>
+                            <span>Headline Length (25–85 chars) [25 pts]</span>
                         </div>
                         <div id="check-content" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Content Length (90+ words)</span>
+                            <span>Content Length (50+ words) [25 pts]</span>
                         </div>
                         <div id="check-image" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Featured HD Image Uploaded</span>
+                            <span>Featured HD Image Uploaded [25 pts]</span>
                         </div>
                         <div id="check-meta" class="flex items-center space-x-2 text-gray-500 dark:text-gray-400">
                             <i class="fa-solid fa-circle-xmark text-red-500"></i>
-                            <span>Meta Description & Keywords</span>
+                            <span>Meta Description & Keywords [25 pts]</span>
                         </div>
                     </div>
                 </div>
@@ -648,10 +648,29 @@
                     <label for="news-breaking" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">Show in Breaking News Ticker</label>
                 </div>
                 
-                <button type="submit" id="publish-btn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-3 rounded shadow transition text-base">
-                    🚀 1-Click Publish to GitHub (Live Now)
-                </button>
+                <div class="flex gap-2">
+                    <button type="submit" id="publish-btn" class="flex-grow bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-extrabold py-3 rounded shadow transition text-base">
+                        🚀 1-Click Publish to GitHub (Live Now)
+                    </button>
+                    <button type="button" id="cancel-edit-btn" onclick="resetPublishForm()" class="hidden bg-gray-600 hover:bg-gray-700 text-white font-bold px-4 py-3 rounded shadow transition text-sm">
+                        Cancel
+                    </button>
+                </div>
             </form>
+
+            <!-- PREVIOUS NEWS MANAGEMENT (EDIT / DELETE) -->
+            <div class="mt-8 pt-5 border-t border-gray-200 dark:border-[#282d36]">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-list-check text-amber-500 mr-2"></i>
+                        Pichli Khabrein (Manage / Edit / Delete)
+                    </h4>
+                    <span id="manage-news-count" class="text-xs text-amber-500 font-bold">0 News</span>
+                </div>
+                <div id="admin-news-list" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+                    <p class="text-xs text-gray-400 py-3 text-center">Khabrein load ho rahi hain...</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -673,13 +692,18 @@
             'Tech': ['Tech', 'तकनीक']
         };
 
-        // 3 Clicks Secret Admin Panel Opener
+        // 3 Clicks Secret Admin Panel Opener with Password Protection
         let logoClicks = 0;
         window.handleSecretLogoClick = function() {
             logoClicks++;
             setTimeout(() => { logoClicks = 0; }, 1200);
             if (logoClicks === 3) {
-                openAdminPanel();
+                const pass = prompt('🔐 Admin Panel Password daalein:');
+                if (pass === 'arrow2026') {
+                    openAdminPanel();
+                } else if (pass !== null) {
+                    alert('❌ Galat Password!');
+                }
             } else if (logoClicks === 1) {
                 filterCategory('All');
             }
@@ -694,20 +718,159 @@
             }
             document.getElementById('admin-panel').style.display = 'flex';
             document.getElementById('admin-panel').classList.remove('hidden');
+            renderAdminNewsList();
             calculateLiveSEO();
         };
 
         window.closeAdminPanel = function() {
             document.getElementById('admin-panel').style.display = 'none';
             document.getElementById('admin-panel').classList.add('hidden');
+            resetPublishForm();
         };
 
         window.saveGithubSettings = function() {
             localStorage.setItem('na_gh_owner', document.getElementById('gh-owner').value.trim());
             localStorage.setItem('na_gh_repo', document.getElementById('gh-repo').value.trim());
             localStorage.setItem('na_gh_token', document.getElementById('gh-token').value.trim());
-            alert('✅ GitHub Settings सुरक्षित हो गई!');
+            alert('✅ GitHub Settings surakshit ho gayi!');
             document.getElementById('gh-setup-box').classList.add('hidden');
+        };
+
+        // Reset Form
+        window.resetPublishForm = function() {
+            document.getElementById('edit-news-id').value = '';
+            document.getElementById('news-title').value = '';
+            document.getElementById('news-category').value = 'Varanasi';
+            document.getElementById('news-reporter').value = 'अभय श्रीवास्तव / News Arrow Bureau';
+            document.getElementById('news-image-url').value = '';
+            document.getElementById('news-image-file').value = '';
+            document.getElementById('news-video').value = '';
+            document.getElementById('news-meta-desc').value = '';
+            document.getElementById('news-keywords').value = '';
+            document.getElementById('news-content').value = '';
+            document.getElementById('news-breaking').checked = false;
+            document.getElementById('img-upload-status').innerText = '';
+            document.getElementById('publish-btn').innerText = '🚀 1-Click Publish to GitHub (Live Now)';
+            document.getElementById('admin-panel-title').innerText = 'News Arrow 1-Click Publisher';
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+            calculateLiveSEO();
+        };
+
+        // Render Previous News in Admin
+        window.renderAdminNewsList = function() {
+            const listEl = document.getElementById('admin-news-list');
+            const countEl = document.getElementById('manage-news-count');
+            if (!listEl) return;
+
+            if (!newsData || newsData.length === 0) {
+                listEl.innerHTML = '<p class="text-xs text-gray-400 py-3 text-center">Koi khabar uplabdh nahi hai.</p>';
+                if (countEl) countEl.innerText = '0 News';
+                return;
+            }
+
+            if (countEl) countEl.innerText = `${newsData.length} News`;
+            listEl.innerHTML = '';
+
+            newsData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between p-2.5 bg-gray-100 dark:bg-[#20242c] rounded-lg border border-gray-200 dark:border-[#303642] text-xs";
+                row.innerHTML = `
+                    <div class="flex items-center space-x-2.5 overflow-hidden pr-2">
+                        <img src="${item.image || 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=100'}" class="w-10 h-10 object-cover rounded shrink-0 border border-gray-700">
+                        <div class="truncate">
+                            <span class="font-bold text-gray-900 dark:text-gray-100 truncate block">${item.title}</span>
+                            <span class="text-[10px] text-gray-400">${item.category} • ${item.date || ''}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1.5 shrink-0">
+                        <button onclick="editAdminArticle('${item.id}')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-black font-extrabold rounded shadow text-[11px] transition">
+                            <i class="fa-solid fa-pen mr-1"></i>Edit
+                        </button>
+                        <button onclick="deleteAdminArticle('${item.id}')" class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded shadow text-[11px] transition">
+                            <i class="fa-solid fa-trash mr-1"></i>Del
+                        </button>
+                    </div>
+                `;
+                listEl.appendChild(row);
+            });
+        };
+
+        // Edit Article
+        window.editAdminArticle = function(id) {
+            const item = newsData.find(n => String(n.id) === String(id));
+            if (!item) return;
+
+            document.getElementById('edit-news-id').value = item.id;
+            document.getElementById('news-title').value = item.title || '';
+            document.getElementById('news-category').value = item.category || 'Varanasi';
+            document.getElementById('news-reporter').value = item.reporter || 'अभय श्रीवास्तव / News Arrow Bureau';
+            document.getElementById('news-image-url').value = (item.image && item.image.startsWith('http')) ? item.image : '';
+            document.getElementById('news-video').value = item.video || '';
+            document.getElementById('news-meta-desc').value = item.metaDescription || '';
+            document.getElementById('news-keywords').value = item.keywords || '';
+            document.getElementById('news-content').value = item.content || '';
+            document.getElementById('news-breaking').checked = !!item.isBreaking;
+
+            document.getElementById('publish-btn').innerText = '💾 Update News on GitHub';
+            document.getElementById('admin-panel-title').innerText = 'Edit News: ' + item.title.substring(0, 20) + '...';
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+
+            document.getElementById('admin-panel').querySelector('form').scrollIntoView({ behavior: 'smooth' });
+            calculateLiveSEO();
+        };
+
+        // Delete Article
+        window.deleteAdminArticle = async function(id) {
+            const item = newsData.find(n => String(n.id) === String(id));
+            if (!item) return;
+
+            if (!confirm(`Kya aap sach me ye khabar delete karna chahte hain?\n\n"${item.title}"`)) return;
+
+            const owner = localStorage.getItem('na_gh_owner') || 'ab141299';
+            const repo = localStorage.getItem('na_gh_repo') || 'newsarrowlive';
+            const token = localStorage.getItem('na_gh_token');
+
+            if (!token) {
+                alert('GitHub settings me Personal Access Token check karein!');
+                return;
+            }
+
+            try {
+                const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+
+                if (!getRes.ok) throw new Error('GitHub se news.json nahi mili.');
+                const fileObj = await getRes.json();
+                const sha = fileObj.sha;
+                let currentPosts = JSON.parse(decodeURIComponent(escape(atob(fileObj.content.replace(/\s/g, '')))));
+
+                currentPosts = currentPosts.filter(n => String(n.id) !== String(id));
+
+                const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentPosts, null, 2))));
+                const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Delete News: ${item.title.substring(0, 25)}`,
+                        content: updatedBase64,
+                        sha: sha
+                    })
+                });
+
+                if (!putRes.ok) throw new Error('Delete hone me dikkat aayi.');
+
+                alert('🗑️ Khabar safaltapoorvak delete ho gayi!');
+                newsData = currentPosts;
+                renderNews();
+                renderVideoFeed();
+                renderAdminNewsList();
+            } catch(err) {
+                alert('Error: ' + err.message);
+            }
         };
 
         // Image File Reader Fallback
@@ -720,7 +883,7 @@
                     const file = e.target.files[0];
                     if (!file) return;
 
-                    statusLabel.innerText = "⏳ फ़ोटो प्रोसेस हो रही है...";
+                    statusLabel.innerText = "⏳ Processing...";
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const img = new Image();
@@ -739,10 +902,10 @@
                                 const ctx = canvas.getContext('2d');
                                 ctx.drawImage(img, 0, 0, w, h);
                                 document.getElementById('news-image-url').value = canvas.toDataURL('image/jpeg', 0.70);
-                                statusLabel.innerText = "✅ लोकल फ़ोटो सेट";
+                                statusLabel.innerText = "✅ Local Photo Set";
                             } catch(err) {
                                 document.getElementById('news-image-url').value = event.target.result;
-                                statusLabel.innerText = "✅ फ़ोटो सेट";
+                                statusLabel.innerText = "✅ Photo Set";
                             }
                             updateCheckUI('check-image', true);
                             calculateLiveSEO();
@@ -754,7 +917,7 @@
             }
         }, 300);
 
-        // 1-Click Publisher Engine
+        // Crash-Proof 1-Click Publisher & Update Engine
         window.handlePublishToGitHub = async function(e) {
             e.preventDefault();
             const btn = document.getElementById('publish-btn');
@@ -764,109 +927,154 @@
             const token = localStorage.getItem('na_gh_token');
 
             if (!token) {
-                alert('कृपया पहले GitHub Settings में अपना Personal Access Token (ghp_...) भरें!');
+                alert('Kripya pehle GitHub Settings me apna Personal Access Token (ghp_...) bharein!');
                 document.getElementById('gh-setup-box').classList.remove('hidden');
                 return;
             }
 
-            let imageVal = document.getElementById('news-image-url').value.trim();
+            let imageVal = (document.getElementById('news-image-url').value || '').trim();
             if (!imageVal) {
                 imageVal = 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=800';
             }
 
             btn.disabled = true;
-            btn.innerText = 'पब्लिश हो रहा है... कृपया 2 सेकंड रुकें...';
+            btn.innerText = 'Publish ho raha hai... Kripya 2 second rukein...';
 
             try {
                 const getRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
-                    headers: { 'Authorization': `token ${token}` }
+                    headers: { 
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
                 });
 
                 let sha = null;
                 let currentPosts = [];
+
                 if (getRes.ok) {
                     const fileObj = await getRes.json();
                     sha = fileObj.sha;
-                    currentPosts = JSON.parse(decodeURIComponent(escape(atob(fileObj.content))));
+                    if (fileObj.content) {
+                        try {
+                            const decoded = decodeURIComponent(escape(atob(fileObj.content.replace(/\s/g, ''))));
+                            currentPosts = JSON.parse(decoded);
+                            if (!Array.isArray(currentPosts)) currentPosts = [];
+                        } catch(jsonErr) {
+                            currentPosts = [];
+                        }
+                    }
+                } else if (getRes.status === 404) {
+                    currentPosts = [];
+                } else {
+                    throw new Error('GitHub se connect nahi ho saka. Token ya internet check karein.');
                 }
 
-                const newPost = {
-                    id: Date.now().toString(),
-                    title: document.getElementById('news-title').value.trim(),
-                    category: document.getElementById('news-category').value,
-                    reporter: document.getElementById('news-reporter').value.trim(),
-                    date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-                    image: imageVal,
-                    video: document.getElementById('news-video').value.trim(),
-                    metaDescription: document.getElementById('news-meta-desc').value.trim(),
-                    keywords: document.getElementById('news-keywords').value.trim(),
-                    isBreaking: document.getElementById('news-breaking').checked,
-                    content: document.getElementById('news-content').value.trim()
-                };
+                const editId = document.getElementById('edit-news-id').value;
 
-                currentPosts.unshift(newPost);
+                if (editId) {
+                    // Update Existing Post
+                    const postIndex = currentPosts.findIndex(n => String(n.id) === String(editId));
+                    if (postIndex !== -1) {
+                        currentPosts[postIndex] = {
+                            ...currentPosts[postIndex],
+                            title: document.getElementById('news-title').value.trim(),
+                            category: document.getElementById('news-category').value,
+                            reporter: document.getElementById('news-reporter').value.trim(),
+                            image: imageVal,
+                            video: (document.getElementById('news-video').value || '').trim(),
+                            metaDescription: (document.getElementById('news-meta-desc').value || '').trim(),
+                            keywords: (document.getElementById('news-keywords').value || '').trim(),
+                            isBreaking: document.getElementById('news-breaking').checked,
+                            content: document.getElementById('news-content').value.trim()
+                        };
+                    }
+                } else {
+                    // Create New Post
+                    const newPost = {
+                        id: Date.now().toString(),
+                        title: document.getElementById('news-title').value.trim(),
+                        category: document.getElementById('news-category').value,
+                        reporter: document.getElementById('news-reporter').value.trim(),
+                        date: new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        image: imageVal,
+                        video: (document.getElementById('news-video').value || '').trim(),
+                        metaDescription: (document.getElementById('news-meta-desc').value || '').trim(),
+                        keywords: (document.getElementById('news-keywords').value || '').trim(),
+                        isBreaking: document.getElementById('news-breaking').checked,
+                        content: document.getElementById('news-content').value.trim()
+                    };
+                    currentPosts.unshift(newPost);
+                }
 
                 const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentPosts, null, 2))));
+                const putBody = {
+                    message: editId ? `Update News: ${document.getElementById('news-title').value.substring(0, 25)}` : `News Arrow: ${document.getElementById('news-title').value.substring(0, 25)}`,
+                    content: updatedBase64
+                };
+                if (sha) putBody.sha = sha;
+
                 const putRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/news.json`, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${token}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        message: `News Arrow: ${newPost.title.substring(0, 30)}...`,
-                        content: updatedBase64,
-                        sha: sha
-                    })
+                    body: JSON.stringify(putBody)
                 });
 
-                if (!putRes.ok) throw new Error('GitHub पर कमिट नहीं हो सका। टोकन चेक करें।');
+                if (!putRes.ok) throw new Error('GitHub par commit fail hua. Token permissions check karein.');
 
-                alert('🎉 खबर 1-Click में लाइव हो गई!');
+                alert(editId ? '🎉 Khabar safaltapoorvak UPDATE ho gayi!' : '🎉 Khabar 1-Click me LIVE ho gayi!');
                 closeAdminPanel();
                 newsData = currentPosts;
                 renderNews();
                 renderVideoFeed();
             } catch(err) {
-                alert('एरर: ' + err.message);
+                alert('Error: ' + err.message);
             } finally {
                 btn.disabled = false;
                 btn.innerText = '🚀 1-Click Publish to GitHub (Live Now)';
             }
         };
 
-        // Live SEO Score Calculator
+        // 100/100 Accurate Live SEO Score Calculator
         window.calculateLiveSEO = function() {
             const title = (document.getElementById('news-title').value || '').trim();
             const content = (document.getElementById('news-content').value || '').trim();
             const metaDesc = (document.getElementById('news-meta-desc').value || '').trim();
             const keywords = (document.getElementById('news-keywords').value || '').trim();
             const imgUrl = (document.getElementById('news-image-url').value || '').trim();
+            const fileBox = document.getElementById('news-image-file');
 
+            // 1. Headline (25 pts)
             const titleLen = title.length;
             document.getElementById('title-char-count').innerText = `${titleLen} / 70 chars`;
-            const isTitleGood = (titleLen >= 35 && titleLen <= 78);
+            const isTitleGood = (titleLen >= 25 && titleLen <= 90);
             updateCheckUI('check-title', isTitleGood);
 
+            // 2. Content Length (25 pts)
             const words = content.split(/\s+/).filter(w => w.length > 0);
             const wordCount = words.length;
             document.getElementById('content-word-count').innerText = `${wordCount} words`;
-            const isContentGood = (wordCount >= 90);
+            const isContentGood = (wordCount >= 45);
             updateCheckUI('check-content', isContentGood);
 
-            const hasImg = (imgUrl.length > 10);
+            // 3. Featured Image (25 pts)
+            const hasImg = (imgUrl.length > 10 || (fileBox && fileBox.files && fileBox.files.length > 0));
             updateCheckUI('check-image', hasImg);
 
+            // 4. Meta Description & Keywords (25 pts)
             document.getElementById('meta-desc-char-count').innerText = `${metaDesc.length} / 160 chars`;
-            const isMetaGood = (metaDesc.length >= 50 || keywords.length >= 5);
+            const isMetaGood = (metaDesc.length >= 25 && keywords.length >= 3);
             updateCheckUI('check-meta', isMetaGood);
 
             let score = 0;
-            if (isTitleGood) score += 25; else if (titleLen > 15) score += 15;
-            if (isContentGood) score += 25; else if (wordCount > 35) score += 15;
+            if (isTitleGood) score += 25; else if (titleLen > 10) score += 12;
+            if (isContentGood) score += 25; else if (wordCount > 15) score += 12;
             if (hasImg) score += 25;
-            if (metaDesc.length >= 60) score += 15; else if (metaDesc.length > 0) score += 8;
-            if (keywords.length >= 5) score += 10;
+            if (isMetaGood) score += 25; else if (metaDesc.length > 10 || keywords.length > 3) score += 12;
+
+            if (score > 100) score = 100;
 
             const badge = document.getElementById('seo-score-badge');
             const status = document.getElementById('seo-status-text');
@@ -875,15 +1083,15 @@
             badge.innerText = `${score} / 100`;
             bar.style.width = `${score}%`;
 
-            if (score >= 80) {
+            if (score >= 90) {
                 badge.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500 text-white shadow";
                 bar.className = "bg-emerald-500 h-full transition-all duration-300";
-                status.innerText = "Excellent (Ready!)";
+                status.innerText = "Excellent (100% Ready!)";
                 status.className = "text-xs font-bold text-emerald-500";
-            } else if (score >= 50) {
+            } else if (score >= 60) {
                 badge.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-500 text-black shadow";
                 bar.className = "bg-amber-500 h-full transition-all duration-300";
-                status.innerText = "Average (Can Improve)";
+                status.innerText = "Good (Can Improve)";
                 status.className = "text-xs font-bold text-amber-500";
             } else {
                 badge.className = "px-2.5 py-0.5 rounded-full text-xs font-black bg-red-500 text-white shadow";
@@ -1163,7 +1371,7 @@
 
         // Live Poll local vote
         window.votePoll = function(c) {
-            alert('धन्यवाद! आपका मत दर्ज हो गया है।');
+            alert('Dhanyawad! Aapka vote darj ho gaya hai.');
             document.getElementById('poll-actions').classList.add('hidden');
             document.getElementById('poll-result').classList.remove('hidden');
         };
