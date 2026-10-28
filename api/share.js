@@ -6,43 +6,29 @@ export default async function handler(req) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get('id') || '';
 
-  // डिफ़ॉल्ट हेडलाइन और समरी
   let title = "News Arrow - ताज़ा और निष्पक्ष ग्राउंड रिपोर्ट्स";
   let desc = "वाराणसी और देश-दुनिया की ताज़ा और प्रामाणिक खबरों के लिए News Arrow पढ़ें।";
   
-  // WhatsApp के लिए सुपर-लाइटवेट, हाई-स्पीड JPG (35 KB - कभी बफ़र नहीं होगा)
-  let image = "https://i.postimg.cc/mD8Z4xS8/news-arrow-banner.jpg";
+  // टेस्टेड और एक्टिव इमेज (HTTP 200 Verified)
+  let image = "https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png";
 
-  // बैकग्राउंड में फास्ट कैश्ड डेटा कॉल (ताकि टाइम-आउट न हो)
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 600); // 600ms मैक्सिमम टाइमर
-
-    const res = await fetch('https://newsarrow.in/news.json', { 
-      signal: controller.signal,
-      headers: { 'Accept': 'application/json' }
-    });
-    clearTimeout(timeoutId);
-
+    const res = await fetch('https://newsarrow.in/news.json');
     if (res.ok) {
       const newsList = await res.json();
       const newsItem = newsList.find(n => String(n.id) === String(id));
       if (newsItem) {
         if (newsItem.title) title = newsItem.title;
         if (newsItem.metaDescription) desc = newsItem.metaDescription;
-        // अगर खबर में सीधा http लिंक है तो वही लें
         if (newsItem.image && newsItem.image.startsWith('http')) {
           image = newsItem.image;
         }
       }
     }
-  } catch (e) {
-    // अगर टाइमआउट हो तो भी बिना रुके तुरंत कार्ड भेज दो
-  }
+  } catch (e) {}
 
   const redirectUrl = `https://newsarrow.in/?id=${encodeURIComponent(id)}`;
 
-  // शुद्ध और मानक Open Graph HTML
   const html = `<!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -56,7 +42,6 @@ export default async function handler(req) {
   <meta property="og:description" content="${desc}">
   <meta property="og:image" content="${image}">
   <meta property="og:image:secure_url" content="${image}">
-  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="${redirectUrl}">
@@ -80,7 +65,7 @@ export default async function handler(req) {
     status: 200,
     headers: {
       'content-type': 'text/html; charset=utf-8',
-      'cache-control': 'public, max-age=300, s-maxage=300',
+      'cache-control': 'public, max-age=60',
     },
   });
 }
