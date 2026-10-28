@@ -561,20 +561,25 @@
                     </div>
                 </div>
 
-                <!-- DIRECT FILE UPLOAD WITH DIRECT CLOUD HOSTING -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- DIRECT URL & GALLERY FILE UPLOAD -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 dark:bg-[#20242c] p-3 rounded-lg border border-gray-200 dark:border-[#343a46]">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block font-medium text-gray-700 dark:text-gray-300">गैलरी से फोटो चुनें (Auto-Uploads)</label>
-                            <span id="img-upload-status" class="text-xs text-gray-400 font-bold"></span>
+                            <label class="block font-medium text-gray-700 dark:text-gray-300">फ़ोटो का लिंक पेस्ट करें (ImgBB Link)</label>
                         </div>
-                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-xs text-gray-400 file:mr-2 file:py-2 file:px-3 file:rounded file:border-0 file:bg-amber-500 file:text-black file:font-bold hover:file:bg-amber-600 cursor-pointer">
-                        <input type="hidden" id="news-image-url">
+                        <input type="url" id="news-image-url" oninput="calculateLiveSEO()" placeholder="https://i.ibb.co/.../image.jpg" class="w-full border border-gray-300 dark:border-[#343a46] bg-white dark:bg-[#23272e] text-gray-900 dark:text-white px-2.5 py-1.5 rounded focus:outline-none focus:border-amber-500 text-xs">
+                        <p class="text-[10px] text-amber-500 mt-1">💡 <a href="https://imgbb.com" target="_blank" class="underline font-bold">imgbb.com</a> पर फ़ोटो अपलोड करके डायरेक्ट लिंक यहाँ डालें (WhatsApp के लिए 100% बेस्ट)।</p>
                     </div>
                     <div>
-                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">YouTube Video / Shorts Link</label>
-                        <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... or Shorts" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
+                        <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">या गैलरी से चुनें (Local File)</label>
+                        <input type="file" id="news-image-file" accept="image/*" class="w-full text-xs text-gray-400 file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:bg-amber-500 file:text-black file:font-bold hover:file:bg-amber-600 cursor-pointer">
+                        <span id="img-upload-status" class="text-[10px] text-gray-400 font-bold block mt-1"></span>
                     </div>
+                </div>
+
+                <div>
+                    <label class="block font-medium mb-1 text-gray-700 dark:text-gray-300">YouTube Video / Shorts Link</label>
+                    <input type="url" id="news-video" placeholder="https://youtube.com/watch?v=... or Shorts" class="w-full border border-gray-300 dark:border-[#343a46] bg-gray-50 dark:bg-[#23272e] text-gray-900 dark:text-white px-3 py-2 rounded focus:outline-none focus:border-amber-500">
                 </div>
 
                 <!-- Meta Description -->
@@ -705,57 +710,46 @@
             document.getElementById('gh-setup-box').classList.add('hidden');
         };
 
-        // 100% Guaranteed Direct Cloud Uploader (No CORS / Direct Web Link)
+        // Image File Reader Fallback
         setTimeout(() => {
             const fileInput = document.getElementById('news-image-file');
             const statusLabel = document.getElementById('img-upload-status');
             
             if (fileInput) {
-                fileInput.addEventListener('change', async function(e) {
+                fileInput.addEventListener('change', function(e) {
                     const file = e.target.files[0];
                     if (!file) return;
 
-                    statusLabel.innerText = "⏳ अपलोड हो रहा है...";
-                    statusLabel.className = "text-xs text-amber-500 font-bold";
-
-                    try {
-                        const formData = new FormData();
-                        formData.append('file', file);
-                        formData.append('upload_preset', 'newsarrow');
-
-                        // Direct High-Speed Cloudinary Upload
-                        const response = await fetch('https://api.cloudinary.com/v1_1/dduaqc78f/image/upload', {
-                            method: 'POST',
-                            body: formData
-                        });
-
-                        const data = await response.json();
-                        if (data && data.secure_url) {
-                            document.getElementById('news-image-url').value = data.secure_url;
-                            statusLabel.innerText = "✅ फ़ोटो लिंक तैयार!";
-                            statusLabel.className = "text-xs text-emerald-500 font-bold";
+                    statusLabel.innerText = "⏳ फ़ोटो प्रोसेस हो रही है...";
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            try {
+                                const canvas = document.createElement('canvas');
+                                const maxW = 900;
+                                let w = img.width;
+                                let h = img.height;
+                                if (w > maxW) {
+                                    h = Math.round((h * maxW) / w);
+                                    w = maxW;
+                                }
+                                canvas.width = w;
+                                canvas.height = h;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, w, h);
+                                document.getElementById('news-image-url').value = canvas.toDataURL('image/jpeg', 0.70);
+                                statusLabel.innerText = "✅ लोकल फ़ोटो सेट";
+                            } catch(err) {
+                                document.getElementById('news-image-url').value = event.target.result;
+                                statusLabel.innerText = "✅ फ़ोटो सेट";
+                            }
                             updateCheckUI('check-image', true);
                             calculateLiveSEO();
-                        } else {
-                            throw new Error('Upload failed');
-                        }
-                    } catch (err) {
-                        try {
-                            const fd = new FormData();
-                            fd.append('image', file);
-                            const res2 = await fetch('https://tmpfiles.org/api/v1/upload', { method: 'POST', body: fd });
-                            const d2 = await res2.json();
-                            const directUrl = d2.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
-                            document.getElementById('news-image-url').value = directUrl;
-                            statusLabel.innerText = "✅ फ़ोटो लिंक तैयार!";
-                            statusLabel.className = "text-xs text-emerald-500 font-bold";
-                            updateCheckUI('check-image', true);
-                            calculateLiveSEO();
-                        } catch(e2) {
-                            statusLabel.innerText = "❌ अपलोड फ़ेल, दोबारा चुनें";
-                            statusLabel.className = "text-xs text-red-500 font-bold";
-                        }
-                    }
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
                 });
             }
         }, 300);
@@ -775,7 +769,7 @@
                 return;
             }
 
-            let imageVal = document.getElementById('news-image-url').value;
+            let imageVal = document.getElementById('news-image-url').value.trim();
             if (!imageVal) {
                 imageVal = 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=800';
             }
@@ -848,7 +842,6 @@
             const metaDesc = (document.getElementById('news-meta-desc').value || '').trim();
             const keywords = (document.getElementById('news-keywords').value || '').trim();
             const imgUrl = (document.getElementById('news-image-url').value || '').trim();
-            const fileBox = document.getElementById('news-image-file');
 
             const titleLen = title.length;
             document.getElementById('title-char-count').innerText = `${titleLen} / 70 chars`;
@@ -861,7 +854,7 @@
             const isContentGood = (wordCount >= 90);
             updateCheckUI('check-content', isContentGood);
 
-            const hasImg = (imgUrl.length > 10 || (fileBox && fileBox.files && fileBox.files.length > 0));
+            const hasImg = (imgUrl.length > 10);
             updateCheckUI('check-image', hasImg);
 
             document.getElementById('meta-desc-char-count').innerText = `${metaDesc.length} / 160 chars`;
