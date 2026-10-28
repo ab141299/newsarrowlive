@@ -20,12 +20,14 @@
     <meta id="meta-doc-desc" name="description" content="Read latest national, international and local news from Varanasi and across India on News Arrow.">
     <meta id="meta-doc-keywords" name="keywords" content="News Arrow, Varanasi News, Latest Hindi News, Breaking News, Ground Reporting">
     
-    <!-- Open Graph / WhatsApp Preview -->
-    <meta property="og:type" content="website">
+    <!-- Open Graph / WhatsApp Preview Meta Tags -->
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="News Arrow">
-    <meta id="og-doc-title" property="og:title" content="News Arrow - Latest and Unbiased News">
-    <meta id="og-doc-desc" property="og:description" content="ताज़ा, सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
+    <meta id="og-doc-title" property="og:title" content="News Arrow - ताज़ा और निष्पक्ष खबरें">
+    <meta id="og-doc-desc" property="og:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
     <meta id="og-doc-image" property="og:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
+    <meta property="og:image:secure_url" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
+    <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta id="og-doc-url" property="og:url" content="https://newsarrow.in">
@@ -33,7 +35,7 @@
     <!-- Twitter Preview -->
     <meta name="twitter:card" content="summary_large_image">
     <meta id="tw-doc-title" name="twitter:title" content="News Arrow - Latest and Unbiased News">
-    <meta id="tw-doc-desc" name="twitter:description" content="ताज़ा, सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
+    <meta id="tw-doc-desc" name="twitter:description" content="सटीक और निष्पक्ष ग्राउंड रिपोर्ट्स - News Arrow">
     <meta id="tw-doc-image" name="twitter:image" content="https://i.ibb.co/s9Dv2jJy/1000151887-photoaidcom-cropped.png">
 
     <!-- Tailwind CSS -->
@@ -135,6 +137,66 @@
                 max-width: 54rem !important;
             }
         }
+
+        /* 3D Ad Styles */
+        @keyframes bannerUnfold {
+          0% { transform: rotateX(-90deg) scale(0.85); opacity: 0; }
+          50% { transform: rotateX(20deg) scale(1.02); opacity: 0.9; }
+          70% { transform: rotateX(-10deg) scale(0.99); }
+          100% { transform: rotateX(0deg) scale(1); opacity: 1; }
+        }
+        @keyframes periodicFoldPulse {
+          0%, 85%, 100% { transform: rotateX(0deg); }
+          90% { transform: rotateX(15deg); }
+          95% { transform: rotateX(-8deg); }
+        }
+        @keyframes adShine {
+          0% { left: -100%; }
+          20% { left: 100%; }
+          100% { left: 100%; }
+        }
+        @keyframes badgeBounce {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.08); }
+        }
+        .fold-ad-box {
+          position: relative;
+          overflow: hidden;
+          border-radius: 8px;
+          display: block;
+          border: 1px solid rgba(212, 175, 55, 0.4);
+          box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+          background: #000;
+          transform-origin: top center;
+          animation: bannerUnfold 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, periodicFoldPulse 8s infinite 2s;
+        }
+        .fold-ad-box::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+          transform: skewX(-25deg);
+          animation: adShine 4s infinite 1.2s;
+          pointer-events: none;
+        }
+        .ad-fold-badge {
+          position: absolute;
+          top: 6px;
+          right: 6px;
+          background: #e50914;
+          color: #ffffff;
+          font-size: 9px;
+          font-weight: 800;
+          padding: 2px 8px;
+          border-radius: 10px;
+          letter-spacing: 0.5px;
+          z-index: 2;
+          animation: badgeBounce 1.5s infinite;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900 dark:bg-[#121316] dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
@@ -219,69 +281,8 @@
         </div>
     </div>
 
-    <!-- Praful Parlour 3D Fold & Unfold Animated Ad Start -->
+    <!-- Home Page Praful Parlour Ad Start -->
     <div style="max-width: 1200px; margin: 6px auto 10px auto; padding: 0 4px; text-align: center; perspective: 1200px;">
-      <style>
-        @keyframes bannerUnfold {
-          0% { transform: rotateX(-90deg) scale(0.85); opacity: 0; }
-          50% { transform: rotateX(20deg) scale(1.02); opacity: 0.9; }
-          70% { transform: rotateX(-10deg) scale(0.99); }
-          100% { transform: rotateX(0deg) scale(1); opacity: 1; }
-        }
-        @keyframes periodicFoldPulse {
-          0%, 85%, 100% { transform: rotateX(0deg); }
-          90% { transform: rotateX(15deg); }
-          95% { transform: rotateX(-8deg); }
-        }
-        @keyframes adShine {
-          0% { left: -100%; }
-          20% { left: 100%; }
-          100% { left: 100%; }
-        }
-        @keyframes badgeBounce {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.08); }
-        }
-        .fold-ad-box {
-          position: relative;
-          overflow: hidden;
-          border-radius: 8px;
-          display: block;
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-          background: #000;
-          transform-origin: top center;
-          animation: bannerUnfold 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards, periodicFoldPulse 8s infinite 2s;
-        }
-        .fold-ad-box::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 50%;
-          height: 100%;
-          background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-          transform: skewX(-25deg);
-          animation: adShine 4s infinite 1.2s;
-          pointer-events: none;
-        }
-        .ad-fold-badge {
-          position: absolute;
-          top: 6px;
-          right: 6px;
-          background: #e50914;
-          color: #ffffff;
-          font-size: 9px;
-          font-weight: 800;
-          padding: 2px 8px;
-          border-radius: 10px;
-          letter-spacing: 0.5px;
-          z-index: 2;
-          animation: badgeBounce 1.5s infinite;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-        }
-      </style>
-
       <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="fold-ad-box">
         <span class="ad-fold-badge">🔥 SPECIAL OFFER</span>
         <img src="https://i.postimg.cc/tT7vhpHB/1793037565377.png" alt="Praful Parlour Festive Offer" style="width: 100%; height: auto; display: block; border-radius: 7px;">
@@ -292,7 +293,7 @@
         <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" style="background: #25D366; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center;">💬 WhatsApp Offer</a>
       </div>
     </div>
-    <!-- Praful Parlour 3D Fold & Unfold Animated Ad End -->
+    <!-- Home Page Praful Parlour Ad End -->
     
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
@@ -461,7 +462,7 @@
         </div>
     </footer>
 
-    <!-- Full Article Modal -->
+    <!-- Full Article Modal (News Ke Andar Ad Integrated) -->
     <div id="full-news-modal" class="fixed inset-0 bg-black/85 z-[100] hidden items-center justify-center p-0 md:p-6" onclick="if(event.target===this) closeFullNews()">
         <div id="news-popup-card" class="bg-white dark:bg-[#181a1f] border border-gray-200 dark:border-[#2d3239] overflow-y-auto p-4 sm:p-8 shadow-2xl flex flex-col justify-between">
             <div>
@@ -493,6 +494,21 @@
                 </div>
 
                 <div id="read-content" class="text-gray-800 dark:text-gray-200 leading-relaxed text-base sm:text-lg font-normal space-y-3"></div>
+
+                <!-- NEWS KE ANDAR AD (Article Content Ke Theek Baad) -->
+                <div class="mt-8 pt-5 border-t border-gray-200 dark:border-[#282d36]">
+                    <div style="max-width: 100%; text-align: center; perspective: 1200px;">
+                        <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" rel="noopener noreferrer" class="fold-ad-box">
+                            <span class="ad-fold-badge">🔥 SPECIAL OFFER</span>
+                            <img src="https://i.postimg.cc/tT7vhpHB/1793037565377.png" alt="Praful Parlour Festive Offer" style="width: 100%; height: auto; display: block; border-radius: 7px;">
+                        </a>
+                        <div style="margin-top: 6px; display: flex; justify-content: center; gap: 8px;">
+                            <a href="tel:+919140810378" style="background: #5c1418; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center;">📞 91408 10378</a>
+                            <a href="https://wa.me/919140810378?text=Namaste,%20maine%20News%20Arrow%20par%20Praful%20Parlour%20ka%20offer%20dekha." target="_blank" style="background: #25D366; color: #fff; padding: 4px 12px; border-radius: 14px; font-size: 11px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center;">💬 WhatsApp Offer</a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="mt-8 pt-4 border-t border-gray-200 dark:border-[#282d36] flex justify-end">
@@ -1072,16 +1088,16 @@
             window.history.replaceState({}, document.title, window.location.pathname);
         };
 
-        // WhatsApp Direct Share Engine
+        // WhatsApp Direct Share Engine (Direct WhatsApp Message with Image & Link)
         window.shareArticle = function(id) {
             const item = newsData.find(n => String(n.id) === String(id));
             if (!item) return;
 
             const shareUrl = `https://newsarrow.in/?id=${encodeURIComponent(item.id)}`;
             const isDirectImg = item.image && item.image.startsWith('http');
-            const imgPart = isDirectImg ? `\n🖼️ फोटो देखें: ${item.image}\n` : '';
+            const imgLine = isDirectImg ? `\n\n📸 *तस्वीर देखें:* ${item.image}` : '';
 
-            const shareText = `🔴 *${item.title}*\n${imgPart}\n👉 पूरी खबर यहाँ पढ़ें:\n${shareUrl}`;
+            const shareText = `🔴 *${item.title}*\n\n👉 *पूरी खबर यहाँ पढ़ें:* ${shareUrl}${imgLine}\n\n📰 *News Arrow* | निष्पक्ष और सटीक पत्रकारिता`;
             const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
             window.open(waUrl, '_blank');
         };
