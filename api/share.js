@@ -7,18 +7,15 @@ export default async function handler(req) {
   const id = requestUrl.searchParams.get('id') || '';
   const userAgent = req.headers.get('user-agent') || '';
 
-  // Check if WhatsApp or Facebook bot is fetching preview
   const isBot = /facebookexternalhit|whatsapp|meta-externalagent|twitterbot|slackbot|telegrambot/i.test(userAgent);
 
   const siteUrl = 'https://www.newsarrow.in';
   const redirectUrl = id ? `${siteUrl}/?id=${encodeURIComponent(id)}` : siteUrl;
 
-  // Agar aam insaan browser me link khole, to seedhe website par bhej do
   if (!isBot) {
     return Response.redirect(redirectUrl, 302);
   }
 
-  // Agar bot (WhatsApp) aaye, to news.json se data uthao
   let title = 'News Arrow - सच की बेबाक आवाज';
   let description = 'सटीक और निष्पक्ष खबर सिर्फ News Arrow पर।';
   let image = 'https://i.ibb.co/s9Vdv2jy/1000151887-photoidcom-cropped.png';
@@ -41,9 +38,7 @@ export default async function handler(req) {
         }
       }
     }
-  } catch (error) {
-    // Keep fallback metadata if fetch fails
-  }
+  } catch (error) {}
 
   const escapeHtml = (value) =>
     String(value).replace(/[&<>"']/g, (char) => ({
@@ -62,7 +57,6 @@ export default async function handler(req) {
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   
-  <!-- OpenGraph WhatsApp Meta Tags -->
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="News Arrow">
   <meta property="og:title" content="${escapeHtml(title)}">
