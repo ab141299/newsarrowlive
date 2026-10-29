@@ -5,20 +5,23 @@ export const config = {
 export default async function handler(req) {
   const requestUrl = new URL(req.url);
   const id = requestUrl.searchParams.get('id') || '';
-  const userAgent = req.headers.get('user-agent') || '';
+  const userAgent = (req.headers.get('user-agent') || '').toLowerCase();
 
-  const isBot = /facebookexternalhit|whatsapp|meta-externalagent|twitterbot|slackbot|telegrambot/i.test(userAgent);
+  // Sabhi social media crawlers aur WhatsApp ke bots ki list
+  const isBot = /facebookexternalhit|whatsapp|meta-externalagent|twitterbot|slackbot|telegrambot|linkedinbot/i.test(userAgent);
 
-  const siteUrl = 'https://www.newsarrow.in';
+  const siteUrl = 'https://newsarrow.in';
   const redirectUrl = id ? `${siteUrl}/?id=${encodeURIComponent(id)}` : siteUrl;
 
+  // Agar aam insaan browser me link khole, to seedhe website par bhej do
   if (!isBot) {
     return Response.redirect(redirectUrl, 302);
   }
 
+  // Default fallback values
   let title = 'News Arrow - सच की बेबाक आवाज';
   let description = 'सटीक और निष्पक्ष खबर सिर्फ News Arrow पर।';
-  let image = 'https://i.ibb.co/s9Vdv2jy/1000151887-photoidcom-cropped.png';
+  let image = 'https://newsarrow.in/bhu.jpg';
 
   try {
     const response = await fetch(
@@ -33,40 +36,41 @@ export default async function handler(req) {
       if (article) {
         title = article.title || title;
         description = article.metaDescription || article.title || description;
-        if (article.image && /^https?:\/\//i.test(article.image)) {
-          image = article.image;
+        if (article.image) {
+          image = article.image.trim();
         }
       }
     }
   } catch (error) {}
 
-  const escapeHtml = (value) =>
-    String(value).replace(/[&<>"']/g, (char) => ({
+  const escapeHtml = (val) =>
+    String(val).replace(/[&<>"']/g, (c) => ({
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
       "'": '&#39;',
-    }[char]));
+    }[c]));
 
+  // WhatsApp ke liye zaroori OpenGraph headers
   const html = `<!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" prefix="og: http://ogp.me/ns#">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  
-  <meta property="og:type" content="article">
+
   <meta property="og:site_name" content="News Arrow">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${requestUrl.href}">
   <meta property="og:image" content="${escapeHtml(image)}">
   <meta property="og:image:secure_url" content="${escapeHtml(image)}">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">
@@ -76,7 +80,7 @@ export default async function handler(req) {
   <h1>${escapeHtml(title)}</h1>
   <p>${escapeHtml(description)}</p>
   <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}">
-  <script>window.location.href = "${redirectUrl}";</script>
+  <script>window.location.replace("${redirectUrl}");</script>
 </body>
 </html>`;
 
@@ -84,7 +88,7 @@ export default async function handler(req) {
     status: 200,
     headers: {
       'content-type': 'text/html; charset=utf-8',
-      'cache-control': 'public, max-age=60, s-maxage=300',
+      'cache-control': 'public, max-age=60, s-maxage=120',
     },
   });
 }
