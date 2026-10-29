@@ -33,13 +33,9 @@ export default async function handler(req) {
     } catch (e) {}
   }
 
-  const image = id
-    ? `https://newsarrow.in/api/og-image?id=${encodeURIComponent(id)}`
-    : sourceImage;
-
+  const image = sourceImage;
   const redirectUrl =
     `https://newsarrow.in/?id=${encodeURIComponent(id)}`;
-
   const html = `<!DOCTYPE html>
 <html lang="hi">
 <head>
