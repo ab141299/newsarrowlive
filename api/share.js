@@ -1,24 +1,19 @@
-export const config = {
-  runtime: 'edge',
-};
+export default async function handler(req, res) {
+  const { id } = req.query;
+  const userAgent = (req.headers['user-agent'] || '').toLowerCase();
 
-export default async function handler(req) {
-  const requestUrl = new URL(req.url);
-  const id = requestUrl.searchParams.get('id') || '';
-  const userAgent = (req.headers.get('user-agent') || '').toLowerCase();
-
-  // Sabhi social media crawlers aur WhatsApp ke bots ki list
+  // WhatsApp aur baki bots ko detect karna
   const isBot = /facebookexternalhit|whatsapp|meta-externalagent|twitterbot|slackbot|telegrambot|linkedinbot/i.test(userAgent);
 
   const siteUrl = 'https://newsarrow.in';
   const redirectUrl = id ? `${siteUrl}/?id=${encodeURIComponent(id)}` : siteUrl;
 
-  // Agar aam insaan browser me link khole, to seedhe website par bhej do
+  // Real user ko seedhe website par redirect karein
   if (!isBot) {
-    return Response.redirect(redirectUrl, 302);
+    return res.redirect(302, redirectUrl);
   }
 
-  // Default fallback values
+  // Fallback defaults
   let title = 'News Arrow - सच की बेबाक आवाज';
   let description = 'सटीक और निष्पक्ष खबर सिर्फ News Arrow पर।';
   let image = 'https://newsarrow.in/bhu.jpg';
@@ -26,7 +21,7 @@ export default async function handler(req) {
   try {
     const response = await fetch(
       'https://raw.githubusercontent.com/ab141299/newsarrowlive/main/news.json',
-      { headers: { accept: 'application/json' }, cache: 'no-store' }
+      { headers: { 'User-Agent': 'NewsArrow-Bot' } }
     );
 
     if (response.ok) {
@@ -41,7 +36,7 @@ export default async function handler(req) {
         }
       }
     }
-  } catch (error) {}
+  } catch (err) {}
 
   const escapeHtml = (val) =>
     String(val).replace(/[&<>"']/g, (c) => ({
@@ -52,8 +47,10 @@ export default async function handler(req) {
       "'": '&#39;',
     }[c]));
 
-  // WhatsApp ke liye zaroori OpenGraph headers
-  const html = `<!DOCTYPE html>
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+
+  return res.status(200).send(`<!DOCTYPE html>
 <html lang="hi" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="utf-8">
@@ -61,13 +58,11 @@ export default async function handler(req) {
   <meta name="description" content="${escapeHtml(description)}">
 
   <meta property="og:site_name" content="News Arrow">
+  <meta property="og:type" content="article">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="${requestUrl.href}">
   <meta property="og:image" content="${escapeHtml(image)}">
   <meta property="og:image:secure_url" content="${escapeHtml(image)}">
-  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
@@ -82,13 +77,5 @@ export default async function handler(req) {
   <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}">
   <script>window.location.replace("${redirectUrl}");</script>
 </body>
-</html>`;
-
-  return new Response(html, {
-    status: 200,
-    headers: {
-      'content-type': 'text/html; charset=utf-8',
-      'cache-control': 'public, max-age=60, s-maxage=120',
-    },
-  });
+</html>`);
 }
