@@ -59,7 +59,6 @@ export default async function handler(req) {
   <script>
     window.location.replace("${redirectUrl}");
   </script>
-  <meta http-equiv="refresh" content="0;url=${redirectUrl}">
 </head>
 <body style="background:#121316;color:#fff;text-align:center;padding-top:20%;">
   <p>News Arrow लोड हो रहा है...</p>
