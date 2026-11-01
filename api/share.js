@@ -7,12 +7,13 @@ export default async function handler(req) {
   const id = requestUrl.searchParams.get('id') || '';
   const userAgent = (req.headers.get('user-agent') || '').toLowerCase();
 
+  // WhatsApp aur baki social bots
   const isBot = /facebookexternalhit|whatsapp|meta-externalagent|twitterbot|telegrambot/i.test(userAgent);
 
   const siteUrl = 'https://newsarrow.in';
   const redirectUrl = id ? `${siteUrl}/?id=${encodeURIComponent(id)}` : siteUrl;
 
-  // Real user clicks -> Direct redirect to site
+  // Real user (jo link par click karega) seedhe khabar par jaye
   if (!isBot) {
     return Response.redirect(redirectUrl, 302);
   }
@@ -55,38 +56,29 @@ export default async function handler(req) {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
 
-  const isPng = image.toLowerCase().endsWith('.png');
-  const mimeType = isPng ? 'image/png' : 'image/jpeg';
-
+  // Pure HTML for WhatsApp Crawler
   const html = `<!DOCTYPE html>
 <html lang="hi" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="utf-8">
-  <title>${clean(title)}</title>
-  <meta name="description" content="${clean(description)}">
-  
   <meta property="og:site_name" content="News Arrow">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="${requestUrl.href}">
   <meta property="og:title" content="${clean(title)}">
   <meta property="og:description" content="${clean(description)}">
-  
   <meta property="og:image" content="${clean(image)}">
   <meta property="og:image:secure_url" content="${clean(image)}">
-  <meta property="og:image:type" content="${mimeType}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  
+  <meta property="og:image:type" content="image/jpeg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${clean(title)}">
-  <meta name="twitter:description" content="${clean(description)}">
   <meta name="twitter:image" content="${clean(image)}">
+  <title>${clean(title)}</title>
 </head>
-<body>
-  <h1>${clean(title)}</h1>
+<body style="font-family:sans-serif;text-align:center;padding:20px;">
+  <h2>${clean(title)}</h2>
+  <img src="${clean(image)}" style="max-width:100%;height:auto;border-radius:8px;" alt="${clean(title)}">
   <p>${clean(description)}</p>
-  <img src="${clean(image)}" alt="${clean(title)}" />
-  <script>location.replace("${redirectUrl}");</script>
+  <p><a href="${redirectUrl}">यहाँ क्लिक करके पूरी खबर पढ़ें</a></p>
 </body>
 </html>`;
 
@@ -94,7 +86,7 @@ export default async function handler(req) {
     status: 200,
     headers: {
       'content-type': 'text/html; charset=utf-8',
-      'cache-control': 'public, max-age=300, s-maxage=600',
+      'cache-control': 'public, max-age=60',
     },
   });
 }
