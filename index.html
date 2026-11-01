@@ -204,7 +204,7 @@
     <!-- Header -->
     <header class="bg-white dark:bg-[#181a1f] border-b border-gray-200 dark:border-[#2d3239] sticky top-0 z-40 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center text-xs sm:text-sm border-b border-gray-100 dark:border-[#252830]">
-            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400">Guruwar, 29 October 2026</div>
+            <div id="current-date" class="font-medium text-gray-500 dark:text-gray-400"></div>
             
             <div class="flex items-center space-x-3">
                 <div class="flex items-center space-x-1.5 cursor-pointer" onclick="toggleThemeMode()" title="Light / Dark mode">
@@ -1362,4 +1362,23 @@
         };
     </script>
 </body>
+    <script>
+  function updateLiveDate() {
+    const days = ['Ravivar', 'Somvar', 'Mangalwar', 'Budhwar', 'Guruwar', 'Shukrawar', 'Shanivar'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const now = new Date();
+    const dayName = days[now.getDay()];
+    const date = now.getDate();
+    const monthName = months[now.getMonth()];
+    const year = now.getFullYear();
+    
+    const dateEl = document.getElementById('current-date');
+    if (dateEl) {
+      dateEl.textContent = `${dayName}, ${date} ${monthName} ${year}`;
+    }
+  }
+  updateLiveDate();
+    </script>
+    
 </html>
