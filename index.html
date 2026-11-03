@@ -197,6 +197,23 @@
           animation: badgeBounce 1.5s infinite;
           box-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
+        /* Scroll jhatka aur text kaanpna band karne ka fix */
+html, body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+#newsDetails, .article-content, p {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Niche wale ad banner ke liye */
+.bottom-ad, .fixed-banner, #adBanner {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900 dark:bg-[#121316] dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col font-sans pb-12 sm:pb-0">
