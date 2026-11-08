@@ -1309,6 +1309,15 @@ html, body {
             }
 
             document.getElementById('read-content').innerHTML = formatNewsContentWithMidAd(item.content);
+            const readEl = document.getElementById('read-content');
+const festivalAd = `<div class="my-4 py-2 border-y border-amber-500/20"><div class="w-full bg-[#121316] border border-amber-500/30 rounded-xl overflow-hidden p-1 shadow"><img src="https://i.ibb.co/PGP3xPv7/1794149892530.jpg" alt="दीपावली एवं छठ पूजा की शुभकामनाएं - Adv. दीपक कुमार सैनी" class="w-full h-auto object-contain rounded-lg"></div></div>`;
+const paras = readEl.innerHTML.split('</p>');
+if (paras.length > 2) {
+  paras.splice(2, 0, festivalAd);
+  readEl.innerHTML = paras.join('</p>');
+} else {
+  readEl.innerHTML += festivalAd;
+}
             const modal = document.getElementById('full-news-modal');
             modal.style.display = 'flex';
             modal.classList.remove('hidden');
